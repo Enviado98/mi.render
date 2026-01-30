@@ -8,7 +8,7 @@
     <title>RENDER | Desarrollo Web 24/7</title>
     <meta name="description" content="Desarrollador Web Full Stack. Sitios web modernos, rápidos y efectivos. Disponible 24/7.">
     
-    <!-- Open Graph Imagen (Tu Logo) -->
+    <!-- Open Graph Imagen -->
     <meta property="og:image" content="https://raw.githubusercontent.com/Enviado98/mi.render/refs/heads/main/logo.jpg">
     
     <!-- Tailwind CSS -->
@@ -31,7 +31,8 @@
                     colors: {
                         'render-black': '#050505',
                         'render-dark': '#0a0a0a',
-                        'render-green': '#00ff9d', /* Verde Neón */
+                        'render-green': '#00ff9d', /* Verde Neón Principal */
+                        'render-blue': '#00f3ff',  /* Azul Neón para Fondo */
                         'render-gray': '#222222',
                     },
                     animation: {
@@ -52,11 +53,47 @@
     <style>
         body {
             background-color: #050505;
+            position: relative;
+        }
+
+        /* FONDO TECNOLÓGICO CON RÁFAGAS AZULES */
+        .tech-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            /* Cuadrícula estática base */
             background-image: 
-                radial-gradient(circle at 50% 0%, #111 10%, transparent 10%),
                 linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-            background-size: 100% 100%, 40px 40px, 40px 40px;
+            background-size: 40px 40px;
+        }
+
+        /* Capa de ráfagas azules animadas */
+        .tech-background::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(0deg, transparent 20%, rgba(0, 243, 255, 0.3) 50%, transparent 80%),
+                linear-gradient(90deg, transparent 20%, rgba(0, 243, 255, 0.3) 50%, transparent 80%);
+            background-size: 40px 40px; /* Mismo tamaño que la grilla */
+            opacity: 0.4;
+            animation: grid-flash 4s linear infinite;
+        }
+
+        @keyframes grid-flash {
+            0% {
+                background-position: 0px 0px;
+            }
+            100% {
+                background-position: 40px 40px; /* Mueve la luz azul exactamente un cuadro */
+            }
         }
 
         /* Cursor parpadeante */
@@ -93,9 +130,29 @@
             transform: scale(1.05);
             border-color: #fff;
         }
+        
+        /* Botón de idioma */
+        .lang-btn {
+            cursor: pointer;
+            font-family: 'Space Grotesk', monospace;
+            font-size: 0.9rem;
+            color: #888;
+            transition: color 0.3s;
+        }
+        .lang-btn.active {
+            color: #00ff9d;
+            font-weight: bold;
+            text-decoration: underline;
+        }
+        .lang-btn:hover {
+            color: white;
+        }
     </style>
 </head>
 <body class="text-gray-300 antialiased selection:bg-render-green selection:text-black">
+
+    <!-- Fondo Animado -->
+    <div class="tech-background"></div>
 
     <!-- NAVBAR -->
     <nav class="fixed w-full z-50 top-0 left-0 bg-render-black/80 backdrop-blur-md border-b border-white/5">
@@ -105,16 +162,22 @@
             </a>
             
             <div class="flex items-center gap-6">
+                <!-- Selector de Idioma -->
+                <div class="flex gap-2 text-sm border-r border-white/20 pr-4">
+                    <span class="lang-btn active" onclick="changeLanguage('es')">ES</span>
+                    <span class="lang-btn" onclick="changeLanguage('en')">EN</span>
+                </div>
+
                 <!-- Indicador 24/7 -->
                 <div class="hidden md:flex items-center gap-2 bg-white/5 px-3 py-1 rounded-full border border-white/10">
                     <span class="relative flex h-2.5 w-2.5">
                       <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-render-green opacity-75"></span>
                       <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-render-green"></span>
                     </span>
-                    <span class="text-xs font-bold text-white tracking-wider">DISPONIBLE 24/7</span>
+                    <span class="text-xs font-bold text-white tracking-wider" data-i18n="available">DISPONIBLE 24/7</span>
                 </div>
 
-                <a href="https://wa.me/5350172941?text=Hola%20Render,%20necesito%20una%20web." target="_blank" class="bg-white text-black font-bold px-5 py-2 rounded-full hover:bg-render-green transition-colors text-sm">
+                <a href="https://wa.me/5350172941?text=Hola%20Render,%20necesito%20una%20web." target="_blank" class="bg-white text-black font-bold px-5 py-2 rounded-full hover:bg-render-green transition-colors text-sm" data-i18n="contact">
                     Contactar
                 </a>
             </div>
@@ -123,7 +186,7 @@
 
     <!-- HERO SECTION -->
     <section class="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
-        <!-- Luz de fondo -->
+        <!-- Luz ambiental verde (suave) -->
         <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-render-green/10 rounded-full blur-[120px] pointer-events-none"></div>
 
         <div class="container mx-auto px-6 text-center relative z-10 flex flex-col items-center">
@@ -143,24 +206,32 @@
 
             <p class="text-render-green font-mono text-sm mb-4 tracking-widest uppercase">/// Web Developer</p>
             
-            <h1 class="text-5xl md:text-8xl font-bold text-white mb-6 tracking-tight leading-tight">
+            <h1 class="text-5xl md:text-8xl font-bold text-white mb-6 tracking-tight leading-tight" data-i18n="hello">
                 Hola, soy <span class="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500">Render</span>.
             </h1>
             
-            <div class="h-12 md:h-16 mb-8 flex justify-center items-center">
+            <!-- Texto máquina de escribir -->
+            <div class="h-12 md:h-16 mb-4 flex justify-center items-center">
                 <span id="typing-text" class="text-xl md:text-3xl font-mono text-gray-400 typing-cursor"></span>
             </div>
 
-            <p class="max-w-xl mx-auto text-gray-400 mb-10 text-lg leading-relaxed">
+            <!-- NUEVA FRASE USA -->
+            <div class="mb-8 bg-render-blue/10 border border-render-blue/30 px-4 py-2 rounded-lg inline-block">
+                <p class="text-render-blue font-bold tracking-wide text-sm md:text-base" data-i18n="usa_text">
+                    <i class="ph-fill ph-globe-hemisphere-west mr-2"></i> Ayudo a potenciar tu negocio en Estados Unidos.
+                </p>
+            </div>
+
+            <p class="max-w-xl mx-auto text-gray-400 mb-10 text-lg leading-relaxed" data-i18n="hero_desc">
                 Soy emprendedor, desarrollo sitios webs para tu negocio. 
                 Optimización, velocidad y diseño moderno.
             </p>
 
             <div class="flex flex-col md:flex-row gap-4 justify-center items-center w-full md:w-auto">
                 <a href="https://wa.me/5350172941?text=Hola%20Render,%20quiero%20cotizar%20un%20proyecto." target="_blank" class="w-full md:w-auto bg-render-green hover:bg-emerald-400 text-black font-bold px-8 py-4 rounded-xl transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(0,255,157,0.3)] hover:shadow-[0_0_40px_rgba(0,255,157,0.5)] hover:-translate-y-1">
-                    <i class="ph-bold ph-whatsapp-logo text-xl"></i> Cotizar Proyecto
+                    <i class="ph-bold ph-whatsapp-logo text-xl"></i> <span data-i18n="btn_quote">Cotizar Proyecto</span>
                 </a>
-                <a href="#tecnologias" class="w-full md:w-auto border border-white/20 hover:border-white text-white px-8 py-4 rounded-xl transition-all backdrop-blur-sm hover:bg-white/5">
+                <a href="#tecnologias" class="w-full md:w-auto border border-white/20 hover:border-white text-white px-8 py-4 rounded-xl transition-all backdrop-blur-sm hover:bg-white/5" data-i18n="btn_tech">
                     Ver Tecnologías
                 </a>
             </div>
@@ -171,7 +242,7 @@
     <section class="py-24 bg-render-dark/50 border-t border-white/5">
         <div class="container mx-auto px-6">
             <h2 class="text-3xl font-bold text-white mb-12 flex items-center gap-3">
-                <i class="ph-fill ph-code text-render-green"></i> Servicios
+                <i class="ph-fill ph-code text-render-green"></i> <span data-i18n="services_title">Servicios</span>
             </h2>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -180,8 +251,8 @@
                     <div class="w-12 h-12 bg-render-gray rounded-lg flex items-center justify-center text-render-green text-2xl mb-6 group-hover:scale-110 transition-transform">
                         <i class="ph-bold ph-rocket-launch"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-3">Landing Pages</h3>
-                    <p class="text-sm text-gray-400 leading-relaxed">
+                    <h3 class="text-xl font-bold text-white mb-3" data-i18n="s1_title">Landing Pages</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed" data-i18n="s1_desc">
                         Páginas diseñadas para convertir visitantes en clientes. Optimizadas para cargar rápido en conexiones lentas.
                     </p>
                 </div>
@@ -191,8 +262,8 @@
                     <div class="w-12 h-12 bg-render-gray rounded-lg flex items-center justify-center text-render-green text-2xl mb-6 group-hover:scale-110 transition-transform">
                         <i class="ph-bold ph-storefront"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-3">Menús Digitales</h3>
-                    <p class="text-sm text-gray-400 leading-relaxed">
+                    <h3 class="text-xl font-bold text-white mb-3" data-i18n="s2_title">Menús Digitales</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed" data-i18n="s2_desc">
                         Sistemas modernos para restaurantes. Muestra tus platos y recibe pedidos directamente en tu WhatsApp.
                     </p>
                 </div>
@@ -202,8 +273,8 @@
                     <div class="w-12 h-12 bg-render-gray rounded-lg flex items-center justify-center text-render-green text-2xl mb-6 group-hover:scale-110 transition-transform">
                         <i class="ph-bold ph-devices"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-3">Sitios Web Pro</h3>
-                    <p class="text-sm text-gray-400 leading-relaxed">
+                    <h3 class="text-xl font-bold text-white mb-3" data-i18n="s3_title">Sitios Web Pro</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed" data-i18n="s3_desc">
                         Sitios corporativos o personales con diseño futurista, modo oscuro y animaciones fluidas.
                     </p>
                 </div>
@@ -218,7 +289,7 @@
         
         <div class="container mx-auto px-6 relative z-10">
             <h2 class="text-3xl font-bold text-white mb-12 text-center">
-                Arsenal Tecnológico <span class="text-render-green">///</span>
+                <span data-i18n="tech_title">Arsenal Tecnológico</span> <span class="text-render-green">///</span>
             </h2>
 
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
@@ -228,7 +299,7 @@
                 </div>
                 <div class="p-6 border border-white/5 rounded-xl hover:border-render-green/50 hover:bg-white/5 transition-all group">
                     <i class="ph-bold ph-paint-brush text-4xl text-gray-500 group-hover:text-render-green mb-4 transition-colors transform group-hover:scale-110 block"></i>
-                    <h4 class="text-white font-bold">CSS Moderno</h4>
+                    <h4 class="text-white font-bold" data-i18n="css_modern">CSS Moderno</h4>
                 </div>
                 <div class="p-6 border border-white/5 rounded-xl hover:border-render-green/50 hover:bg-white/5 transition-all group">
                     <i class="ph-bold ph-lightning text-4xl text-gray-500 group-hover:text-render-green mb-4 transition-colors transform group-hover:scale-110 block"></i>
@@ -241,8 +312,8 @@
             </div>
             
             <div class="mt-16 text-center">
-                <p class="text-gray-400 mb-6">¿Tienes una idea en mente?</p>
-                <a href="https://wa.me/5350172941" class="text-2xl font-mono text-white border-b-2 border-render-green pb-1 hover:text-render-green transition-colors">
+                <p class="text-gray-400 mb-6" data-i18n="idea_text">¿Tienes una idea en mente?</p>
+                <a href="https://wa.me/5350172941" class="text-2xl font-mono text-white border-b-2 border-render-green pb-1 hover:text-render-green transition-colors" data-i18n="build_link">
                     Vamos a construirla
                 </a>
             </div>
@@ -256,22 +327,22 @@
             <div class="grid grid-cols-2 md:grid-cols-3 gap-8 mb-16 border-b border-white/10 pb-12">
                 <div>
                     <span class="text-3xl font-bold text-white block">100%</span>
-                    <span class="text-xs text-gray-500 uppercase tracking-widest">Dedicación</span>
+                    <span class="text-xs text-gray-500 uppercase tracking-widest" data-i18n="dedication">Dedicación</span>
                 </div>
                 <div>
                     <span class="text-3xl font-bold text-white block">24/7</span>
-                    <span class="text-xs text-gray-500 uppercase tracking-widest">Disponibilidad</span>
+                    <span class="text-xs text-gray-500 uppercase tracking-widest" data-i18n="availability">Disponibilidad</span>
                 </div>
                 <div>
                     <span class="text-3xl font-bold text-white block">FAST</span>
-                    <span class="text-xs text-gray-500 uppercase tracking-widest">Código Limpio</span>
+                    <span class="text-xs text-gray-500 uppercase tracking-widest" data-i18n="clean_code">Código Limpio</span>
                 </div>
             </div>
 
             <h2 class="text-2xl font-bold text-white mb-6 tracking-tight">RENDER / DEV</h2>
             
             <p class="text-gray-600 text-sm">
-                &copy; 2026 RENDER. Todos los derechos reservados. <br>
+                &copy; 2026 RENDER. <span data-i18n="rights">Todos los derechos reservados.</span> <br>
                 Worldwide <i class="ph-fill ph-circle text-[8px] mx-2 align-middle text-render-green animate-pulse"></i> Online
             </p>
         </div>
@@ -281,19 +352,97 @@
     <a href="https://wa.me/5350172941?text=Hola%20Render,%20vi%20tu%20web." class="fixed bottom-6 right-6 bg-render-green text-black p-4 rounded-full shadow-lg hover:shadow-[0_0_30px_rgba(0,255,157,0.6)] transition-all z-50 animate-bounce group">
         <i class="ph-bold ph-whatsapp-logo text-3xl"></i>
         <!-- Tooltip -->
-        <span class="absolute right-full top-1/2 -translate-y-1/2 mr-3 bg-white text-black px-3 py-1 rounded text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+        <span class="absolute right-full top-1/2 -translate-y-1/2 mr-3 bg-white text-black px-3 py-1 rounded text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none" data-i18n="write_me">
             Escríbeme
         </span>
     </a>
 
-    <!-- SCRIPT EFECTO DE ESCRITURA -->
+    <!-- SCRIPT LÓGICA -->
     <script>
+        // TRADUCCIONES
+        const translations = {
+            es: {
+                available: "DISPONIBLE 24/7",
+                contact: "Contactar",
+                hello: "Hola, soy <span class='text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500'>Render</span>.",
+                usa_text: "<i class='ph-fill ph-globe-hemisphere-west mr-2'></i> Ayudo a potenciar tu negocio en Estados Unidos.",
+                hero_desc: "Soy emprendedor, desarrollo sitios webs para tu negocio. Optimización, velocidad y diseño moderno.",
+                btn_quote: "Cotizar Proyecto",
+                btn_tech: "Ver Tecnologías",
+                services_title: "Servicios",
+                s1_title: "Landing Pages",
+                s1_desc: "Páginas diseñadas para convertir visitantes en clientes. Optimizadas para cargar rápido en conexiones lentas.",
+                s2_title: "Menús Digitales",
+                s2_desc: "Sistemas modernos para restaurantes. Muestra tus platos y recibe pedidos directamente en tu WhatsApp.",
+                s3_title: "Sitios Web Pro",
+                s3_desc: "Sitios corporativos o personales con diseño futurista, modo oscuro y animaciones fluidas.",
+                tech_title: "Arsenal Tecnológico",
+                css_modern: "CSS Moderno",
+                idea_text: "¿Tienes una idea en mente?",
+                build_link: "Vamos a construirla",
+                dedication: "Dedicación",
+                availability: "Disponibilidad",
+                clean_code: "Código Limpio",
+                rights: "Todos los derechos reservados.",
+                write_me: "Escríbeme",
+                typing_phrases: ["Desarrollador Web", "Creador Digital", "Disponible 24/7"]
+            },
+            en: {
+                available: "AVAILABLE 24/7",
+                contact: "Contact Me",
+                hello: "Hi, I am <span class='text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500'>Render</span>.",
+                usa_text: "<i class='ph-fill ph-globe-hemisphere-west mr-2'></i> Helping boost your business in the United States.",
+                hero_desc: "I am an entrepreneur, developing websites for your business. Optimization, speed, and modern design.",
+                btn_quote: "Get a Quote",
+                btn_tech: "View Tech Stack",
+                services_title: "Services",
+                s1_title: "Landing Pages",
+                s1_desc: "Pages designed to convert visitors into customers. Optimized to load fast on slow connections.",
+                s2_title: "Digital Menus",
+                s2_desc: "Modern systems for restaurants. Showcase your dishes and receive orders directly on WhatsApp.",
+                s3_title: "Pro Websites",
+                s3_desc: "Corporate or personal sites with futuristic design, dark mode, and fluid animations.",
+                tech_title: "Tech Arsenal",
+                css_modern: "Modern CSS",
+                idea_text: "Have an idea in mind?",
+                build_link: "Let's build it",
+                dedication: "Dedication",
+                availability: "Availability",
+                clean_code: "Clean Code",
+                rights: "All rights reserved.",
+                write_me: "Message Me",
+                typing_phrases: ["Web Developer", "Digital Creator", "Available 24/7"]
+            }
+        };
+
+        let currentLang = 'es';
+        
+        // Función de cambio de idioma
+        function changeLanguage(lang) {
+            currentLang = lang;
+            
+            // Actualizar textos estáticos
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+
+            // Actualizar estilos de botones de idioma
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.lang-btn[onclick="changeLanguage('${lang}')"]`).classList.add('active');
+
+            // Actualizar frases de escritura
+            phrases = translations[lang].typing_phrases;
+            
+            // Reiniciar efecto de escritura si es necesario para que muestre el nuevo idioma rápido
+            isDeleting = true; 
+        }
+
+        // LÓGICA EFECTO DE ESCRITURA
         const textElement = document.getElementById('typing-text');
-        const phrases = [
-            "Desarrollador Web",
-            "Creador Digital",
-            "Disponible 24/7"
-        ];
+        let phrases = translations.es.typing_phrases; // Default ES
         
         let phraseIndex = 0;
         let charIndex = 0;
