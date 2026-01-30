@@ -8,6 +8,9 @@
     <title>RENDER | Desarrollo Web 24/7</title>
     <meta name="description" content="Desarrollador Web Full Stack. Sitios web modernos, rápidos y efectivos. Disponible 24/7.">
     
+    <!-- Open Graph Imagen (Tu Logo) -->
+    <meta property="og:image" content="https://raw.githubusercontent.com/Enviado98/mi.render/refs/heads/main/logo.jpg">
+    
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -32,7 +35,14 @@
                         'render-gray': '#222222',
                     },
                     animation: {
-                        'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
                     }
                 }
             }
@@ -72,6 +82,17 @@
             transform: translateY(-5px);
             box-shadow: 0 10px 30px -10px rgba(0, 255, 157, 0.1);
         }
+
+        /* Estilo para la foto de perfil */
+        .profile-glow {
+            box-shadow: 0 0 30px rgba(0, 255, 157, 0.15);
+            transition: all 0.5s ease;
+        }
+        .profile-glow:hover {
+            box-shadow: 0 0 50px rgba(0, 255, 157, 0.4);
+            transform: scale(1.05);
+            border-color: #fff;
+        }
     </style>
 </head>
 <body class="text-gray-300 antialiased selection:bg-render-green selection:text-black">
@@ -79,7 +100,7 @@
     <!-- NAVBAR -->
     <nav class="fixed w-full z-50 top-0 left-0 bg-render-black/80 backdrop-blur-md border-b border-white/5">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="font-mono text-2xl font-bold text-white tracking-tighter">
+            <a href="#" class="font-mono text-2xl font-bold text-white tracking-tighter hover:text-render-green transition-colors">
                 &lt;RENDER /&gt;
             </a>
             
@@ -105,7 +126,21 @@
         <!-- Luz de fondo -->
         <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-render-green/10 rounded-full blur-[120px] pointer-events-none"></div>
 
-        <div class="container mx-auto px-6 text-center relative z-10">
+        <div class="container mx-auto px-6 text-center relative z-10 flex flex-col items-center">
+            
+            <!-- FOTO DE PERFIL / LOGO -->
+            <div class="relative mb-8 animate-float">
+                <div class="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-render-green profile-glow overflow-hidden bg-black">
+                    <img src="https://raw.githubusercontent.com/Enviado98/mi.render/refs/heads/main/logo.jpg" 
+                         alt="Render Logo" 
+                         class="w-full h-full object-cover">
+                </div>
+                <!-- Pequeño badge de verificado -->
+                <div class="absolute bottom-1 right-1 bg-render-green text-black p-1.5 rounded-full border-2 border-black">
+                    <i class="ph-bold ph-check text-lg"></i>
+                </div>
+            </div>
+
             <p class="text-render-green font-mono text-sm mb-4 tracking-widest uppercase">/// Web Developer</p>
             
             <h1 class="text-5xl md:text-8xl font-bold text-white mb-6 tracking-tight leading-tight">
@@ -116,16 +151,16 @@
                 <span id="typing-text" class="text-xl md:text-3xl font-mono text-gray-400 typing-cursor"></span>
             </div>
 
-            <p class="max-w-xl mx-auto text-gray-400 mb-10 text-lg">
+            <p class="max-w-xl mx-auto text-gray-400 mb-10 text-lg leading-relaxed">
                 Desarrollo sitios web que no solo se ven bien, sino que funcionan. 
                 Optimización, velocidad y diseño moderno para tu negocio.
             </p>
 
-            <div class="flex flex-col md:flex-row gap-4 justify-center items-center">
-                <a href="https://wa.me/5350172941?text=Hola%20Render,%20quiero%20cotizar%20un%20proyecto." target="_blank" class="w-full md:w-auto bg-render-green hover:bg-emerald-400 text-black font-bold px-8 py-4 rounded-xl transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(0,255,157,0.3)] hover:shadow-[0_0_40px_rgba(0,255,157,0.5)]">
+            <div class="flex flex-col md:flex-row gap-4 justify-center items-center w-full md:w-auto">
+                <a href="https://wa.me/5350172941?text=Hola%20Render,%20quiero%20cotizar%20un%20proyecto." target="_blank" class="w-full md:w-auto bg-render-green hover:bg-emerald-400 text-black font-bold px-8 py-4 rounded-xl transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(0,255,157,0.3)] hover:shadow-[0_0_40px_rgba(0,255,157,0.5)] hover:-translate-y-1">
                     <i class="ph-bold ph-whatsapp-logo text-xl"></i> Cotizar Proyecto
                 </a>
-                <a href="#tecnologias" class="w-full md:w-auto border border-white/20 hover:border-white text-white px-8 py-4 rounded-xl transition-all backdrop-blur-sm">
+                <a href="#tecnologias" class="w-full md:w-auto border border-white/20 hover:border-white text-white px-8 py-4 rounded-xl transition-all backdrop-blur-sm hover:bg-white/5">
                     Ver Tecnologías
                 </a>
             </div>
@@ -133,7 +168,7 @@
     </section>
 
     <!-- SERVICIOS -->
-    <section class="py-24 bg-render-dark/50">
+    <section class="py-24 bg-render-dark/50 border-t border-white/5">
         <div class="container mx-auto px-6">
             <h2 class="text-3xl font-bold text-white mb-12 flex items-center gap-3">
                 <i class="ph-fill ph-code text-render-green"></i> Servicios
@@ -141,8 +176,8 @@
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <!-- Card 1 -->
-                <div class="glass-card p-8 rounded-2xl">
-                    <div class="w-12 h-12 bg-render-gray rounded-lg flex items-center justify-center text-render-green text-2xl mb-6">
+                <div class="glass-card p-8 rounded-2xl group">
+                    <div class="w-12 h-12 bg-render-gray rounded-lg flex items-center justify-center text-render-green text-2xl mb-6 group-hover:scale-110 transition-transform">
                         <i class="ph-bold ph-rocket-launch"></i>
                     </div>
                     <h3 class="text-xl font-bold text-white mb-3">Landing Pages</h3>
@@ -152,8 +187,8 @@
                 </div>
 
                 <!-- Card 2 -->
-                <div class="glass-card p-8 rounded-2xl">
-                    <div class="w-12 h-12 bg-render-gray rounded-lg flex items-center justify-center text-render-green text-2xl mb-6">
+                <div class="glass-card p-8 rounded-2xl group">
+                    <div class="w-12 h-12 bg-render-gray rounded-lg flex items-center justify-center text-render-green text-2xl mb-6 group-hover:scale-110 transition-transform">
                         <i class="ph-bold ph-storefront"></i>
                     </div>
                     <h3 class="text-xl font-bold text-white mb-3">Menús Digitales</h3>
@@ -163,8 +198,8 @@
                 </div>
 
                 <!-- Card 3 -->
-                <div class="glass-card p-8 rounded-2xl">
-                    <div class="w-12 h-12 bg-render-gray rounded-lg flex items-center justify-center text-render-green text-2xl mb-6">
+                <div class="glass-card p-8 rounded-2xl group">
+                    <div class="w-12 h-12 bg-render-gray rounded-lg flex items-center justify-center text-render-green text-2xl mb-6 group-hover:scale-110 transition-transform">
                         <i class="ph-bold ph-devices"></i>
                     </div>
                     <h3 class="text-xl font-bold text-white mb-3">Sitios Web Pro</h3>
@@ -176,7 +211,7 @@
         </div>
     </section>
 
-    <!-- ARSENAL TECNOLÓGICO (Reemplaza Proyectos) -->
+    <!-- ARSENAL TECNOLÓGICO -->
     <section id="tecnologias" class="py-24 relative overflow-hidden">
         <!-- Fondo Decorativo -->
         <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
@@ -187,20 +222,20 @@
             </h2>
 
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-                <div class="p-6 border border-white/5 rounded-xl hover:border-render-green/50 transition-colors group">
-                    <i class="ph-bold ph-code text-4xl text-gray-500 group-hover:text-render-green mb-4 transition-colors"></i>
+                <div class="p-6 border border-white/5 rounded-xl hover:border-render-green/50 hover:bg-white/5 transition-all group">
+                    <i class="ph-bold ph-code text-4xl text-gray-500 group-hover:text-render-green mb-4 transition-colors transform group-hover:scale-110 block"></i>
                     <h4 class="text-white font-bold">HTML5 Semántico</h4>
                 </div>
-                <div class="p-6 border border-white/5 rounded-xl hover:border-render-green/50 transition-colors group">
-                    <i class="ph-bold ph-paint-brush text-4xl text-gray-500 group-hover:text-render-green mb-4 transition-colors"></i>
+                <div class="p-6 border border-white/5 rounded-xl hover:border-render-green/50 hover:bg-white/5 transition-all group">
+                    <i class="ph-bold ph-paint-brush text-4xl text-gray-500 group-hover:text-render-green mb-4 transition-colors transform group-hover:scale-110 block"></i>
                     <h4 class="text-white font-bold">CSS Moderno</h4>
                 </div>
-                <div class="p-6 border border-white/5 rounded-xl hover:border-render-green/50 transition-colors group">
-                    <i class="ph-bold ph-lightning text-4xl text-gray-500 group-hover:text-render-green mb-4 transition-colors"></i>
+                <div class="p-6 border border-white/5 rounded-xl hover:border-render-green/50 hover:bg-white/5 transition-all group">
+                    <i class="ph-bold ph-lightning text-4xl text-gray-500 group-hover:text-render-green mb-4 transition-colors transform group-hover:scale-110 block"></i>
                     <h4 class="text-white font-bold">JavaScript</h4>
                 </div>
-                <div class="p-6 border border-white/5 rounded-xl hover:border-render-green/50 transition-colors group">
-                    <i class="ph-bold ph-device-mobile text-4xl text-gray-500 group-hover:text-render-green mb-4 transition-colors"></i>
+                <div class="p-6 border border-white/5 rounded-xl hover:border-render-green/50 hover:bg-white/5 transition-all group">
+                    <i class="ph-bold ph-device-mobile text-4xl text-gray-500 group-hover:text-render-green mb-4 transition-colors transform group-hover:scale-110 block"></i>
                     <h4 class="text-white font-bold">Mobile First</h4>
                 </div>
             </div>
@@ -214,7 +249,7 @@
         </div>
     </section>
 
-    <!-- FOOTER (Estadísticas Reales) -->
+    <!-- FOOTER -->
     <footer class="bg-black py-12 border-t border-white/10">
         <div class="container mx-auto px-6 text-center">
             
@@ -233,18 +268,22 @@
                 </div>
             </div>
 
-            <h2 class="text-2xl font-bold text-white mb-6">RENDER / DEV</h2>
+            <h2 class="text-2xl font-bold text-white mb-6 tracking-tight">RENDER / DEV</h2>
             
             <p class="text-gray-600 text-sm">
                 &copy; 2026 RENDER. Todos los derechos reservados. <br>
-                Cuba <i class="ph-fill ph-circle text-[8px] mx-2 align-middle text-render-green"></i> Online
+                Worldwide <i class="ph-fill ph-circle text-[8px] mx-2 align-middle text-render-green animate-pulse"></i> Online
             </p>
         </div>
     </footer>
 
     <!-- BOTÓN WHATSAPP FLOTANTE -->
-    <a href="https://wa.me/5350172941?text=Hola%20Render,%20vi%20tu%20web." class="fixed bottom-6 right-6 bg-render-green text-black p-4 rounded-full shadow-lg hover:shadow-[0_0_30px_rgba(0,255,157,0.6)] transition-all z-50 animate-bounce">
+    <a href="https://wa.me/5350172941?text=Hola%20Render,%20vi%20tu%20web." class="fixed bottom-6 right-6 bg-render-green text-black p-4 rounded-full shadow-lg hover:shadow-[0_0_30px_rgba(0,255,157,0.6)] transition-all z-50 animate-bounce group">
         <i class="ph-bold ph-whatsapp-logo text-3xl"></i>
+        <!-- Tooltip -->
+        <span class="absolute right-full top-1/2 -translate-y-1/2 mr-3 bg-white text-black px-3 py-1 rounded text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+            Escríbeme
+        </span>
     </a>
 
     <!-- SCRIPT EFECTO DE ESCRITURA -->
