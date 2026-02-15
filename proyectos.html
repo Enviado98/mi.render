@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RENDER | Proyectos & Estilos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600&family=Syne:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <style>
+        body { background-color: #050505; color: white; font-family: 'Space Grotesk', sans-serif; }
+        .font-display { font-family: 'Syne', sans-serif; }
+        
+        /* Cards Hover Effect */
+        .project-card:hover .project-image { transform: scale(1.05); }
+        .project-card:hover .overlay { opacity: 1; }
+        
+        /* Tags */
+        .tag { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; padding: 4px 10px; border-radius: 99px; border: 1px solid rgba(255,255,255,0.2); }
+    </style>
+</head>
+<body class="min-h-screen p-6 md:p-12">
+
+    <!-- Header -->
+    <header class="flex justify-between items-end mb-20 border-b border-white/10 pb-8">
+        <div>
+            <a href="index.html" class="text-sm text-gray-400 hover:text-white mb-4 block">← Volver al Inicio</a>
+            <h1 class="text-5xl md:text-7xl font-display font-bold uppercase leading-none">
+                Estilos <br> <span class="text-[#D9FF00]">Visuales</span>
+            </h1>
+        </div>
+        <div class="hidden md:block text-right max-w-xs text-sm text-gray-400">
+            <p>Selecciona un estilo. Cada negocio necesita un lenguaje visual diferente. Yo los domino todos.</p>
+        </div>
+    </header>
+
+    <!-- Grid de Proyectos -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+        <!-- Proyecto 1: Minimalista / Arquitectura -->
+        <div class="project-card group cursor-pointer">
+            <div class="relative h-[400px] overflow-hidden rounded-sm bg-[#1a1a1a] mb-4">
+                <!-- Simulación de Web -->
+                <div class="project-image w-full h-full bg-cover bg-center transition-transform duration-700 ease-out" style="background-image: url('https://images.unsplash.com/photo-1600607686527-6fb886090705?q=80&w=2787&auto=format&fit=crop');"></div>
+                
+                <!-- Overlay Hover -->
+                <div class="overlay absolute inset-0 bg-black/80 opacity-0 transition-opacity duration-300 flex items-center justify-center">
+                    <span class="text-[#D9FF00] font-bold uppercase tracking-widest border border-[#D9FF00] px-6 py-3 hover:bg-[#D9FF00] hover:text-black transition-colors">Ver Demo</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-start">
+                <div>
+                    <h3 class="text-2xl font-display font-bold">Aesthetic Minimal</h3>
+                    <p class="text-gray-400 text-sm mt-1">Ideal para: Arquitectura, Moda, Fotografía.</p>
+                </div>
+                <div class="flex gap-2">
+                    <span class="tag">Clean</span>
+                    <span class="tag">Luxury</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Proyecto 2: Dark Mode / Tech -->
+        <div class="project-card group cursor-pointer mt-0 md:mt-12"> <!-- Margen top para efecto asimétrico -->
+            <div class="relative h-[400px] overflow-hidden rounded-sm bg-[#0a0a0a] mb-4 border border-white/10">
+                <div class="project-image w-full h-full bg-cover bg-center transition-transform duration-700 ease-out" style="background-image: url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2670&auto=format&fit=crop'); filter: grayscale(100%);"></div>
+                 <div class="overlay absolute inset-0 bg-[#D9FF00]/90 opacity-0 transition-opacity duration-300 flex items-center justify-center">
+                    <span class="text-black font-bold uppercase tracking-widest border border-black px-6 py-3">Ver Demo</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-start">
+                <div>
+                    <h3 class="text-2xl font-display font-bold">Cyber Dark</h3>
+                    <p class="text-gray-400 text-sm mt-1">Ideal para: Software, Crypto, Gaming.</p>
+                </div>
+                <div class="flex gap-2">
+                    <span class="tag">Neon</span>
+                    <span class="tag">Tech</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Proyecto 3: Corporativo Moderno -->
+        <div class="project-card group cursor-pointer">
+            <div class="relative h-[400px] overflow-hidden rounded-sm bg-[#1a1a1a] mb-4">
+                <div class="project-image w-full h-full bg-cover bg-center transition-transform duration-700 ease-out" style="background-image: url('https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2669&auto=format&fit=crop');"></div>
+                 <div class="overlay absolute inset-0 bg-white/90 opacity-0 transition-opacity duration-300 flex items-center justify-center">
+                    <span class="text-black font-bold uppercase tracking-widest border border-black px-6 py-3 hover:bg-black hover:text-white transition-colors">Ver Demo</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-start">
+                <div>
+                    <h3 class="text-2xl font-display font-bold">Neo-Corporate</h3>
+                    <p class="text-gray-400 text-sm mt-1">Ideal para: Agencias, Consultoría, Startups.</p>
+                </div>
+                <div class="flex gap-2">
+                    <span class="tag">Trust</span>
+                    <span class="tag">Clean</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Proyecto 4: Brutalist / Bold -->
+        <div class="project-card group cursor-pointer">
+            <div class="relative h-[400px] overflow-hidden rounded-sm bg-[#FF4D00] mb-4 flex items-center justify-center">
+                <h2 class="text-9xl font-display font-bold text-black opacity-20 rotate-45">BOLD</h2>
+                <div class="project-image absolute inset-0 w-full h-full mix-blend-multiply opacity-50 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] transition-transform duration-700 group-hover:scale-110"></div>
+            </div>
+            <div class="flex justify-between items-start">
+                <div>
+                    <h3 class="text-2xl font-display font-bold">Brutalism</h3>
+                    <p class="text-gray-400 text-sm mt-1">Ideal para: Artistas, Marcas Disruptivas.</p>
+                </div>
+                <div class="flex gap-2">
+                    <span class="tag">Bold</span>
+                    <span class="tag">Art</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Proyecto 5: Animated / 3D -->
+        <div class="project-card group cursor-pointer mt-0 md:mt-12">
+            <div class="relative h-[400px] overflow-hidden rounded-sm bg-[#222] mb-4 border border-white/10">
+                <div class="project-image w-full h-full bg-cover bg-center transition-transform duration-700 ease-out" style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop');"></div>
+            </div>
+            <div class="flex justify-between items-start">
+                <div>
+                    <h3 class="text-2xl font-display font-bold">Fluid Motion</h3>
+                    <p class="text-gray-400 text-sm mt-1">Ideal para: Productos Físicos, Bebidas, Apps.</p>
+                </div>
+                <div class="flex gap-2">
+                    <span class="tag">3D</span>
+                    <span class="tag">WebGL</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to Action Final -->
+        <div class="project-card flex flex-col justify-center items-center text-center p-8 border border-white/20 rounded-sm hover:bg-white/5 transition-colors">
+            <i class="ph-duotone ph-rocket text-6xl text-[#D9FF00] mb-6"></i>
+            <h3 class="text-3xl font-display font-bold mb-4">¿Tu proyecto aquí?</h3>
+            <p class="text-gray-400 mb-8 max-w-xs">Hagamos que tu negocio tenga la presencia que se merece.</p>
+            <a href="https://wa.me/5350172941" class="bg-[#D9FF00] text-black font-bold px-8 py-4 uppercase tracking-widest hover:scale-105 transition-transform">
+                Empezar Ahora
+            </a>
+        </div>
+
+    </div>
+
+    <footer class="mt-24 pt-8 border-t border-white/10 text-center text-gray-500 text-sm">
+        RENDER &copy; 2026. Galería de Estilos.
+    </footer>
+</body>
+</html>
