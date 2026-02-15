@@ -4,18 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- SEO & WhatsApp Preview -->
-    <title>RENDER | Desarrollo Web 24/7</title>
-    <meta name="description" content="Desarrollador Web Full Stack. Sitios web modernos, rápidos y efectivos. Disponible 24/7.">
+    <title>RENDER | Soluciones Digitales Corporativas</title>
+    <meta name="description" content="Desarrollo web estratégico desde Cuba para el mundo. Ayudamos a negocios a escalar su presencia digital con tecnología de vanguardia.">
     
-    <!-- Open Graph Imagen (Tu Logo) -->
+    <!-- Open Graph -->
     <meta property="og:image" content="https://raw.githubusercontent.com/Enviado98/mi.render/refs/heads/main/logo.jpg">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts: Playfair Display (Lujo/Seriedad) & Inter (Negocios) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
     
     <!-- Iconos -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
@@ -26,23 +25,20 @@
                 extend: {
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
-                        mono: ['Space Grotesk', 'monospace'],
+                        serif: ['Playfair Display', 'serif'],
                     },
                     colors: {
-                        'render-black': '#050505',
-                        'render-dark': '#0a0a0a',
-                        'render-green': '#00ff9d', /* Verde Neón */
-                        'render-gray': '#222222',
+                        'corp-dark': '#0F172A',      /* Azul Marino Profundo */
+                        'corp-slate': '#1E293B',     /* Gris Azulado */
+                        'corp-gold': '#C5A059',      /* Dorado/Bronce Elegante */
+                        'corp-light': '#F8FAFC',     /* Blanco Humo */
+                        'corp-gray': '#64748B',      /* Texto Secundario */
                     },
-                    animation: {
-                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'float': 'float 6s ease-in-out infinite',
+                    boxShadow: {
+                        'soft': '0 20px 40px -15px rgba(0, 0, 0, 0.05)',
                     },
-                    keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-10px)' },
-                        }
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
                     }
                 }
             }
@@ -51,375 +47,343 @@
 
     <style>
         body {
-            background-color: #050505;
-            background-image: 
-                radial-gradient(circle at 50% 0%, #111 10%, transparent 10%),
-                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-            background-size: 100% 100%, 40px 40px, 40px 40px;
+            background-color: #F8FAFC;
+            color: #0F172A;
         }
 
-        /* Cursor parpadeante */
-        .typing-cursor::after {
-            content: '|';
-            animation: blink 1s step-end infinite;
-            color: #00ff9d;
+        /* Animación suave de aparición */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
+        /* Estilo de tarjeta premium */
+        .service-card {
+            background: white;
+            border: 1px solid #E2E8F0;
+            transition: all 0.4s ease;
         }
-
-        .glass-card {
-            background: rgba(20, 20, 20, 0.6);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.3s ease;
-        }
-        .glass-card:hover {
-            border-color: #00ff9d;
+        .service-card:hover {
+            border-color: #C5A059;
             transform: translateY(-5px);
-            box-shadow: 0 10px 30px -10px rgba(0, 255, 157, 0.1);
-        }
-
-        /* Estilo para la foto de perfil */
-        .profile-glow {
-            box-shadow: 0 0 30px rgba(0, 255, 157, 0.15);
-            transition: all 0.5s ease;
-        }
-        .profile-glow:hover {
-            box-shadow: 0 0 50px rgba(0, 255, 157, 0.4);
-            transform: scale(1.05);
-            border-color: #fff;
+            box-shadow: 0 20px 40px -10px rgba(197, 160, 89, 0.15);
         }
     </style>
 </head>
-<body class="text-gray-300 antialiased selection:bg-render-green selection:text-black">
+<body class="antialiased">
 
-    <!-- NAVBAR -->
-    <nav class="fixed w-full z-50 top-0 left-0 bg-render-black/80 backdrop-blur-md border-b border-white/5">
+    <!-- HEADER / NAVBAR -->
+    <nav class="fixed w-full z-50 top-0 bg-white/90 backdrop-blur-md border-b border-slate-200 transition-all duration-300">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="font-mono text-2xl font-bold text-white tracking-tighter hover:text-render-green transition-colors">
-                &lt;RENDER /&gt;
+            
+            <!-- Logo Tipográfico -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 overflow-hidden rounded-full border border-slate-200 group-hover:border-corp-gold transition-colors">
+                    <img src="https://raw.githubusercontent.com/Enviado98/mi.render/refs/heads/main/logo.jpg" class="w-full h-full object-cover">
+                </div>
+                <div class="leading-tight">
+                    <span class="font-serif text-xl font-bold tracking-wide text-corp-dark">RENDER</span>
+                    <span class="block text-[10px] uppercase tracking-[0.2em] text-corp-gold">Digital Studio</span>
+                </div>
             </a>
             
-            <div class="flex items-center gap-6">
-                <!-- Botones de Idioma -->
-                <div class="flex items-center gap-2 font-mono text-sm">
-                    <button onclick="setLanguage('es')" id="btn-es" class="text-render-green font-bold hover:text-white transition-colors">ES</button>
-                    <span class="text-gray-600">/</span>
-                    <button onclick="setLanguage('en')" id="btn-en" class="text-gray-500 hover:text-white transition-colors">EN</button>
+            <div class="flex items-center gap-8">
+                <!-- Selector de Idioma Minimalista -->
+                <div class="hidden md:flex items-center gap-3 text-xs font-bold tracking-widest">
+                    <button onclick="setLanguage('es')" id="btn-es" class="text-corp-dark border-b-2 border-corp-gold pb-0.5">ES</button>
+                    <button onclick="setLanguage('en')" id="btn-en" class="text-gray-400 hover:text-corp-dark transition-colors pb-0.5">EN</button>
                 </div>
 
-                <!-- Indicador 24/7 -->
-                <div class="hidden md:flex items-center gap-2 bg-white/5 px-3 py-1 rounded-full border border-white/10">
-                    <span class="relative flex h-2.5 w-2.5">
-                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-render-green opacity-75"></span>
-                      <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-render-green"></span>
-                    </span>
-                    <span class="text-xs font-bold text-white tracking-wider" data-i18n="available">DISPONIBLE 24/7</span>
-                </div>
-
-                <a href="https://wa.me/5350172941" target="_blank" class="bg-white text-black font-bold px-5 py-2 rounded-full hover:bg-render-green transition-colors text-sm" data-i18n="contact">
-                    Contactar
+                <a href="https://wa.me/5350172941" target="_blank" class="bg-corp-dark text-white px-6 py-2.5 rounded-sm text-sm font-medium hover:bg-corp-slate transition-colors shadow-lg shadow-corp-dark/20 flex items-center gap-2">
+                    <span data-i18n="nav_contact">Agendar Consultoría</span>
+                    <i class="ph-bold ph-arrow-right"></i>
                 </a>
             </div>
         </div>
     </nav>
 
     <!-- HERO SECTION -->
-    <section class="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
-        <!-- Luz de fondo -->
-        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-render-green/10 rounded-full blur-[120px] pointer-events-none"></div>
+    <section class="relative min-h-[90vh] flex items-center pt-20 overflow-hidden bg-white">
+        <!-- Fondo Abstracto Sutil -->
+        <div class="absolute right-0 top-0 w-1/2 h-full bg-slate-50 opacity-50 clip-path-slant hidden lg:block"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-corp-gold/5 rounded-full blur-[100px] pointer-events-none"></div>
 
-        <div class="container mx-auto px-6 text-center relative z-10 flex flex-col items-center">
+        <div class="container mx-auto px-6 relative z-10 grid lg:grid-cols-2 gap-12 items-center">
             
-            <!-- FOTO DE PERFIL / LOGO -->
-            <div class="relative mb-8 animate-float">
-                <div class="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-render-green profile-glow overflow-hidden bg-black">
-                    <img src="https://raw.githubusercontent.com/Enviado98/mi.render/refs/heads/main/logo.jpg" 
-                         alt="Render Logo" 
-                         class="w-full h-full object-cover">
+            <!-- Columna Texto -->
+            <div class="text-center lg:text-left">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 mb-8 fade-up">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span class="text-xs font-bold text-slate-600 uppercase tracking-wider" data-i18n="location_badge">Operando desde La Habana, Cuba</span>
                 </div>
-                <!-- Pequeño badge de verificado -->
-                <div class="absolute bottom-1 right-1 bg-render-green text-black p-1.5 rounded-full border-2 border-black">
-                    <i class="ph-bold ph-check text-lg"></i>
+
+                <h1 class="font-serif text-5xl md:text-7xl font-medium text-corp-dark leading-[1.1] mb-6 fade-up delay-100">
+                    <span data-i18n="hero_title_1">Elevamos tu</span> <br>
+                    <span class="italic text-corp-gold" data-i18n="hero_title_2">Presencia Digital</span>
+                </h1>
+
+                <p class="text-lg text-slate-500 mb-10 leading-relaxed max-w-xl mx-auto lg:mx-0 fade-up delay-200" data-i18n="hero_desc">
+                    Estrategia, diseño y desarrollo web de alto nivel. Ayudamos a empresas y negocios a consolidar su autoridad en el mercado global.
+                </p>
+
+                <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start fade-up delay-300">
+                    <a href="https://wa.me/5350172941" class="px-8 py-4 bg-corp-gold hover:bg-[#b08d4b] text-white rounded-sm font-medium transition-all shadow-xl shadow-corp-gold/20 flex items-center justify-center gap-2">
+                        <span data-i18n="btn_primary">Iniciar Proyecto</span>
+                    </a>
+                    <a href="#expertise" class="px-8 py-4 bg-white border border-slate-200 text-corp-dark hover:border-corp-dark rounded-sm font-medium transition-all flex items-center justify-center gap-2">
+                        <span data-i18n="btn_secondary">Conocer Servicios</span>
+                    </a>
                 </div>
             </div>
 
-            <p class="text-render-green font-mono text-sm mb-4 tracking-widest uppercase">/// Web Developer</p>
-            
-            <h1 class="text-5xl md:text-8xl font-bold text-white mb-6 tracking-tight leading-tight" data-i18n="hello">
-                Hola, soy <span class="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500">Render</span>.
-            </h1>
-            
-            <div class="h-12 md:h-16 mb-2 flex justify-center items-center">
-                <span id="typing-text" class="text-xl md:text-3xl font-mono text-gray-400 typing-cursor"></span>
-            </div>
-
-            <!-- FRASE USA -->
-            <p class="text-white/80 font-mono text-sm md:text-base mb-8 border border-white/10 bg-white/5 px-4 py-2 rounded-lg inline-flex items-center gap-2" data-i18n="usa_msg">
-                <i class="ph-fill ph-flag"></i> Ayudo a potenciar tu negocio en Estados Unidos.
-            </p>
-
-            <p class="max-w-xl mx-auto text-gray-400 mb-10 text-lg leading-relaxed" data-i18n="description">
-                Soy emprendedor, desarrollo sitios webs para tu negocio. 
-                Optimización, velocidad y diseño moderno.
-            </p>
-
-            <div class="flex flex-col md:flex-row gap-4 justify-center items-center w-full md:w-auto">
-                <a href="https://wa.me/5350172941" target="_blank" class="w-full md:w-auto bg-render-green hover:bg-emerald-400 text-black font-bold px-8 py-4 rounded-xl transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(0,255,157,0.3)] hover:shadow-[0_0_40px_rgba(0,255,157,0.5)] hover:-translate-y-1">
-                    <i class="ph-bold ph-whatsapp-logo text-xl"></i> <span data-i18n="btn_quote">Cotizar Proyecto</span>
-                </a>
-                <a href="#tecnologias" class="w-full md:w-auto border border-white/20 hover:border-white text-white px-8 py-4 rounded-xl transition-all backdrop-blur-sm hover:bg-white/5" data-i18n="btn_tech">
-                    Ver Tecnologías
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- SERVICIOS -->
-    <section class="py-24 bg-render-dark/50 border-t border-white/5">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl font-bold text-white mb-12 flex items-center gap-3">
-                <i class="ph-fill ph-code text-render-green"></i> <span data-i18n="services">Servicios</span>
-            </h2>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Card 1 -->
-                <div class="glass-card p-8 rounded-2xl group">
-                    <div class="w-12 h-12 bg-render-gray rounded-lg flex items-center justify-center text-render-green text-2xl mb-6 group-hover:scale-110 transition-transform">
-                        <i class="ph-bold ph-rocket-launch"></i>
+            <!-- Columna Visual (Abstracta/Tecnológica) -->
+            <div class="relative fade-up delay-500 hidden lg:block">
+                <div class="relative z-10 grid grid-cols-2 gap-4">
+                    <div class="space-y-4 mt-12">
+                        <div class="bg-corp-dark p-6 rounded-sm text-white shadow-xl">
+                            <i class="ph-thin ph-chart-line-up text-4xl text-corp-gold mb-2"></i>
+                            <p class="font-serif text-2xl">+300%</p>
+                            <p class="text-xs text-slate-400 uppercase tracking-widest">Visibilidad Online</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-sm border border-slate-100 shadow-soft">
+                            <i class="ph-thin ph-globe text-4xl text-corp-dark mb-2"></i>
+                            <p class="font-serif text-xl">Global Reach</p>
+                            <p class="text-xs text-slate-500">Clientes Internacionales</p>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-3" data-i18n="s1_title">Landing Pages</h3>
-                    <p class="text-sm text-gray-400 leading-relaxed" data-i18n="s1_desc">
-                        Páginas diseñadas para convertir visitantes en clientes. Optimizadas para cargar rápido en conexiones lentas.
-                    </p>
-                </div>
-
-                <!-- Card 2 -->
-                <div class="glass-card p-8 rounded-2xl group">
-                    <div class="w-12 h-12 bg-render-gray rounded-lg flex items-center justify-center text-render-green text-2xl mb-6 group-hover:scale-110 transition-transform">
-                        <i class="ph-bold ph-storefront"></i>
+                    <div class="space-y-4">
+                        <div class="bg-white p-6 rounded-sm border border-slate-100 shadow-soft h-64 flex flex-col justify-end bg-[url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80')] bg-cover grayscale hover:grayscale-0 transition-all duration-700">
+                            <div class="bg-white/90 backdrop-blur p-3 rounded-sm">
+                                <p class="text-xs font-bold uppercase">Calidad Premium</p>
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-3" data-i18n="s2_title">Menús Digitales</h3>
-                    <p class="text-sm text-gray-400 leading-relaxed" data-i18n="s2_desc">
-                        Sistemas modernos para restaurantes. Muestra tus platos y recibe pedidos directamente en tu WhatsApp.
-                    </p>
-                </div>
-
-                <!-- Card 3 -->
-                <div class="glass-card p-8 rounded-2xl group">
-                    <div class="w-12 h-12 bg-render-gray rounded-lg flex items-center justify-center text-render-green text-2xl mb-6 group-hover:scale-110 transition-transform">
-                        <i class="ph-bold ph-devices"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-white mb-3" data-i18n="s3_title">Sitios Web Pro</h3>
-                    <p class="text-sm text-gray-400 leading-relaxed" data-i18n="s3_desc">
-                        Sitios corporativos o personales con diseño futurista, modo oscuro y animaciones fluidas.
-                    </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ARSENAL TECNOLÓGICO -->
-    <section id="tecnologias" class="py-24 relative overflow-hidden">
-        <!-- Fondo Decorativo -->
-        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
+    <!-- PROPUESTA DE VALOR (Misión) -->
+    <section class="py-24 bg-corp-dark text-white relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
         
-        <div class="container mx-auto px-6 relative z-10">
-            <h2 class="text-3xl font-bold text-white mb-12 text-center">
-                <span data-i18n="tech_title">Arsenal Tecnológico</span> <span class="text-render-green">///</span>
+        <div class="container mx-auto px-6 relative z-10 text-center max-w-4xl">
+            <span class="text-corp-gold text-xs font-bold uppercase tracking-[0.3em] mb-4 block fade-up">Nuestra Visión</span>
+            <h2 class="font-serif text-3xl md:text-5xl leading-tight mb-8 fade-up delay-100" data-i18n="mission_title">
+                "No solo creamos sitios web. Construimos activos digitales que generan confianza y ventas."
             </h2>
+            <div class="w-24 h-1 bg-corp-gold mx-auto mb-8 fade-up delay-200"></div>
+            <p class="text-slate-400 text-lg leading-relaxed fade-up delay-300" data-i18n="mission_desc">
+                En un mundo saturado de ruido, la claridad y el diseño profesional son su ventaja competitiva. Desde Cuba, ofrecemos ingeniería de software y diseño estratégico con estándares internacionales, permitiendo que su negocio destaque en cualquier mercado.
+            </p>
+        </div>
+    </section>
 
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-                <div class="p-6 border border-white/5 rounded-xl hover:border-render-green/50 hover:bg-white/5 transition-all group">
-                    <i class="ph-bold ph-code text-4xl text-gray-500 group-hover:text-render-green mb-4 transition-colors transform group-hover:scale-110 block"></i>
-                    <h4 class="text-white font-bold">HTML5 Semántico</h4>
+    <!-- SERVICIOS (Grid Bento Minimalista) -->
+    <section id="expertise" class="py-24 bg-slate-50">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+                <div>
+                    <span class="text-corp-gray text-xs font-bold uppercase tracking-widest block mb-2">Expertise</span>
+                    <h2 class="font-serif text-4xl text-corp-dark" data-i18n="services_title">Soluciones Integrales</h2>
                 </div>
-                <div class="p-6 border border-white/5 rounded-xl hover:border-render-green/50 hover:bg-white/5 transition-all group">
-                    <i class="ph-bold ph-paint-brush text-4xl text-gray-500 group-hover:text-render-green mb-4 transition-colors transform group-hover:scale-110 block"></i>
-                    <h4 class="text-white font-bold" data-i18n="css_text">CSS Moderno</h4>
-                </div>
-                <div class="p-6 border border-white/5 rounded-xl hover:border-render-green/50 hover:bg-white/5 transition-all group">
-                    <i class="ph-bold ph-lightning text-4xl text-gray-500 group-hover:text-render-green mb-4 transition-colors transform group-hover:scale-110 block"></i>
-                    <h4 class="text-white font-bold">JavaScript</h4>
-                </div>
-                <div class="p-6 border border-white/5 rounded-xl hover:border-render-green/50 hover:bg-white/5 transition-all group">
-                    <i class="ph-bold ph-device-mobile text-4xl text-gray-500 group-hover:text-render-green mb-4 transition-colors transform group-hover:scale-110 block"></i>
-                    <h4 class="text-white font-bold">Mobile First</h4>
-                </div>
-            </div>
-            
-            <div class="mt-16 text-center">
-                <p class="text-gray-400 mb-6" data-i18n="idea_text">¿Tienes una idea en mente?</p>
-                <a href="https://wa.me/5350172941" class="text-2xl font-mono text-white border-b-2 border-render-green pb-1 hover:text-render-green transition-colors" data-i18n="build_it">
-                    Vamos a construirla
+                <a href="https://wa.me/5350172941" class="text-sm font-bold text-corp-gold border-b border-corp-gold pb-1 hover:text-corp-dark hover:border-corp-dark transition-all">
+                    <span data-i18n="view_portfolio">Solicitar Portafolio PDF</span>
                 </a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Servicio 1 -->
+                <div class="service-card p-10 fade-up">
+                    <i class="ph-thin ph-desktop text-5xl text-corp-dark mb-6"></i>
+                    <h3 class="font-serif text-2xl mb-4 text-corp-dark" data-i18n="serv_1_title">Desarrollo Web Corporativo</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-6" data-i18n="serv_1_desc">
+                        Sitios web institucionales que reflejan la solidez de su marca. Optimizados para velocidad, SEO y seguridad bancaria.
+                    </p>
+                    <ul class="text-xs text-slate-400 space-y-2 border-t border-slate-100 pt-4">
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check text-corp-gold"></i> UI/UX Premium</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check text-corp-gold"></i> SEO Técnico</li>
+                    </ul>
+                </div>
+
+                <!-- Servicio 2 (Destacado) -->
+                <div class="service-card p-10 bg-corp-dark text-white border-none transform md:-translate-y-4 fade-up delay-100">
+                    <i class="ph-thin ph-storefront text-5xl text-corp-gold mb-6"></i>
+                    <h3 class="font-serif text-2xl mb-4" data-i18n="serv_2_title">E-Commerce & Catálogos</h3>
+                    <p class="text-slate-300 text-sm leading-relaxed mb-6" data-i18n="serv_2_desc">
+                        Transforme visitantes en compradores. Implementamos tiendas online y menús digitales interactivos que funcionan 24/7.
+                    </p>
+                    <ul class="text-xs text-slate-400 space-y-2 border-t border-white/10 pt-4">
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check text-corp-gold"></i> Pasarelas de Pago</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check text-corp-gold"></i> Gestión de Inventario</li>
+                    </ul>
+                </div>
+
+                <!-- Servicio 3 -->
+                <div class="service-card p-10 fade-up delay-200">
+                    <i class="ph-thin ph-strategy text-5xl text-corp-dark mb-6"></i>
+                    <h3 class="font-serif text-2xl mb-4 text-corp-dark" data-i18n="serv_3_title">Consultoría Digital</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-6" data-i18n="serv_3_desc">
+                        No solo entregamos código, entregamos estrategia. Asesoramiento para digitalizar procesos y expandir su alcance internacional.
+                    </p>
+                    <ul class="text-xs text-slate-400 space-y-2 border-t border-slate-100 pt-4">
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check text-corp-gold"></i> Auditoría Digital</li>
+                        <li class="flex items-center gap-2"><i class="ph-bold ph-check text-corp-gold"></i> Optimización de Conversión</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- FOOTER -->
-    <footer class="bg-black py-12 border-t border-white/10">
-        <div class="container mx-auto px-6 text-center">
-            
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-8 mb-16 border-b border-white/10 pb-12">
-                <div>
-                    <span class="text-3xl font-bold text-white block">100%</span>
-                    <span class="text-xs text-gray-500 uppercase tracking-widest" data-i18n="dedication">Dedicación</span>
+    <!-- FOOTER CORPORATIVO -->
+    <footer class="bg-white border-t border-slate-200 pt-20 pb-10">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+                <div class="md:col-span-2">
+                    <a href="#" class="flex items-center gap-2 mb-6">
+                        <span class="font-serif text-2xl font-bold text-corp-dark">RENDER</span>
+                    </a>
+                    <p class="text-slate-500 text-sm leading-relaxed max-w-sm" data-i18n="footer_about">
+                        Estudio de desarrollo digital enfocado en resultados. Conectando negocios desde Cuba con oportunidades globales a través de tecnología de excelencia.
+                    </p>
                 </div>
+                
                 <div>
-                    <span class="text-3xl font-bold text-white block">24/7</span>
-                    <span class="text-xs text-gray-500 uppercase tracking-widest" data-i18n="availability">Disponibilidad</span>
+                    <h4 class="font-bold text-corp-dark text-sm uppercase tracking-widest mb-6">Contacto</h4>
+                    <ul class="space-y-4 text-sm text-slate-500">
+                        <li class="flex items-center gap-3">
+                            <i class="ph-fill ph-whatsapp-logo text-lg text-corp-gold"></i>
+                            <a href="https://wa.me/5350172941" class="hover:text-corp-dark transition-colors">+53 5017 2941</a>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="ph-fill ph-envelope-simple text-lg text-corp-gold"></i>
+                            <span>contacto@render.studio</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="ph-fill ph-map-pin text-lg text-corp-gold"></i>
+                            <span>La Habana, Cuba</span>
+                        </li>
+                    </ul>
                 </div>
+
                 <div>
-                    <span class="text-3xl font-bold text-white block">FAST</span>
-                    <span class="text-xs text-gray-500 uppercase tracking-widest" data-i18n="clean_code">Código Limpio</span>
+                    <h4 class="font-bold text-corp-dark text-sm uppercase tracking-widest mb-6">Legal</h4>
+                    <ul class="space-y-4 text-sm text-slate-500">
+                        <li><a href="#" class="hover:text-corp-dark">Términos de Servicio</a></li>
+                        <li><a href="#" class="hover:text-corp-dark">Política de Privacidad</a></li>
+                    </ul>
                 </div>
             </div>
 
-            <h2 class="text-2xl font-bold text-white mb-6 tracking-tight">RENDER / DEV</h2>
-            
-            <p class="text-gray-600 text-sm">
-                &copy; 2026 RENDER. <span data-i18n="rights">Todos los derechos reservados.</span> <br>
-                Worldwide <i class="ph-fill ph-circle text-[8px] mx-2 align-middle text-render-green animate-pulse"></i> Online
-            </p>
+            <div class="border-t border-slate-100 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-slate-400">
+                <p>&copy; 2026 RENDER Digital Studio. All rights reserved.</p>
+                <div class="flex gap-4 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-corp-dark transition-colors"><i class="ph-fill ph-linkedin-logo text-xl"></i></a>
+                    <a href="#" class="hover:text-corp-dark transition-colors"><i class="ph-fill ph-instagram-logo text-xl"></i></a>
+                </div>
+            </div>
         </div>
     </footer>
 
-    <!-- BOTÓN WHATSAPP FLOTANTE -->
-    <a href="https://wa.me/5350172941?text=Hola%20Render,%20vi%20tu%20web." class="fixed bottom-6 right-6 bg-render-green text-black p-4 rounded-full shadow-lg hover:shadow-[0_0_30px_rgba(0,255,157,0.6)] transition-all z-50 animate-bounce group">
-        <i class="ph-bold ph-whatsapp-logo text-3xl"></i>
-        <!-- Tooltip -->
-        <span class="absolute right-full top-1/2 -translate-y-1/2 mr-3 bg-white text-black px-3 py-1 rounded text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none" data-i18n="write_me">
-            Escríbeme
-        </span>
+    <!-- BOTÓN WHATSAPP ELEGANTE -->
+    <a href="https://wa.me/5350172941?text=Hola,%20me%20interesa%20una%20consultoría%20para%20mi%20negocio." class="fixed bottom-8 right-8 z-50 group">
+        <div class="absolute bottom-full right-0 mb-4 bg-corp-dark text-white text-xs px-4 py-2 rounded-sm shadow-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+            Hablar con un consultor
+        </div>
+        <div class="bg-[#25D366] hover:bg-[#20bd5a] text-white p-4 rounded-full shadow-2xl transition-all transform hover:scale-105 flex items-center justify-center">
+            <i class="ph-fill ph-whatsapp-logo text-3xl"></i>
+        </div>
     </a>
 
-    <!-- SCRIPT EFECTO DE ESCRITURA E IDIOMAS -->
+    <!-- SCRIPTS -->
     <script>
-        // DICCIONARIO DE TRADUCCIONES
+        // Animación al hacer Scroll (Intersection Observer)
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+        // SISTEMA DE IDIOMAS
         const translations = {
             es: {
-                available: "DISPONIBLE 24/7",
-                contact: "Contactar",
-                hello: "Hola, soy <span class='text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500'>Render</span>.",
-                usa_msg: "<i class='ph-fill ph-flag'></i> Ayudo a potenciar tu negocio en Estados Unidos.",
-                description: "Soy emprendedor, desarrollo sitios webs para tu negocio. Optimización, velocidad y diseño moderno.",
-                btn_quote: "Cotizar Proyecto",
-                btn_tech: "Ver Tecnologías",
-                services: "Servicios",
-                s1_title: "Landing Pages",
-                s1_desc: "Páginas diseñadas para convertir visitantes en clientes. Optimizadas para cargar rápido en conexiones lentas.",
-                s2_title: "Menús Digitales",
-                s2_desc: "Sistemas modernos para restaurantes. Muestra tus platos y recibe pedidos directamente en tu WhatsApp.",
-                s3_title: "Sitios Web Pro",
-                s3_desc: "Sitios corporativos o personales con diseño futurista, modo oscuro y animaciones fluidas.",
-                tech_title: "Arsenal Tecnológico",
-                css_text: "CSS Moderno",
-                idea_text: "¿Tienes una idea en mente?",
-                build_it: "Vamos a construirla",
-                dedication: "Dedicación",
-                availability: "Disponibilidad",
-                clean_code: "Código Limpio",
-                rights: "Todos los derechos reservados.",
-                write_me: "Escríbeme",
-                typing: ["Desarrollador Web", "Creador Digital", "Disponible 24/7"]
+                nav_contact: "Agendar Consultoría",
+                location_badge: "Operando desde La Habana, Cuba",
+                hero_title_1: "Elevamos tu",
+                hero_title_2: "Presencia Digital",
+                hero_desc: "Estrategia, diseño y desarrollo web de alto nivel. Ayudamos a empresas y negocios a consolidar su autoridad en el mercado global.",
+                btn_primary: "Iniciar Proyecto",
+                btn_secondary: "Conocer Servicios",
+                mission_title: "\"No solo creamos sitios web. Construimos activos digitales que generan confianza y ventas.\"",
+                mission_desc: "En un mundo saturado de ruido, la claridad y el diseño profesional son su ventaja competitiva. Desde Cuba, ofrecemos ingeniería de software y diseño estratégico con estándares internacionales, permitiendo que su negocio destaque en cualquier mercado.",
+                services_title: "Soluciones Integrales",
+                view_portfolio: "Solicitar Portafolio PDF",
+                serv_1_title: "Desarrollo Web Corporativo",
+                serv_1_desc: "Sitios web institucionales que reflejan la solidez de su marca. Optimizados para velocidad, SEO y seguridad bancaria.",
+                serv_2_title: "E-Commerce & Catálogos",
+                serv_2_desc: "Transforme visitantes en compradores. Implementamos tiendas online y menús digitales interactivos que funcionan 24/7.",
+                serv_3_title: "Consultoría Digital",
+                serv_3_desc: "No solo entregamos código, entregamos estrategia. Asesoramiento para digitalizar procesos y expandir su alcance internacional.",
+                footer_about: "Estudio de desarrollo digital enfocado en resultados. Conectando negocios desde Cuba con oportunidades globales a través de tecnología de excelencia."
             },
             en: {
-                available: "AVAILABLE 24/7",
-                contact: "Contact",
-                hello: "Hi, I'm <span class='text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500'>Render</span>.",
-                usa_msg: "<i class='ph-fill ph-flag'></i> Helping boost your business in the United States.",
-                description: "I am an entrepreneur, developing websites for your business. Optimization, speed, and modern design.",
-                btn_quote: "Get a Quote",
-                btn_tech: "View Tech Stack",
-                services: "Services",
-                s1_title: "Landing Pages",
-                s1_desc: "Pages designed to convert visitors into customers. Optimized for fast loading on slow connections.",
-                s2_title: "Digital Menus",
-                s2_desc: "Modern systems for restaurants. Showcase your dishes and receive orders directly on WhatsApp.",
-                s3_title: "Pro Websites",
-                s3_desc: "Corporate or personal sites with futuristic design, dark mode, and fluid animations.",
-                tech_title: "Tech Arsenal",
-                css_text: "Modern CSS",
-                idea_text: "Have an idea in mind?",
-                build_it: "Let's build it",
-                dedication: "Dedication",
-                availability: "Availability",
-                clean_code: "Clean Code",
-                rights: "All rights reserved.",
-                write_me: "Message Me",
-                typing: ["Web Developer", "Digital Creator", "Available 24/7"]
+                nav_contact: "Book Consultation",
+                location_badge: "Operating from Havana, Cuba",
+                hero_title_1: "Elevating Your",
+                hero_title_2: "Digital Presence",
+                hero_desc: "High-level strategy, design, and web development. We help companies and businesses consolidate their authority in the global market.",
+                btn_primary: "Start Project",
+                btn_secondary: "View Services",
+                mission_title: "\"We don't just build websites. We build digital assets that generate trust and sales.\"",
+                mission_desc: "In a noisy world, clarity and professional design are your competitive advantage. From Cuba, we offer software engineering and strategic design with international standards, allowing your business to stand out in any market.",
+                services_title: "Comprehensive Solutions",
+                view_portfolio: "Request Portfolio PDF",
+                serv_1_title: "Corporate Web Development",
+                serv_1_desc: "Institutional websites that reflect your brand's solidity. Optimized for speed, technical SEO, and security.",
+                serv_2_title: "E-Commerce & Catalogs",
+                serv_2_desc: "Turn visitors into buyers. We implement online stores and interactive digital menus that work 24/7.",
+                serv_3_title: "Digital Consulting",
+                serv_3_desc: "We don't just deliver code, we deliver strategy. Advice to digitize processes and expand your international reach.",
+                footer_about: "Result-focused digital development studio. Connecting businesses from Cuba with global opportunities through excellent technology."
             }
         };
 
-        const textElement = document.getElementById('typing-text');
-        let currentLang = 'es';
-        let phrases = translations.es.typing;
-        let phraseIndex = 0;
-        let charIndex = 0;
-        let isDeleting = false;
-        let typeSpeed = 100;
-
-        function type() {
-            const currentPhrase = phrases[phraseIndex];
-            
-            if (isDeleting) {
-                textElement.textContent = currentPhrase.substring(0, charIndex - 1);
-                charIndex--;
-                typeSpeed = 50; 
-            } else {
-                textElement.textContent = currentPhrase.substring(0, charIndex + 1);
-                charIndex++;
-                typeSpeed = 100; 
-            }
-
-            if (!isDeleting && charIndex === currentPhrase.length) {
-                isDeleting = true;
-                typeSpeed = 2000; 
-            } else if (isDeleting && charIndex === 0) {
-                isDeleting = false;
-                phraseIndex = (phraseIndex + 1) % phrases.length;
-                typeSpeed = 500;
-            }
-
-            setTimeout(type, typeSpeed);
-        }
-
-        // Función para cambiar idioma
         function setLanguage(lang) {
-            currentLang = lang;
             const data = translations[lang];
-
-            // Cambiar textos estáticos
-            document.querySelectorAll('[data-i18n]').forEach(element => {
-                const key = element.getAttribute('data-i18n');
-                if (data[key]) {
-                    element.innerHTML = data[key];
-                }
+            
+            // Textos
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (data[key]) el.innerText = data[key];
             });
 
-            // Estilos de botones
+            // Estilos Botones
             const btnEs = document.getElementById('btn-es');
             const btnEn = document.getElementById('btn-en');
             
             if(lang === 'es') {
-                btnEs.className = "text-render-green font-bold hover:text-white transition-colors";
-                btnEn.className = "text-gray-500 hover:text-white transition-colors";
+                btnEs.className = "text-corp-dark border-b-2 border-corp-gold pb-0.5";
+                btnEn.className = "text-gray-400 hover:text-corp-dark transition-colors pb-0.5";
             } else {
-                btnEs.className = "text-gray-500 hover:text-white transition-colors";
-                btnEn.className = "text-render-green font-bold hover:text-white transition-colors";
+                btnEs.className = "text-gray-400 hover:text-corp-dark transition-colors pb-0.5";
+                btnEn.className = "text-corp-dark border-b-2 border-corp-gold pb-0.5";
             }
-
-            // Reiniciar efecto de escritura con nuevo idioma
-            phrases = data.typing;
-            isDeleting = true; // Borrar lo que esté escrito actualmente
         }
-
-        document.addEventListener('DOMContentLoaded', type);
     </script>
 </body>
 </html>
