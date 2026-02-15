@@ -45,20 +45,20 @@
         /* RESET & BASE */
         html, body {
             width: 100%;
-            overflow-x: hidden; /* CRÍTICO: Evita que la web se mueva a los lados */
+            overflow-x: hidden;
             background-color: #F5F5F0;
             color: #0A0A0A;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* TEXTURA DE FONDO SUTIL (Ruido) */
+        /* TEXTURA DE FONDO SUTIL */
         .noise {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 50; opacity: 0.03;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
-        /* OCULTAR CURSOR SOLO EN DESKTOP */
+        /* CURSOR */
         @media (min-width: 1024px) {
             body { cursor: none; }
             #cursor {
@@ -68,9 +68,7 @@
                 mix-blend-mode: difference; filter: invert(1);
             }
         }
-        @media (max-width: 1023px) {
-            #cursor { display: none; } 
-        }
+        @media (max-width: 1023px) { #cursor { display: none; } }
 
         /* PRELOADER */
         #preloader {
@@ -79,30 +77,16 @@
             transition: transform 0.8s cubic-bezier(0.76, 0, 0.24, 1);
         }
         
-        /* MARQUEE ANIMATION FIXED */
-        .marquee-wrapper {
-            display: flex;
-            overflow: hidden;
-            user-select: none;
-            gap: 2rem;
-        }
-        .marquee-content {
-            flex-shrink: 0;
-            display: flex;
-            gap: 2rem;
-            min-width: 100%;
-            animation: scroll 25s linear infinite;
-        }
-        @keyframes scroll {
-            from { transform: translateX(0); }
-            to { transform: translateX(-100%); }
-        }
+        /* MARQUEE */
+        .marquee-wrapper { display: flex; overflow: hidden; user-select: none; gap: 2rem; }
+        .marquee-content { flex-shrink: 0; display: flex; gap: 2rem; min-width: 100%; animation: scroll 25s linear infinite; }
+        @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-100%); } }
 
         /* TIPOGRAFÍA RESPONSIVA */
         .hero-title {
-            font-size: clamp(3.5rem, 13vw, 10rem); /* Ajustado para móvil */
-            line-height: 0.85;
-            letter-spacing: -0.03em;
+            font-size: clamp(3rem, 12vw, 9rem);
+            line-height: 0.9;
+            letter-spacing: -0.02em;
         }
         
         .reveal-text { opacity: 0; transform: translateY(30px); transition: all 1s ease; }
@@ -135,18 +119,17 @@
             Hablar Ahora
         </a>
 
-        <!-- Botón Móvil Simplificado -->
         <a href="https://wa.me/5350172941" class="md:hidden border border-white/40 px-4 py-2 rounded-full text-[10px] font-bold uppercase">
             Contacto
         </a>
     </nav>
 
-    <!-- HERO SECTION (BUG ARREGLADO) -->
-    <!-- Cambio clave: justify-center en móvil para llenar el hueco, justify-end en desktop -->
-    <header class="relative min-h-[85vh] md:min-h-screen flex flex-col justify-center md:justify-end pb-12 px-6 md:px-12 pt-24 md:pt-32">
+    <!-- HERO SECTION (ESTRUCTURA CORREGIDA) -->
+    <!-- h-screen asegura que ocupe toda la pantalla. justify-between distribuye el contenido -->
+    <header class="relative h-screen flex flex-col pt-32 pb-12 px-6 md:px-12">
         
-        <!-- Contenido Principal -->
-        <div class="w-full border-b border-black/10 pb-8 md:pb-12">
+        <!-- Título CENTRADO (Ocupa el espacio central, eliminando el hueco blanco) -->
+        <div class="flex-1 flex flex-col justify-center border-b border-black/10">
             <h1 class="hero-title font-display font-semibold uppercase text-void mb-2 reveal-text">
                 Digital
             </h1>
@@ -158,6 +141,7 @@
             </div>
         </div>
 
+        <!-- Información Inferior (Pegada abajo) -->
         <div class="flex flex-col md:flex-row justify-between items-start md:items-end mt-8 gap-8">
             <p class="font-sans text-lg md:text-xl text-graphite max-w-md leading-relaxed reveal-text" style="transition-delay: 0.2s;">
                 Estudio de ingeniería web. Transformamos negocios en <span class="font-bold underline decoration-1 underline-offset-4">activos digitales</span> de alto rendimiento.
@@ -172,35 +156,42 @@
         </div>
     </header>
 
-    <!-- MARQUEE (PANCARTA ARREGLADA) -->
-    <!-- Se duplica el contenido para evitar espacios vacíos -->
+    <!-- MARQUEE -->
     <div class="bg-void text-paper py-6 md:py-8 border-y border-white/10 overflow-hidden relative z-10">
         <div class="marquee-wrapper">
-            <!-- Bloque 1 -->
-            <div class="marquee-content">
-                <span class="text-4xl md:text-6xl font-display font-bold uppercase">ESTRATEGIA DIGITAL <span class="text-gray-600 mx-4">///</span></span>
-                <span class="text-4xl md:text-6xl font-display font-bold uppercase">DISEÑO UI/UX <span class="text-gray-600 mx-4">///</span></span>
-                <span class="text-4xl md:text-6xl font-display font-bold uppercase">DESARROLLO WEB <span class="text-gray-600 mx-4">///</span></span>
-                <span class="text-4xl md:text-6xl font-display font-bold uppercase">VELOCIDAD <span class="text-gray-600 mx-4">///</span></span>
+            <div class="marquee-content font-display text-4xl md:text-6xl uppercase font-bold">
+                <span class="mx-8">Estrategia</span> <span class="text-gray-600">///</span>
+                <span class="mx-8">Desarrollo</span> <span class="text-gray-600">///</span>
+                <span class="mx-8">Diseño UI</span> <span class="text-gray-600">///</span>
+                <span class="mx-8">Velocidad</span> <span class="text-gray-600">///</span>
+                <span class="mx-8">Estrategia</span> <span class="text-gray-600">///</span>
+                <span class="mx-8">Desarrollo</span> <span class="text-gray-600">///</span>
+                <span class="mx-8">Diseño UI</span> <span class="text-gray-600">///</span>
+                <span class="mx-8">Velocidad</span> <span class="text-gray-600">///</span>
             </div>
-            <!-- Bloque 2 (Duplicado para loop perfecto) -->
             <div class="marquee-content" aria-hidden="true">
-                <span class="text-4xl md:text-6xl font-display font-bold uppercase">ESTRATEGIA DIGITAL <span class="text-gray-600 mx-4">///</span></span>
-                <span class="text-4xl md:text-6xl font-display font-bold uppercase">DISEÑO UI/UX <span class="text-gray-600 mx-4">///</span></span>
-                <span class="text-4xl md:text-6xl font-display font-bold uppercase">DESARROLLO WEB <span class="text-gray-600 mx-4">///</span></span>
-                <span class="text-4xl md:text-6xl font-display font-bold uppercase">VELOCIDAD <span class="text-gray-600 mx-4">///</span></span>
+                <span class="mx-8">Estrategia</span> <span class="text-gray-600">///</span>
+                <span class="mx-8">Desarrollo</span> <span class="text-gray-600">///</span>
+                <span class="mx-8">Diseño UI</span> <span class="text-gray-600">///</span>
+                <span class="mx-8">Velocidad</span> <span class="text-gray-600">///</span>
+                <span class="mx-8">Estrategia</span> <span class="text-gray-600">///</span>
+                <span class="mx-8">Desarrollo</span> <span class="text-gray-600">///</span>
+                <span class="mx-8">Diseño UI</span> <span class="text-gray-600">///</span>
+                <span class="mx-8">Velocidad</span> <span class="text-gray-600">///</span>
             </div>
         </div>
     </div>
 
-    <!-- IMAGEN & FILOSOFÍA -->
+    <!-- IMAGEN PARALLAX (CORREGIDA) -->
     <section class="py-20 md:py-32 px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-        <!-- Imagen Abstracta (Estabilidad/Estructura) -->
+        <!-- Contenedor con overflow-hidden -->
         <div class="relative w-full aspect-[4/5] md:aspect-square bg-gray-200 overflow-hidden rounded-sm shadow-2xl">
-            <img src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?q=80&w=2070&auto=format&fit=crop" 
-                 class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 parallax-img"
+            <!-- Imagen con escala 125% para tener margen de movimiento y no dejar huecos -->
+            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop" 
+                 class="absolute top-[-10%] left-[-10%] w-[120%] h-[120%] object-cover grayscale hover:grayscale-0 transition-all duration-700 parallax-img"
                  alt="Arquitectura Digital">
-            <div class="absolute bottom-4 left-4 bg-white/90 px-4 py-2 text-xs font-bold uppercase tracking-widest">
+            
+            <div class="absolute bottom-4 left-4 bg-white/90 px-4 py-2 text-xs font-bold uppercase tracking-widest z-10">
                 System Architecture
             </div>
         </div>
@@ -233,7 +224,6 @@
         <h2 class="font-display text-4xl mb-12 border-b border-black/10 pb-4">Servicios Selectos</h2>
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Item 1 -->
             <div class="group p-8 border border-black/5 hover:border-black hover:shadow-xl transition-all duration-300">
                 <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mb-6 group-hover:bg-void group-hover:text-white transition-colors">
                     <i class="ph-bold ph-code text-2xl"></i>
@@ -244,7 +234,6 @@
                 </p>
             </div>
 
-            <!-- Item 2 -->
             <div class="group p-8 border border-black/5 hover:border-black hover:shadow-xl transition-all duration-300 bg-void text-white">
                 <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center mb-6">
                     <i class="ph-bold ph-paint-brush text-2xl"></i>
@@ -255,7 +244,6 @@
                 </p>
             </div>
 
-            <!-- Item 3 -->
             <div class="group p-8 border border-black/5 hover:border-black hover:shadow-xl transition-all duration-300">
                 <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mb-6 group-hover:bg-void group-hover:text-white transition-colors">
                     <i class="ph-bold ph-chart-line-up text-2xl"></i>
@@ -282,7 +270,8 @@
             
             <div class="text-right w-full md:w-auto">
                 <p class="text-xs text-gray-500 uppercase tracking-widest mb-2">Contacto</p>
-                <p class="text-lg md:text-xl mb-1">hola@render.studio</p>
+                <!-- CORREO CORREGIDO -->
+                <p class="text-lg md:text-xl mb-1">onrenderservices@gmail.com</p>
                 <p class="text-lg md:text-xl">+53 5017 2941</p>
                 
                 <div class="flex gap-4 justify-end mt-6">
@@ -298,16 +287,15 @@
         </div>
     </footer>
 
-    <!-- LOGICA OPTIMIZADA -->
+    <!-- LÓGICA -->
     <script>
-        // 1. GESTIÓN DEL CURSOR (Solo Desktop)
+        // 1. CURSOR
         const cursor = document.getElementById('cursor');
         if (window.matchMedia("(min-width: 1024px)").matches) {
             document.addEventListener('mousemove', (e) => {
                 cursor.style.left = e.clientX + 'px';
                 cursor.style.top = e.clientY + 'px';
             });
-            
             document.querySelectorAll('a, button').forEach(link => {
                 link.addEventListener('mouseenter', () => {
                     cursor.style.transform = 'translate(-50%, -50%) scale(3)';
@@ -320,20 +308,16 @@
             });
         }
 
-        // 2. PRELOADER & ANIMACIÓN DE ENTRADA
+        // 2. PRELOADER
         window.addEventListener('DOMContentLoaded', () => {
             const preloader = document.getElementById('preloader');
             const bar = document.getElementById('loader-bar');
             const texts = document.querySelectorAll('.reveal-text');
 
-            // Carga simulada
             setTimeout(() => { bar.style.width = '100%'; }, 100);
 
-            // Retirar preloader
             setTimeout(() => {
                 preloader.style.transform = 'translateY(-100%)';
-                
-                // Activar textos en cascada
                 setTimeout(() => {
                     texts.forEach((el, index) => {
                         setTimeout(() => {
@@ -344,7 +328,7 @@
             }, 1500);
         });
 
-        // 3. SCROLL SUAVE (LENIS)
+        // 3. SCROLL SUAVE
         if (typeof Lenis !== 'undefined') {
             const lenis = new Lenis({
                 duration: 1.2,
@@ -358,13 +342,12 @@
             requestAnimationFrame(raf);
         }
 
-        // 4. PARALLAX SIMPLE (GSAP)
+        // 4. PARALLAX CORREGIDO (Zoom in image to prevent white spaces)
         if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
             gsap.registerPlugin(ScrollTrigger);
             
-            // Parallax imagen
             gsap.to(".parallax-img", {
-                y: "20%",
+                y: "15%", // Movimiento controlado
                 ease: "none",
                 scrollTrigger: {
                     trigger: ".parallax-img",
