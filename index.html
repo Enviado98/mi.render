@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RENDER | Landing Page Specialist</title>
+    <title>RENDER | Estudio Digital</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Fuentes -->
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+    <!-- Fuentes Premium: Cabinet Grotesk (Moderno) & Chillax (Elegante) -->
+    <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@800,500,700&f[]=chillax@600,500,400,300&display=swap" rel="stylesheet">
     
-    <!-- Librerías (GSAP & Lenis) -->
+    <!-- Librerías de Animación (GSAP + Lenis Scroll) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.29/dist/lenis.min.js"></script>
@@ -24,12 +24,17 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Space Grotesk', 'sans-serif'],
-                        display: ['Syne', 'sans-serif'],
+                        sans: ['Cabinet Grotesk', 'sans-serif'],
+                        serif: ['Chillax', 'sans-serif'],
                     },
                     colors: {
-                        'void': '#050505',
-                        'acid': '#D9FF00',
+                        'paper': '#FDFCF8',    /* Blanco Crema (Lujo) */
+                        'ink': '#121212',      /* Negro Suave */
+                        'stone': '#8E8E8E',    /* Gris Piedra */
+                        'sand': '#E6E4DD',     /* Arena */
+                    },
+                    backgroundImage: {
+                        'noise': "url('https://grainy-gradients.vercel.app/noise.svg')",
                     }
                 }
             }
@@ -38,225 +43,248 @@
 
     <style>
         body { 
-            background-color: #050505; 
-            color: #F1F1F1;
-            overflow-x: hidden;
-            /* Ocultar scrollbar pero permitir scroll */
-            scrollbar-width: none; 
-        }
-        body::-webkit-scrollbar { display: none; }
-
-        /* Cursor Personalizado (Solo desktop) */
-        @media (min-width: 768px) {
-            body { cursor: none; }
-            .cursor-dot, .cursor-outline {
-                position: fixed; top: 0; left: 0;
-                transform: translate(-50%, -50%);
-                border-radius: 50%; z-index: 9999;
-                pointer-events: none;
-            }
-            .cursor-dot { width: 8px; height: 8px; background-color: #D9FF00; }
-            .cursor-outline { width: 40px; height: 40px; border: 1px solid rgba(255, 255, 255, 0.5); transition: width 0.2s, height 0.2s, opacity 0.2s; }
+            background-color: #FDFCF8; 
+            color: #121212;
+            cursor: default;
         }
 
-        /* Tipografía Gigante */
-        .big-text { font-size: clamp(3rem, 9vw, 11rem); line-height: 0.9; letter-spacing: -0.04em; }
-        .stroke-text { -webkit-text-stroke: 1px rgba(255,255,255,0.3); color: transparent; transition: 0.5s; }
-        .stroke-text:hover { -webkit-text-stroke: 1px #D9FF00; color: #D9FF00; }
+        /* Efecto de Ruido (Textura de Papel Premium) */
+        .noise-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+            pointer-events: none; z-index: 9999;
+        }
 
-        /* Preloader */
-        .preloader {
-            position: fixed; inset: 0; background: #000; z-index: 10000;
+        /* Tipografía fluida */
+        .hero-title {
+            font-size: clamp(3.5rem, 8vw, 9rem);
+            line-height: 0.95;
+            letter-spacing: -0.03em;
+        }
+
+        /* Máscara para animaciones de texto */
+        .word-mask { overflow: hidden; display: inline-block; vertical-align: top; }
+        .word-reveal { transform: translateY(110%); display: inline-block; }
+
+        /* Imágenes con efecto suave */
+        .img-reveal {
+            clip-path: inset(0 100% 0 0);
+            transition: clip-path 1.5s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+        .img-reveal.active { clip-path: inset(0 0 0 0); }
+
+        /* Botón Magnético */
+        .btn-magnetic {
+            transition: transform 0.3s cubic-bezier(0.215, 0.610, 0.355, 1);
+        }
+        
+        /* Preloader Curtain */
+        .curtain {
+            position: fixed; inset: 0; background: #121212; z-index: 10000;
             display: flex; justify-content: center; align-items: center;
-            transition: transform 1s cubic-bezier(0.76, 0, 0.24, 1);
+            color: #FDFCF8;
         }
-        .preloader.loaded { transform: translateY(-100%); }
-        .counter { font-family: 'Syne', sans-serif; font-size: 8rem; font-weight: 800; color: #D9FF00; }
-
-        /* Animaciones CSS Base (Fallback si falla JS) */
-        .reveal-up { opacity: 0; transform: translateY(50px); transition: all 1s ease; }
-        .reveal-up.active { opacity: 1; transform: translateY(0); }
     </style>
 </head>
 <body class="antialiased">
 
+    <!-- TEXTURA DE RUIDO (CALIDAD) -->
+    <div class="noise-overlay"></div>
+
     <!-- PRELOADER -->
-    <div class="preloader" id="preloader">
-        <div class="counter" id="counter">0</div>
+    <div class="curtain" id="curtain">
+        <div class="text-2xl font-serif italic tracking-widest overflow-hidden">
+            <span class="block transform translate-y-0 transition-transform duration-700" id="loader-text">RENDER STUDIO</span>
+        </div>
     </div>
 
-    <!-- CUSTOM CURSOR -->
-    <div class="cursor-dot hidden md:block"></div>
-    <div class="cursor-outline hidden md:block"></div>
-
     <!-- NAVBAR -->
-    <nav class="fixed w-full z-50 top-0 px-6 py-6 flex justify-between items-center mix-blend-difference">
-        <a href="#" class="font-display font-bold text-xl tracking-tighter text-white">RENDER<span class="text-acid">.</span></a>
-        <a href="https://wa.me/5350172941" target="_blank" class="font-sans text-xs md:text-sm font-bold uppercase tracking-widest text-white hover:text-acid transition-colors">
-            Estado: Disponible
+    <nav class="fixed w-full z-50 top-0 px-6 py-6 flex justify-between items-center mix-blend-multiply bg-paper/80 backdrop-blur-sm border-b border-black/5">
+        <a href="#" class="font-sans font-bold text-xl tracking-tight">RENDER<span class="text-xs align-top">®</span></a>
+        
+        <div class="hidden md:flex gap-8 text-sm font-medium text-stone">
+            <a href="#servicios" class="hover:text-ink transition-colors">Servicios</a>
+            <a href="#filosofia" class="hover:text-ink transition-colors">Filosofía</a>
+            <a href="proyectos.html" class="hover:text-ink transition-colors">Proyectos</a>
+        </div>
+
+        <a href="https://wa.me/5350172941" target="_blank" class="font-sans text-xs font-bold uppercase tracking-widest border border-ink px-6 py-3 rounded-full hover:bg-ink hover:text-paper transition-all duration-500">
+            Iniciar Proyecto
         </a>
     </nav>
 
     <!-- HERO SECTION -->
-    <main class="relative pt-32 pb-20 px-6 md:px-12 min-h-screen flex flex-col justify-center">
+    <main class="relative pt-32 pb-20 px-4 md:px-12 min-h-screen flex flex-col justify-center">
         
-        <!-- Texto Gigante -->
-        <div class="max-w-[1800px] mx-auto w-full z-10">
-            <div class="overflow-hidden">
-                <h1 class="big-text font-display font-bold uppercase text-white reveal-up">
-                    Landing
-                </h1>
+        <!-- Texto Principal (Elegante y Grande) -->
+        <div class="max-w-[1600px] mx-auto w-full z-10 mb-12">
+            <div>
+                <div class="word-mask"><h1 class="hero-title font-serif font-light word-reveal">Diseño web</h1></div>
             </div>
-            <div class="overflow-hidden flex items-center gap-4 md:gap-12">
-                <div class="h-[2px] w-12 md:w-32 bg-acid reveal-up" style="transition-delay: 0.1s"></div>
-                <h1 class="big-text font-display font-bold uppercase stroke-text reveal-up" style="transition-delay: 0.2s">
-                    Pages
-                </h1>
+            <div>
+                <div class="word-mask"><h1 class="hero-title font-serif font-light italic text-stone word-reveal">que genera</h1></div>
             </div>
-            <div class="overflow-hidden text-right">
-                <h1 class="big-text font-display font-bold uppercase text-white reveal-up" style="transition-delay: 0.3s">
-                    Specialist
-                </h1>
+            <div>
+                <div class="word-mask"><h1 class="hero-title font-serif font-light word-reveal">Resultados.</h1></div>
             </div>
         </div>
 
-        <!-- Info & Botones -->
-        <div class="flex flex-col md:flex-row justify-between items-end mt-20 max-w-[1800px] mx-auto w-full gap-10 z-10">
-            <div class="max-w-md space-y-6 reveal-up" style="transition-delay: 0.4s">
-                <p class="font-sans text-gray-400 text-lg leading-relaxed">
-                    Estrategia digital desde <span class="text-white font-bold">Cuba</span> para el mundo. 
-                    Diseño sitios web ultra-optimizados que posicionan tu negocio por encima de la competencia.
-                </p>
-                <div class="flex flex-wrap gap-4">
-                    <span class="px-3 py-1 border border-white/20 rounded-full text-[10px] uppercase tracking-widest text-acid">Velocidad</span>
-                    <span class="px-3 py-1 border border-white/20 rounded-full text-[10px] uppercase tracking-widest text-acid">Diseño Único</span>
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-end max-w-[1600px] mx-auto w-full">
+            <!-- Imagen Decorativa (Minimalista) -->
+            <div class="md:col-span-5 relative overflow-hidden rounded-lg">
+                <div class="aspect-[16/9] bg-stone/20 img-reveal" id="hero-img">
+                    <img src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover grayscale opacity-80 hover:opacity-100 transition-opacity duration-700">
                 </div>
             </div>
 
-            <div class="flex flex-col sm:flex-row gap-6 reveal-up" style="transition-delay: 0.5s">
-                <a href="proyectos.html" class="group relative px-8 py-4 bg-white text-black font-bold font-display uppercase tracking-wider overflow-hidden rounded-sm transition-all hover:scale-105">
-                    <div class="absolute inset-0 w-full h-full bg-acid translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-                    <span class="relative z-10 flex items-center gap-2">
-                        Ver Ejemplos <i class="ph-bold ph-arrow-up-right"></i>
-                    </span>
-                </a>
+            <!-- Texto Descriptivo -->
+            <div class="md:col-span-7 pb-4">
+                <p class="font-sans text-lg md:text-2xl leading-relaxed text-stone max-w-2xl ml-auto reveal-up opacity-0">
+                    Ayudamos a marcas ambiciosas a destacar. Especialistas en <strong class="text-ink font-semibold">Landing Pages de alto rendimiento</strong> que convierten visitas en clientes. Estética impecable, velocidad extrema.
+                </p>
                 
-                <a href="https://wa.me/5350172941" class="px-8 py-4 border border-white/20 text-white font-bold font-display uppercase tracking-wider hover:bg-white/5 transition-all text-center">
-                    Cotizar Ahora
-                </a>
+                <div class="flex gap-6 mt-10 ml-auto justify-start md:justify-end reveal-up opacity-0">
+                    <a href="proyectos.html" class="group flex items-center gap-2 text-ink border-b border-ink pb-1">
+                        Ver Portafolio Selecto
+                        <i class="ph-light ph-arrow-right group-hover:translate-x-2 transition-transform"></i>
+                    </a>
+                </div>
             </div>
-        </div>
-        
-        <!-- Fondo Decorativo -->
-        <div class="absolute inset-0 z-0 opacity-20" 
-             style="background-image: radial-gradient(#333 1px, transparent 1px); background-size: 40px 40px;">
         </div>
     </main>
 
-    <!-- MARQUEE INFINITO -->
-    <section class="py-20 border-t border-white/10 overflow-hidden bg-void relative z-20">
-        <div id="marquee" class="whitespace-nowrap flex gap-10 opacity-50 select-none">
-            <span class="text-6xl md:text-8xl font-display font-bold stroke-text">OPTIMIZACIÓN</span>
-            <span class="text-6xl md:text-8xl font-display font-bold text-acid">///</span>
-            <span class="text-6xl md:text-8xl font-display font-bold stroke-text">CONVERSIÓN</span>
-            <span class="text-6xl md:text-8xl font-display font-bold text-acid">///</span>
-            <span class="text-6xl md:text-8xl font-display font-bold stroke-text">ANIMACIÓN</span>
-            <span class="text-6xl md:text-8xl font-display font-bold text-acid">///</span>
-             <span class="text-6xl md:text-8xl font-display font-bold stroke-text">VELOCIDAD</span>
-            <span class="text-6xl md:text-8xl font-display font-bold text-acid">///</span>
+    <!-- SECCIÓN DE SERVICIOS (LIMPIA Y ORDENADA) -->
+    <section id="servicios" class="py-32 border-t border-black/5">
+        <div class="container mx-auto px-6 max-w-[1600px]">
+            <div class="flex flex-col md:flex-row justify-between items-start mb-20">
+                <span class="text-xs font-bold uppercase tracking-[0.2em] text-stone">01 — Expertise</span>
+                <h2 class="text-4xl md:text-6xl font-serif mt-4 md:mt-0">Lo que hacemos mejor.</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-black/10 border border-black/10">
+                
+                <!-- Card 1 -->
+                <div class="bg-paper p-12 hover:bg-sand/20 transition-colors duration-500 group cursor-default">
+                    <i class="ph-thin ph-monitor text-5xl mb-8 text-stone group-hover:text-ink transition-colors"></i>
+                    <h3 class="text-2xl font-bold mb-4">Landing Pages</h3>
+                    <p class="text-stone leading-relaxed text-sm">
+                        Diseñadas psicológicamente para vender. Eliminamos distracciones y guiamos al usuario hacia la compra.
+                    </p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-paper p-12 hover:bg-sand/20 transition-colors duration-500 group cursor-default">
+                    <i class="ph-thin ph-rocket text-5xl mb-8 text-stone group-hover:text-ink transition-colors"></i>
+                    <h3 class="text-2xl font-bold mb-4">Optimización Velocidad</h3>
+                    <p class="text-stone leading-relaxed text-sm">
+                        Nadie espera una web lenta. Optimizamos código e imágenes para cargas instantáneas, incluso en 3G.
+                    </p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-paper p-12 hover:bg-sand/20 transition-colors duration-500 group cursor-default">
+                    <i class="ph-thin ph-paint-brush-broad text-5xl mb-8 text-stone group-hover:text-ink transition-colors"></i>
+                    <h3 class="text-2xl font-bold mb-4">Diseño Premium</h3>
+                    <p class="text-stone leading-relaxed text-sm">
+                        Estética minimalista y moderna que eleva el valor percibido de tu marca instantáneamente.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- UBICACIÓN (CONFIANZA) -->
+    <section id="filosofia" class="py-24 bg-ink text-paper relative overflow-hidden">
+        <div class="container mx-auto px-6 relative z-10 flex flex-col md:flex-row items-center justify-between gap-12">
+            <div class="md:w-1/2">
+                <span class="text-xs font-bold uppercase tracking-[0.2em] text-stone mb-4 block">Estrategia Global</span>
+                <h2 class="text-4xl md:text-6xl font-serif mb-8">Talento desde Cuba <br>para el mundo.</h2>
+                <p class="text-stone text-lg leading-relaxed mb-8 max-w-md">
+                    No somos una agencia masiva. Somos un estudio boutique enfocado en la calidad artesanal. Al trabajar con nosotros, obtienes dedicación total y precios competitivos sin sacrificar la excelencia.
+                </p>
+                <div class="flex gap-4">
+                    <div class="bg-paper/10 backdrop-blur px-6 py-3 rounded-sm flex items-center gap-3">
+                        <i class="ph-fill ph-check-circle text-green-400"></i>
+                        <span class="text-sm font-bold">Código Limpio</span>
+                    </div>
+                    <div class="bg-paper/10 backdrop-blur px-6 py-3 rounded-sm flex items-center gap-3">
+                        <i class="ph-fill ph-check-circle text-green-400"></i>
+                        <span class="text-sm font-bold">Soporte Directo</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mapa Estético Abstracto -->
+            <div class="md:w-1/2 h-[400px] w-full bg-stone/20 rounded-lg overflow-hidden relative grayscale hover:grayscale-0 transition-all duration-700">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d117260.65581977717!2d-82.46309489679199!3d23.05697728959952!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88cd774cbdf600e1%3A0x4e290281315dc436!2sLa%20Habana%2C%20Cuba!5e0!3m2!1ses!2s!4v1707500000000" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
         </div>
     </section>
 
     <!-- FOOTER -->
-    <footer class="py-12 px-6 border-t border-white/10 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
-        <p>&copy; 2026 RENDER. <span class="text-acid">Dev_Mode: ON</span></p>
-        <p class="mt-2 md:mt-0">La Habana, Cuba — Worldwide</p>
+    <footer class="py-12 border-t border-black/5 bg-paper">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div>
+                <h4 class="font-bold text-lg">RENDER STUDIO</h4>
+                <p class="text-stone text-xs mt-1">Design & Development.</p>
+            </div>
+            
+            <div class="flex gap-8 text-sm font-medium">
+                <a href="mailto:contacto@render.com" class="hover:text-stone transition-colors">Email</a>
+                <a href="#" class="hover:text-stone transition-colors">Instagram</a>
+                <a href="#" class="hover:text-stone transition-colors">LinkedIn</a>
+            </div>
+
+            <p class="text-xs text-stone">&copy; 2026. Todos los derechos reservados.</p>
+        </div>
     </footer>
 
-    <!-- LOGICA SEGURA (BULLETPROOF) -->
+    <!-- JAVASCRIPT ANIMACIONES (ELEGANTES) -->
     <script>
-        // 1. Lógica del Preloader (Sin dependencias externas)
-        document.addEventListener("DOMContentLoaded", () => {
-            const counterElement = document.getElementById('counter');
-            const preloader = document.getElementById('preloader');
-            const elementsToReveal = document.querySelectorAll('.reveal-up');
-            
-            let count = 0;
-            
-            // Función para cerrar el loader
-            const finishLoader = () => {
-                clearInterval(interval);
-                counterElement.innerText = "100";
-                
-                // Mover preloader hacia arriba
-                preloader.classList.add('loaded');
-                
-                // Activar elementos de la página
-                setTimeout(() => {
-                    elementsToReveal.forEach(el => el.classList.add('active'));
-                }, 500);
-            };
+        // 1. Smooth Scroll (Lenis)
+        const lenis = new Lenis({
+            duration: 1.5, // Más lento y suave
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
+            smooth: true
+        });
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
 
-            const interval = setInterval(() => {
-                count += Math.floor(Math.random() * 5) + 2; // Sube aleatoriamente
-                if (count >= 100) {
-                    finishLoader();
-                } else {
-                    counterElement.innerText = count;
-                }
-            }, 50);
+        // 2. Animaciones GSAP
+        gsap.registerPlugin(ScrollTrigger);
 
-            // SEGURIDAD: Si por algo falla, abrir a los 4 segundos máximo
-            setTimeout(() => {
-                if (!preloader.classList.contains('loaded')) {
-                    finishLoader();
-                }
-            }, 4000);
+        // Loader
+        window.addEventListener('load', () => {
+            const tl = gsap.timeline();
+            
+            // Texto sube y desaparece
+            tl.to("#loader-text", { y: -100, duration: 1, ease: "power4.in" })
+            // Cortina sube
+              .to("#curtain", { yPercent: -100, duration: 1.2, ease: "power4.inOut" })
+            // Imagen Hero se revela
+              .to("#hero-img", { clipPath: "inset(0 0 0 0)", duration: 1.5, ease: "power4.out" }, "-=0.5")
+            // Palabras del título suben una por una
+              .to(".word-reveal", { y: 0, duration: 1, stagger: 0.15, ease: "power4.out" }, "-=1")
+            // Texto descripción aparece
+              .to(".reveal-up", { y: 0, opacity: 1, duration: 1, stagger: 0.1, ease: "power2.out" }, "-=0.5");
         });
 
-        // 2. Intentar cargar Cursor y Lenis (Solo si las librerías cargaron)
-        window.onload = () => {
-            // Animación Marquee Simple
-            const marquee = document.getElementById('marquee');
-            let marqueePos = 0;
-            function animateMarquee() {
-                marqueePos -= 1;
-                if (marqueePos <= -1000) marqueePos = 0; // Reset simple
-                marquee.style.transform = `translateX(${marqueePos}px)`;
-                requestAnimationFrame(animateMarquee);
-            }
-            animateMarquee();
+        // Animación suave al hacer scroll para los servicios
+        gsap.from("#servicios .bg-paper", {
+            scrollTrigger: {
+                trigger: "#servicios",
+                start: "top 80%",
+            },
+            y: 50,
+            opacity: 0,
+            duration: 1,
+            stagger: 0.2,
+            ease: "power3.out"
+        });
 
-            // Cursor Magnético
-            const dot = document.querySelector('.cursor-dot');
-            const outline = document.querySelector('.cursor-outline');
-            
-            if (dot && outline) {
-                window.addEventListener('mousemove', (e) => {
-                    const x = e.clientX;
-                    const y = e.clientY;
-                    
-                    dot.style.top = y + 'px';
-                    dot.style.left = x + 'px';
-                    
-                    // Pequeño delay manual para el outline
-                    setTimeout(() => {
-                        outline.style.top = y + 'px';
-                        outline.style.left = x + 'px';
-                    }, 50);
-                });
-            }
-
-            // Scroll Suave (Si Lenis cargó)
-            if (typeof Lenis !== 'undefined') {
-                const lenis = new Lenis();
-                function raf(time) {
-                    lenis.raf(time);
-                    requestAnimationFrame(raf);
-                }
-                requestAnimationFrame(raf);
-            }
-        };
     </script>
 </body>
 </html>
