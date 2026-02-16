@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>RENDER | Strategic Studio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="description" content="Estudio de ingeniería web y estrategia digital. Transformamos negocios en activos digitales de alto rendimiento.">
+    <meta name="theme-color" content="#0A0A0A">
+    
+    <title>RENDER | Ingeniería Web & Estrategia</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -11,7 +14,7 @@
     <!-- Fuentes Premium -->
     <link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet">
     
-    <!-- Librerías (GSAP + Lenis) -->
+    <!-- Librerías de Animación -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.29/dist/lenis.min.js"></script>
@@ -33,8 +36,8 @@
                         'graphite': '#2D2D2D',
                         'accent': '#0044FF', 
                     },
-                    screens: {
-                        'xs': '375px',
+                    animation: {
+                        'spin-slow': 'spin 12s linear infinite',
                     }
                 }
             }
@@ -42,31 +45,43 @@
     </script>
 
     <style>
-        /* RESET & BASE */
-        html, body {
-            width: 100%;
-            overflow-x: hidden;
+        /* BASE */
+        html.lenis { height: auto; } 
+        .lenis.lenis-smooth { scroll-behavior: auto !important; }
+        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+        .lenis.lenis-stopped { overflow: hidden; }
+
+        body {
             background-color: #F5F5F0;
             color: #0A0A0A;
             -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
         }
 
-        /* TEXTURA DE FONDO SUTIL */
-        .noise {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 50; opacity: 0.03;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        /* Bloqueo de scroll inicial */
+        body.loading { overflow: hidden; height: 100vh; }
+
+        /* TEXTURA (Optimizada: solo visible en desktop para ahorrar batería) */
+        @media (min-width: 1024px) {
+            .noise {
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                pointer-events: none; z-index: 40; opacity: 0.04;
+                background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            }
         }
 
-        /* CURSOR */
+        /* CURSOR CUSTOM */
         @media (min-width: 1024px) {
             body { cursor: none; }
+            a, button, .hover-trigger { cursor: none; }
             #cursor {
-                position: fixed; top: 0; left: 0; width: 16px; height: 16px;
-                background: #0A0A0A; border-radius: 50%; pointer-events: none; z-index: 9999;
-                transform: translate(-50%, -50%); transition: transform 0.1s;
-                mix-blend-mode: difference; filter: invert(1);
+                position: fixed; top: 0; left: 0; width: 12px; height: 12px;
+                background: #eb5939; border-radius: 50%; pointer-events: none; z-index: 9999;
+                transform: translate(-50%, -50%); transition: transform 0.15s ease-out, width 0.3s, height 0.3s;
+                mix-blend-mode: exclusion;
             }
+            #cursor.hovered { width: 40px; height: 40px; background: white; mix-blend-mode: difference; }
         }
         @media (max-width: 1023px) { #cursor { display: none; } }
 
@@ -74,287 +89,320 @@
         #preloader {
             position: fixed; inset: 0; background: #0A0A0A; z-index: 10000;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transition: transform 0.8s cubic-bezier(0.76, 0, 0.24, 1);
         }
         
-        /* MARQUEE */
-        .marquee-wrapper { display: flex; overflow: hidden; user-select: none; gap: 2rem; }
-        .marquee-content { flex-shrink: 0; display: flex; gap: 2rem; min-width: 100%; animation: scroll 25s linear infinite; }
+        /* MARQUEE ANIMATION */
+        .marquee-container { display: flex; overflow: hidden; user-select: none; mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); }
+        .marquee-content { flex-shrink: 0; display: flex; gap: 0; min-width: 100%; animation: scroll 30s linear infinite; }
         @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-100%); } }
 
-        /* TIPOGRAFÍA RESPONSIVA */
-        .hero-title {
-            font-size: clamp(3rem, 12vw, 9rem);
-            line-height: 0.9;
-            letter-spacing: -0.02em;
-        }
-        
-        .reveal-text { opacity: 0; transform: translateY(30px); transition: all 1s ease; }
-        .reveal-text.visible { opacity: 1; transform: translateY(0); }
+        /* TEXT REVEAL UTILS */
+        .reveal-wrap { overflow: hidden; }
+        .reveal-text { transform: translateY(100%); transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1); }
+        .is-visible .reveal-text { transform: translateY(0); }
     </style>
 </head>
-<body class="antialiased">
+<body class="loading antialiased selection:bg-black selection:text-white">
 
     <div class="noise"></div>
     <div id="cursor"></div>
 
     <!-- PRELOADER -->
     <div id="preloader">
-        <h1 class="font-display text-4xl text-white tracking-widest uppercase mb-4 animate-pulse">Render Studio</h1>
-        <div class="w-48 h-[1px] bg-white/20 overflow-hidden">
-            <div id="loader-bar" class="w-0 h-full bg-white transition-all duration-1000 ease-out"></div>
+        <div class="flex flex-col items-center">
+            <h1 class="font-display text-4xl md:text-6xl text-white tracking-tighter uppercase mb-6">Render<span class="text-xs align-top">®</span></h1>
+            <div class="w-64 h-[2px] bg-white/10 rounded-full overflow-hidden">
+                <div id="loader-bar" class="w-0 h-full bg-white transition-all duration-[1500ms] ease-in-out"></div>
+            </div>
+            <p class="mt-4 text-white/40 text-xs font-mono uppercase tracking-widest">Loading System</p>
         </div>
     </div>
 
     <!-- NAVBAR -->
-    <nav class="fixed top-0 w-full px-6 py-5 md:px-12 md:py-6 flex justify-between items-center z-50 mix-blend-difference text-white">
-        <a href="#" class="font-display font-bold text-2xl tracking-tight z-50">RENDER<span class="text-xs align-top">®</span></a>
+    <nav class="fixed top-0 w-full px-6 py-5 md:px-12 md:py-6 flex justify-between items-center z-50">
+        <!-- Logo con mix-blend para asegurar visibilidad -->
+        <a href="#" class="hover-trigger font-display font-bold text-2xl tracking-tight relative z-50 text-black mix-blend-difference invert filter">
+            RENDER
+        </a>
         
-        <div class="hidden md:flex gap-8 text-sm font-medium tracking-wide">
-            <a href="#servicios" class="hover:text-gray-400 transition-colors">Servicios</a>
-            <a href="#proceso" class="hover:text-gray-400 transition-colors">Proceso</a>
+        <div class="hidden md:flex gap-8 text-sm font-medium tracking-wide bg-white/80 backdrop-blur-md px-6 py-3 rounded-full border border-black/5 shadow-sm">
+            <a href="#servicios" class="hover-trigger hover:text-gray-500 transition-colors">Servicios</a>
+            <a href="#filosofia" class="hover-trigger hover:text-gray-500 transition-colors">Filosofía</a>
         </div>
 
-        <a href="https://wa.me/5350172941" class="hidden md:block border border-white/30 rounded-full px-6 py-2 text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all">
+        <a href="https://wa.me/5350172941" target="_blank" class="hover-trigger bg-void text-white border border-transparent rounded-full px-6 py-2.5 text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-black hover:border-black transition-all shadow-lg">
             Hablar Ahora
-        </a>
-
-        <a href="https://wa.me/5350172941" class="md:hidden border border-white/40 px-4 py-2 rounded-full text-[10px] font-bold uppercase">
-            Contacto
         </a>
     </nav>
 
-    <!-- HERO SECTION (ESTRUCTURA CORREGIDA) -->
-    <!-- h-screen asegura que ocupe toda la pantalla. justify-between distribuye el contenido -->
-    <header class="relative h-screen flex flex-col pt-32 pb-12 px-6 md:px-12">
-        
-        <!-- Título CENTRADO (Ocupa el espacio central, eliminando el hueco blanco) -->
-        <div class="flex-1 flex flex-col justify-center border-b border-black/10">
-            <h1 class="hero-title font-display font-semibold uppercase text-void mb-2 reveal-text">
-                Digital
-            </h1>
-            <div class="flex items-center gap-4 reveal-text" style="transition-delay: 0.1s;">
-                <div class="h-[2px] w-12 md:w-32 bg-void"></div>
-                <h1 class="hero-title font-display font-semibold uppercase text-void">
+    <!-- HERO SECTION -->
+    <header class="relative min-h-screen flex flex-col justify-center px-6 md:px-12 pt-20">
+        <div class="w-full max-w-[90rem] mx-auto">
+            <div class="reveal-wrap mb-2">
+                <h1 class="hero-text reveal-text font-display font-semibold text-[13vw] leading-[0.8] tracking-tighter text-void uppercase">
+                    Digital
+                </h1>
+            </div>
+            <div class="reveal-wrap flex items-center gap-4 md:gap-8">
+                <div class="hero-line reveal-text w-12 md:w-32 h-2 md:h-4 bg-void mt-2 md:mt-4"></div>
+                <h1 class="hero-text reveal-text font-display font-semibold text-[13vw] leading-[0.8] tracking-tighter text-void uppercase">
                     Precision
                 </h1>
             </div>
-        </div>
 
-        <!-- Información Inferior (Pegada abajo) -->
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-end mt-8 gap-8">
-            <p class="font-sans text-lg md:text-xl text-graphite max-w-md leading-relaxed reveal-text" style="transition-delay: 0.2s;">
-                Estudio de ingeniería web. Transformamos negocios en <span class="font-bold underline decoration-1 underline-offset-4">activos digitales</span> de alto rendimiento.
-            </p>
-            
-            <div class="flex flex-col gap-2 reveal-text" style="transition-delay: 0.3s;">
-                <span class="text-xs font-bold uppercase tracking-widest text-gray-500">Ubicación</span>
-                <span class="font-display text-xl flex items-center gap-2">
-                    La Habana, Cuba <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                </span>
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mt-12 md:mt-20 gap-8 border-t border-black/10 pt-8">
+                <div class="max-w-md reveal-wrap">
+                    <p class="reveal-text text-graphite text-lg md:text-xl font-medium leading-relaxed">
+                        Estudio de ingeniería web. Convertimos tu negocio en un <span class="underline decoration-2 underline-offset-4">sistema de ventas</span> rápido, seguro y escalable.
+                    </p>
+                </div>
+                
+                <div class="flex flex-col gap-1 reveal-wrap text-right">
+                    <span class="reveal-text text-xs font-bold uppercase tracking-widest text-gray-400">Status</span>
+                    <span class="reveal-text font-display text-lg flex items-center justify-end gap-2">
+                        Aceptando Proyectos <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                    </span>
+                </div>
             </div>
         </div>
     </header>
 
     <!-- MARQUEE -->
-    <div class="bg-void text-paper py-6 md:py-8 border-y border-white/10 overflow-hidden relative z-10">
-        <div class="marquee-wrapper">
-            <div class="marquee-content font-display text-4xl md:text-6xl uppercase font-bold">
-                <span class="mx-8">Estrategia</span> <span class="text-gray-600">///</span>
-                <span class="mx-8">Desarrollo</span> <span class="text-gray-600">///</span>
-                <span class="mx-8">Diseño UI</span> <span class="text-gray-600">///</span>
-                <span class="mx-8">Velocidad</span> <span class="text-gray-600">///</span>
-                <span class="mx-8">Estrategia</span> <span class="text-gray-600">///</span>
-                <span class="mx-8">Desarrollo</span> <span class="text-gray-600">///</span>
-                <span class="mx-8">Diseño UI</span> <span class="text-gray-600">///</span>
-                <span class="mx-8">Velocidad</span> <span class="text-gray-600">///</span>
+    <div class="bg-void text-paper py-8 border-y border-white/10 relative z-10">
+        <div class="marquee-container">
+            <!-- Duplicado 4 veces para asegurar loop infinito suave -->
+            <div class="marquee-content font-display text-5xl md:text-7xl uppercase font-bold whitespace-nowrap">
+                <span class="mx-8">Development</span> <span class="text-white/20">///</span>
+                <span class="mx-8">UI Design</span> <span class="text-white/20">///</span>
+                <span class="mx-8">Strategy</span> <span class="text-white/20">///</span>
+                <span class="mx-8">Performance</span> <span class="text-white/20">///</span>
             </div>
-            <div class="marquee-content" aria-hidden="true">
-                <span class="mx-8">Estrategia</span> <span class="text-gray-600">///</span>
-                <span class="mx-8">Desarrollo</span> <span class="text-gray-600">///</span>
-                <span class="mx-8">Diseño UI</span> <span class="text-gray-600">///</span>
-                <span class="mx-8">Velocidad</span> <span class="text-gray-600">///</span>
-                <span class="mx-8">Estrategia</span> <span class="text-gray-600">///</span>
-                <span class="mx-8">Desarrollo</span> <span class="text-gray-600">///</span>
-                <span class="mx-8">Diseño UI</span> <span class="text-gray-600">///</span>
-                <span class="mx-8">Velocidad</span> <span class="text-gray-600">///</span>
+            <div class="marquee-content font-display text-5xl md:text-7xl uppercase font-bold whitespace-nowrap" aria-hidden="true">
+                <span class="mx-8">Development</span> <span class="text-white/20">///</span>
+                <span class="mx-8">UI Design</span> <span class="text-white/20">///</span>
+                <span class="mx-8">Strategy</span> <span class="text-white/20">///</span>
+                <span class="mx-8">Performance</span> <span class="text-white/20">///</span>
             </div>
         </div>
     </div>
 
-    <!-- IMAGEN PARALLAX (CORREGIDA) -->
-    <section class="py-20 md:py-32 px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-        <!-- Contenedor con overflow-hidden -->
-        <div class="relative w-full aspect-[4/5] md:aspect-square bg-gray-200 overflow-hidden rounded-sm shadow-2xl">
-            <!-- Imagen con escala 125% para tener margen de movimiento y no dejar huecos -->
+    <!-- PHILOSOPHY / PARALLAX -->
+    <section id="filosofia" class="py-24 md:py-40 px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center max-w-[90rem] mx-auto">
+        <!-- Imagen Parallax -->
+        <div class="relative w-full aspect-[3/4] lg:aspect-square bg-gray-200 overflow-hidden shadow-2xl group">
             <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop" 
-                 class="absolute top-[-10%] left-[-10%] w-[120%] h-[120%] object-cover grayscale hover:grayscale-0 transition-all duration-700 parallax-img"
-                 alt="Arquitectura Digital">
-            
-            <div class="absolute bottom-4 left-4 bg-white/90 px-4 py-2 text-xs font-bold uppercase tracking-widest z-10">
-                System Architecture
-            </div>
+                 class="parallax-img absolute top-[-15%] left-0 w-full h-[130%] object-cover filter grayscale contrast-125 group-hover:grayscale-0 transition-all duration-700"
+                 alt="Arquitectura Digital Minimalista">
         </div>
 
         <div class="flex flex-col justify-center">
-            <span class="text-xs font-bold uppercase tracking-[0.2em] text-gray-400 mb-6">01 — Filosofía</span>
-            <h2 class="font-display text-3xl md:text-5xl leading-tight mb-8">
-                El código limpio es nuestra firma.
+            <span class="text-xs font-bold uppercase tracking-[0.2em] text-gray-400 mb-6">01 — Manifiesto</span>
+            <h2 class="font-display text-4xl md:text-6xl font-medium leading-[1.1] mb-8">
+                No hacemos webs,<br>construimos activos.
             </h2>
-            <p class="text-graphite/80 text-lg leading-relaxed mb-8">
-                Olvídate de las webs lentas que usan plantillas genéricas. Nosotros construimos activos digitales desde cero, garantizando seguridad, velocidad y una experiencia de usuario que retiene clientes.
+            <p class="text-graphite/80 text-lg md:text-xl leading-relaxed mb-10 max-w-lg">
+                El 90% de las webs en Cuba son plantillas lentas. Nosotros programamos desde cero. Código limpio significa mejor posición en Google y clientes que no se van por esperar a que cargue.
             </p>
             
-            <ul class="space-y-4 border-t border-black/10 pt-6">
-                <li class="flex items-center gap-3 font-sans font-medium">
-                    <i class="ph-bold ph-check text-accent"></i> Sin constructores visuales pesados
-                </li>
-                <li class="flex items-center gap-3 font-sans font-medium">
-                    <i class="ph-bold ph-check text-accent"></i> Optimización SEO Técnica
-                </li>
-                <li class="flex items-center gap-3 font-sans font-medium">
-                    <i class="ph-bold ph-check text-accent"></i> Servidores de Alta Velocidad
-                </li>
-            </ul>
-        </div>
-    </section>
-
-    <!-- SERVICIOS LISTA -->
-    <section id="servicios" class="py-20 px-6 md:px-12 bg-white">
-        <h2 class="font-display text-4xl mb-12 border-b border-black/10 pb-4">Servicios Selectos</h2>
-        
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="group p-8 border border-black/5 hover:border-black hover:shadow-xl transition-all duration-300">
-                <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mb-6 group-hover:bg-void group-hover:text-white transition-colors">
-                    <i class="ph-bold ph-code text-2xl"></i>
+            <div class="space-y-6 border-l-2 border-black/10 pl-6">
+                <div>
+                    <h4 class="font-bold text-lg mb-1">Velocidad Extrema</h4>
+                    <p class="text-sm text-gray-500">Optimizadas para conexiones lentas (3G/4G).</p>
                 </div>
-                <h3 class="font-display text-2xl font-bold mb-4">Ingeniería Web</h3>
-                <p class="text-sm text-gray-500 leading-relaxed">
-                    Desarrollo a medida. Creamos sitios que cargan instantáneamente en conexiones lentas, ideales para el mercado cubano e internacional.
-                </p>
-            </div>
-
-            <div class="group p-8 border border-black/5 hover:border-black hover:shadow-xl transition-all duration-300 bg-void text-white">
-                <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center mb-6">
-                    <i class="ph-bold ph-paint-brush text-2xl"></i>
+                <div>
+                    <h4 class="font-bold text-lg mb-1">Diseño de Autoridad</h4>
+                    <p class="text-sm text-gray-500">Estética que justifica precios altos.</p>
                 </div>
-                <h3 class="font-display text-2xl font-bold mb-4">Diseño UI/UX</h3>
-                <p class="text-sm text-gray-400 leading-relaxed">
-                    Estética minimalista y corporativa. Diseñamos interfaces que transmiten autoridad y eliminan la fricción de compra.
-                </p>
-            </div>
-
-            <div class="group p-8 border border-black/5 hover:border-black hover:shadow-xl transition-all duration-300">
-                <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mb-6 group-hover:bg-void group-hover:text-white transition-colors">
-                    <i class="ph-bold ph-chart-line-up text-2xl"></i>
-                </div>
-                <h3 class="font-display text-2xl font-bold mb-4">Estrategia</h3>
-                <p class="text-sm text-gray-500 leading-relaxed">
-                    No solo entregamos código. Analizamos tu modelo de negocio para crear una herramienta digital que realmente genere ventas.
-                </p>
             </div>
         </div>
     </section>
 
-    <!-- FOOTER -->
-    <footer class="bg-void text-paper pt-24 pb-8 px-6 md:px-12">
-        <div class="flex flex-col md:flex-row justify-between items-start mb-20 gap-12">
-            <div class="max-w-xl">
-                <h2 class="font-display text-5xl md:text-7xl mb-8 leading-none tracking-tight">
-                    LET'S WORK <br> TOGETHER.
-                </h2>
-                <a href="https://wa.me/5350172941" class="inline-flex items-center gap-2 text-lg md:text-xl border-b border-white pb-2 hover:pl-4 transition-all duration-300">
-                    Iniciar Chat en WhatsApp <i class="ph-bold ph-arrow-right"></i>
-                </a>
+    <!-- SERVICES -->
+    <section id="servicios" class="py-24 px-6 md:px-12 bg-white">
+        <div class="max-w-[90rem] mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16 pb-4 border-b border-black/10">
+                <h2 class="font-display text-4xl md:text-5xl font-medium">Servicios Selectos</h2>
+                <p class="text-sm text-gray-400 uppercase tracking-widest mt-4 md:mt-0">Soluciones Integrales</p>
             </div>
             
-            <div class="text-right w-full md:w-auto">
-                <p class="text-xs text-gray-500 uppercase tracking-widest mb-2">Contacto</p>
-                <!-- CORREO CORREGIDO -->
-                <p class="text-lg md:text-xl mb-1">onrenderservices@gmail.com</p>
-                <p class="text-lg md:text-xl">+53 5017 2941</p>
-                
-                <div class="flex gap-4 justify-end mt-6">
-                    <a href="#" class="text-gray-500 hover:text-white transition-colors">INSTAGRAM</a>
-                    <a href="#" class="text-gray-500 hover:text-white transition-colors">LINKEDIN</a>
-                </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Card 1 -->
+                <article class="group hover-trigger p-8 border border-black/10 bg-paper hover:bg-void hover:text-white transition-all duration-300 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 font-display text-8xl font-bold group-hover:opacity-20">01</div>
+                    <i class="ph-bold ph-code text-3xl mb-32 block text-accent group-hover:text-white"></i>
+                    <h3 class="font-display text-2xl font-bold mb-4">Ingeniería Web</h3>
+                    <p class="text-sm opacity-70 leading-relaxed">
+                        Desarrollo a medida sin constructores visuales. React, Next.js o HTML puro para máximo rendimiento.
+                    </p>
+                </article>
+
+                <!-- Card 2 -->
+                <article class="group hover-trigger p-8 border border-black/10 bg-void text-white relative overflow-hidden transform md:-translate-y-4 shadow-xl">
+                    <div class="absolute top-0 right-0 p-4 opacity-20 font-display text-8xl font-bold">02</div>
+                    <i class="ph-bold ph-paint-brush text-3xl mb-32 block text-white"></i>
+                    <h3 class="font-display text-2xl font-bold mb-4">Diseño UI/UX</h3>
+                    <p class="text-sm opacity-70 leading-relaxed">
+                        Interfaces limpias que guían al usuario hacia la compra. Minimalismo funcional y estético.
+                    </p>
+                </article>
+
+                <!-- Card 3 -->
+                <article class="group hover-trigger p-8 border border-black/10 bg-paper hover:bg-void hover:text-white transition-all duration-300 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 font-display text-8xl font-bold group-hover:opacity-20">03</div>
+                    <i class="ph-bold ph-strategy text-3xl mb-32 block text-accent group-hover:text-white"></i>
+                    <h3 class="font-display text-2xl font-bold mb-4">Estrategia</h3>
+                    <p class="text-sm opacity-70 leading-relaxed">
+                        Análisis de mercado y embudos de venta. No solo entregamos una web, entregamos un negocio.
+                    </p>
+                </article>
             </div>
         </div>
+    </section>
 
-        <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500 uppercase tracking-wider gap-4">
-            <p>&copy; 2026 RENDER Studio.</p>
-            <p>La Habana — Worldwide</p>
+    <!-- CTA / FOOTER -->
+    <footer class="bg-void text-paper pt-24 pb-8 px-6 md:px-12 relative overflow-hidden">
+        <!-- Elemento decorativo de fondo -->
+        <div class="absolute top-[-20%] right-[-10%] w-[50vw] h-[50vw] bg-blue-600/10 rounded-full blur-[100px] pointer-events-none"></div>
+
+        <div class="max-w-[90rem] mx-auto relative z-10">
+            <div class="flex flex-col md:flex-row justify-between items-start mb-24 gap-12">
+                <div class="max-w-2xl">
+                    <h2 class="font-display text-5xl md:text-8xl mb-8 leading-[0.9] tracking-tight">
+                        LET'S BUILD <br> <span class="text-gray-600">THE FUTURE.</span>
+                    </h2>
+                    <a href="https://wa.me/5350172941" class="hover-trigger inline-flex items-center gap-4 text-xl md:text-2xl border-b border-white/30 pb-2 hover:border-white hover:pl-4 transition-all duration-300 group">
+                        Iniciar Proyecto <i class="ph-bold ph-arrow-right group-hover:translate-x-2 transition-transform"></i>
+                    </a>
+                </div>
+                
+                <div class="text-left md:text-right flex flex-col gap-6">
+                    <div>
+                        <p class="text-xs text-gray-500 uppercase tracking-widest mb-2">Contacto Directo</p>
+                        <a href="mailto:onrenderservices@gmail.com" class="hover-trigger block text-lg hover:text-white/70 transition-colors">onrenderservices@gmail.com</a>
+                        <a href="https://wa.me/5350172941" class="hover-trigger block text-lg hover:text-white/70 transition-colors">+53 5017 2941</a>
+                    </div>
+                    
+                    <div class="flex md:justify-end gap-6 pt-4">
+                        <a href="#" class="hover-trigger text-sm font-bold uppercase tracking-widest hover:text-accent transition-colors">Instagram</a>
+                        <a href="#" class="hover-trigger text-sm font-bold uppercase tracking-widest hover:text-accent transition-colors">LinkedIn</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-[10px] text-gray-500 uppercase tracking-widest gap-4">
+                <p>&copy; 2026 RENDER Studio. All rights reserved.</p>
+                <div class="flex gap-4">
+                    <span>La Habana</span>
+                    <span>•</span>
+                    <span>Mexico City</span>
+                    <span>•</span>
+                    <span>Remote</span>
+                </div>
+            </div>
         </div>
     </footer>
 
-    <!-- LÓGICA -->
+    <!-- LOGIC -->
     <script>
-        // 1. CURSOR
-        const cursor = document.getElementById('cursor');
-        if (window.matchMedia("(min-width: 1024px)").matches) {
-            document.addEventListener('mousemove', (e) => {
-                cursor.style.left = e.clientX + 'px';
-                cursor.style.top = e.clientY + 'px';
-            });
-            document.querySelectorAll('a, button').forEach(link => {
-                link.addEventListener('mouseenter', () => {
-                    cursor.style.transform = 'translate(-50%, -50%) scale(3)';
-                    cursor.style.background = '#fff';
-                });
-                link.addEventListener('mouseleave', () => {
-                    cursor.style.transform = 'translate(-50%, -50%) scale(1)';
-                    cursor.style.background = '#0A0A0A';
-                });
-            });
-        }
-
-        // 2. PRELOADER
-        window.addEventListener('DOMContentLoaded', () => {
-            const preloader = document.getElementById('preloader');
-            const bar = document.getElementById('loader-bar');
-            const texts = document.querySelectorAll('.reveal-text');
-
-            setTimeout(() => { bar.style.width = '100%'; }, 100);
-
-            setTimeout(() => {
-                preloader.style.transform = 'translateY(-100%)';
-                setTimeout(() => {
-                    texts.forEach((el, index) => {
-                        setTimeout(() => {
-                            el.classList.add('visible');
-                        }, index * 150);
-                    });
-                }, 500);
-            }, 1500);
+        // 1. SETUP LENIS (SMOOTH SCROLL)
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Easing exponencial suave
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
         });
 
-        // 3. SCROLL SUAVE
-        if (typeof Lenis !== 'undefined') {
-            const lenis = new Lenis({
-                duration: 1.2,
-                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-                smooth: true,
-            });
-            function raf(time) {
-                lenis.raf(time);
-                requestAnimationFrame(raf);
-            }
+        function raf(time) {
+            lenis.raf(time);
             requestAnimationFrame(raf);
         }
+        requestAnimationFrame(raf);
 
-        // 4. PARALLAX CORREGIDO (Zoom in image to prevent white spaces)
-        if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-            gsap.registerPlugin(ScrollTrigger);
+        // Integrar Lenis con ScrollTrigger
+        gsap.registerPlugin(ScrollTrigger);
+        
+        // 2. PRELOADER & ENTRANCE ANIMATIONS
+        window.addEventListener('load', () => {
+            const bar = document.getElementById('loader-bar');
+            const preloader = document.getElementById('preloader');
             
+            // Simular carga
+            bar.style.width = '100%';
+
+            // Timeline de entrada
+            const tl = gsap.timeline({
+                defaults: { ease: "power3.out" },
+                onComplete: () => {
+                    document.body.classList.remove('loading');
+                    // Iniciar animaciones de scroll después de la carga
+                    initScrollAnimations();
+                }
+            });
+
+            tl.to(preloader, {
+                yPercent: -100,
+                duration: 1,
+                delay: 0.8,
+                ease: "power4.inOut"
+            })
+            .to(".reveal-text", {
+                y: 0,
+                duration: 1.2,
+                stagger: 0.1,
+                clearProps: "all" // Limpiar transformaciones para no afectar el layout
+            }, "-=0.5");
+        });
+
+        // 3. SCROLL ANIMATIONS
+        function initScrollAnimations() {
+            // Parallax Imagen
             gsap.to(".parallax-img", {
-                y: "15%", // Movimiento controlado
+                y: "20%", 
                 ease: "none",
                 scrollTrigger: {
                     trigger: ".parallax-img",
                     start: "top bottom",
                     end: "bottom top",
-                    scrub: true
+                    scrub: 1 // Suavizado para evitar jitter
                 }
+            });
+
+            // Reveal en scroll para secciones
+            const sections = document.querySelectorAll('section');
+            sections.forEach(section => {
+                gsap.fromTo(section.children, 
+                    { y: 50, opacity: 0 },
+                    {
+                        y: 0, opacity: 1,
+                        duration: 1,
+                        stagger: 0.2,
+                        scrollTrigger: {
+                            trigger: section,
+                            start: "top 80%",
+                            toggleActions: "play none none reverse"
+                        }
+                    }
+                );
+            });
+        }
+
+        // 4. CUSTOM CURSOR
+        const cursor = document.getElementById('cursor');
+        const triggers = document.querySelectorAll('.hover-trigger');
+
+        if (window.matchMedia("(min-width: 1024px)").matches) {
+            document.addEventListener('mousemove', (e) => {
+                // Usar transform directo es más performante que top/left
+                cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
+            });
+
+            triggers.forEach(trigger => {
+                trigger.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+                trigger.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
             });
         }
     </script>
