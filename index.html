@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RENDER | Desarrollo Web Profesional</title>
-    <meta name="description" content="Diseño web para negocios en USA. Atraiga más clientes con una web moderna y efectiva.">
+    <title>RENDER | Web Design</title>
+    <meta name="description" content="Diseño web profesional. Estrategia y desarrollo sin intermediarios.">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Fuente: Inter (Idéntica a la de Claude) -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Fuentes: Usamos una Serif para el Logo (como Claude) y Sans para el resto -->
+    <link href="https://api.fontshare.com/v2/css?f[]=general-sans@300,400,500,600&f[]=sentient@400,500,700&display=swap" rel="stylesheet">
     
     <!-- Iconos -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
@@ -24,28 +24,21 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
+                        sans: ['General Sans', 'sans-serif'],
+                        serif: ['Sentient', 'serif'], // Para ese toque "Claude" en el logo
                     },
                     colors: {
-                        // Paleta extraída de la captura de pantalla
-                        'claude-bg': '#18181b',       /* Fondo Principal */
-                        'claude-card': '#27272a',     /* Fondo Tarjetas */
-                        'claude-border': '#3f3f46',   /* Borde sutil */
-                        'claude-glow': '#3b82f6',     /* El azul del borde "Max" */
-                        'text-primary': '#f4f4f5',    /* Blanco hueso */
-                        'text-secondary': '#a1a1aa',  /* Gris texto secundario */
+                        // COLORES EXACTOS EXTRAÍDOS DE LA CAPTURA
+                        'anthro-bg': '#131313',       /* Fondo Principal (No es negro puro) */
+                        'anthro-card': '#1f1f1f',     /* Fondo de las tarjetas */
+                        'anthro-border': '#2e2e2e',   /* Borde gris sutil */
+                        'anthro-cream': '#f0efe9',    /* El color exacto del botón "Get Max plan" */
+                        'anthro-text': '#ededed',     /* Texto principal */
+                        'anthro-muted': '#909090',    /* Texto secundario */
                     },
                     boxShadow: {
-                        'blue-glow': '0 0 0 1px rgba(59, 130, 246, 0.5), 0 0 40px -10px rgba(59, 130, 246, 0.3)',
-                    },
-                    animation: {
-                        'float': 'float 4s ease-in-out infinite',
-                    },
-                    keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-10px)' },
-                        }
+                        'subtle': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+                        'glow': '0 0 0 1px #333, 0 0 20px rgba(255, 255, 255, 0.05)',
                     }
                 }
             }
@@ -53,249 +46,174 @@
     </script>
 
     <style>
-        body { background-color: #18181b; color: #f4f4f5; overflow-x: hidden; }
+        body { background-color: #131313; color: #ededed; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
         
         /* Animaciones */
-        .fade-up { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .fade-in { opacity: 0; transform: translateY(15px); transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
         .is-visible { opacity: 1; transform: translateY(0); }
 
-        /* Estilo Botón Claude (Blanco con texto negro) */
-        .btn-claude {
-            background-color: #ffffff; color: #000000;
-            font-weight: 500; border-radius: 0.5rem; /* rounded-lg */
+        /* EL BOTÓN CLAUDE EXACTO */
+        .btn-anthro {
+            background-color: #f0efe9; 
+            color: #1a1a1a;
+            font-weight: 500;
+            border-radius: 0.5rem; /* 8px */
             transition: all 0.2s ease;
         }
-        .btn-claude:hover { background-color: #e4e4e7; transform: translateY(-1px); }
+        .btn-anthro:hover { 
+            background-color: #ffffff; 
+            transform: translateY(-1px);
+        }
 
-        /* Estilo Tarjeta Claude */
-        .card-claude {
-            background-color: #27272a;
-            border: 1px solid #3f3f46;
-            border-radius: 0.75rem; /* rounded-xl */
+        /* TARJETAS EXACTAS */
+        .card-anthro {
+            background-color: #1f1f1f;
+            border: 1px solid #2e2e2e;
+            border-radius: 0.75rem; /* 12px */
             transition: all 0.3s ease;
         }
-        /* Efecto Hover: Borde azulado suave como en la foto */
-        .card-claude:hover {
-            border-color: rgba(59, 130, 246, 0.5);
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
+        .card-anthro:hover {
+            border-color: #404040;
+            background-color: #232323;
         }
 
-        /* Clase especial para destacar elementos (como el plan Max) */
-        .border-glow {
-            border-color: rgba(59, 130, 246, 0.4);
-            box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.1), 0 10px 30px -10px rgba(59, 130, 246, 0.15);
-        }
-
-        /* Mini Navegador en Dark Mode */
+        /* Mini Navegador Estilo Anthropic */
         .mini-browser {
-            background: #18181b; border: 1px solid #3f3f46; border-radius: 0.5rem; overflow: hidden;
+            background: #131313; border: 1px solid #2e2e2e; border-radius: 6px; overflow: hidden;
         }
         .browser-header {
-            background: #27272a; padding: 0.5rem; display: flex; gap: 6px; border-bottom: 1px solid #3f3f46;
+            background: #1a1a1a; padding: 8px; display: flex; gap: 6px; border-bottom: 1px solid #2e2e2e;
         }
-        .dot { width: 8px; height: 8px; border-radius: 50%; background: #52525b; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: #333; }
     </style>
 </head>
 <body class="antialiased">
 
-    <!-- NAVBAR (Estilo Dark Minimal) -->
-    <nav class="fixed w-full z-50 bg-[#18181b]/90 backdrop-blur-md border-b border-white/5">
-        <div class="max-w-6xl mx-auto px-6 h-16 flex justify-between items-center">
-            <a href="#" class="text-xl font-semibold tracking-tight text-white flex items-center gap-2">
-                <i class="ph-fill ph-rocket-launch text-claude-glow"></i> RENDER
+    <!-- NAVBAR -->
+    <nav class="fixed w-full z-50 bg-[#131313]/90 backdrop-blur-xl border-b border-white/5">
+        <div class="max-w-4xl mx-auto px-6 h-16 flex justify-between items-center">
+            <!-- Logo con la fuente Serif de Claude (Sentient) -->
+            <a href="#" class="font-serif text-2xl tracking-tight text-anthro-cream flex items-center gap-2">
+                <i class="ph-light ph-sparkle text-anthro-cream"></i> Render
             </a>
-            <a href="https://wa.me/5350172941" target="_blank" class="text-sm font-medium text-text-secondary hover:text-white transition-colors border border-white/10 px-4 py-2 rounded-full hover:border-white/30 hover:bg-white/5 flex items-center gap-2">
-                <i class="ph-bold ph-whatsapp"></i> Contactar
+            <a href="https://wa.me/5350172941" class="text-xs font-medium text-anthro-muted hover:text-white transition-colors border border-white/10 px-4 py-2 rounded-full hover:border-white/30">
+                Contactar
             </a>
         </div>
     </nav>
 
     <!-- HERO SECTION -->
-    <section class="pt-32 pb-20 px-6">
-        <div class="max-w-4xl mx-auto text-center">
-            <!-- Badge estilo Claude (Texto gris sobre fondo oscuro) -->
-            <span class="inline-block py-1 px-3 rounded-full bg-white/5 border border-white/10 text-text-secondary text-xs font-medium uppercase tracking-wide mb-8 fade-up">
-                Servicio Exclusivo para Negocios Hispanos
-            </span>
+    <section class="pt-36 pb-20 px-6">
+        <div class="max-w-2xl mx-auto text-center">
             
-            <h1 class="text-4xl md:text-6xl font-semibold leading-tight mb-6 text-white fade-up" style="transition-delay: 0.1s;">
-                Si tus clientes no te encuentran en Google, <span class="text-claude-glow">te están perdiendo.</span>
+            <!-- TÍTULO: Sin colores azules, solo blanco puro y tipografía limpia -->
+            <h1 class="text-4xl md:text-6xl font-medium leading-[1.1] mb-6 text-anthro-text fade-in">
+                Si no te encuentran en Google, <br>
+                <span class="text-white font-serif italic">te están perdiendo.</span>
             </h1>
             
-            <p class="text-lg md:text-xl text-text-secondary mb-10 max-w-2xl mx-auto leading-relaxed fade-up" style="transition-delay: 0.2s;">
-                Diseño webs profesionales para negocios locales (Restaurantes, Servicios, Contratistas). Sin agencias, sin precios inflados, trato directo.
+            <p class="text-lg text-anthro-muted mb-10 leading-relaxed fade-in" style="transition-delay: 0.1s;">
+                Diseño web para negocios hispanos en USA. Sin agencias, sin precios inflados, trato directo.
             </p>
 
-            <div class="flex flex-col sm:flex-row gap-4 justify-center fade-up" style="transition-delay: 0.3s;">
-                <!-- Botón Blanco Estilo Claude -->
-                <a href="https://wa.me/5350172941?text=Hola,%20me%20interesa%20una%20demo%20para%20mi%20negocio" target="_blank" class="btn-claude px-8 py-4 text-lg flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.1)]">
-                    Solicitar Demo Gratis <i class="ph-bold ph-arrow-right"></i>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center fade-in" style="transition-delay: 0.2s;">
+                <!-- EL BOTÓN EXACTO DE LA FOTO -->
+                <a href="https://wa.me/5350172941" target="_blank" class="btn-anthro px-10 py-3.5 text-base flex items-center justify-center gap-2">
+                    Solicitar Demo Gratis
                 </a>
-                <p class="text-xs text-text-secondary mt-2 sm:mt-0 flex items-center justify-center gap-1">
-                    <i class="ph-fill ph-check-circle text-green-500"></i> Sin pago por adelantado
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- EL PROBLEMA VS SOLUCIÓN (Adaptado a Dark Mode) -->
-    <section class="py-20 bg-black/20 border-y border-white/5 px-6">
-        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-            <!-- Google Maps Simulación (DARK) -->
-            <div class="order-2 md:order-1 fade-up">
-                <div class="bg-[#27272a] p-6 rounded-2xl shadow-2xl border border-white/5 relative">
-                    <div class="flex items-center gap-3 mb-4 border-b border-white/5 pb-4">
-                        <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
-                        <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
-                        <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
-                        <span class="text-xs text-text-secondary ml-auto">Google Search</span>
-                    </div>
-                    <div class="space-y-4">
-                        <div class="flex gap-4 items-start">
-                            <div class="bg-white/10 w-12 h-12 rounded-lg shrink-0"></div>
-                            <div class="w-full">
-                                <div class="h-4 bg-white/10 w-3/4 rounded mb-2"></div>
-                                <div class="h-3 bg-white/5 w-1/2 rounded"></div>
-                                <div class="mt-2 flex gap-2">
-                                    <div class="h-6 bg-blue-500/20 w-20 rounded border border-blue-500/30"></div>
-                                    <div class="h-6 bg-green-500/20 w-20 rounded border border-green-500/30"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="p-3 bg-blue-500/10 rounded-lg border border-blue-500/20">
-                            <p class="text-sm text-blue-200 font-medium flex items-center gap-2">
-                                <i class="ph-fill ph-check-circle"></i> Tu negocio aparecerá aquí
-                            </p>
-                        </div>
-                    </div>
-                </div>
             </div>
             
-            <div class="order-1 md:order-2 fade-up">
-                <h2 class="text-3xl font-semibold mb-6 text-white">¿Por qué necesitas esto hoy?</h2>
-                <ul class="space-y-6">
-                    <li class="flex items-start gap-4">
-                        <div class="bg-red-500/10 p-2 rounded-lg text-red-400 mt-1 border border-red-500/20"><i class="ph-bold ph-x"></i></div>
-                        <p class="text-text-secondary">La mayoría de tus competidores ya tienen web. Si alguien busca en Google y tú no estás, <strong>pierdes dinero.</strong></p>
-                    </li>
-                    <li class="flex items-start gap-4">
-                        <div class="bg-blue-500/10 p-2 rounded-lg text-blue-400 mt-1 border border-blue-500/20"><i class="ph-bold ph-device-mobile"></i></div>
-                        <p class="text-text-secondary">Mis diseños funcionan perfecto en celulares. El 80% de tus clientes te buscarán desde un teléfono.</p>
-                    </li>
-                </ul>
+            <p class="text-xs text-anthro-muted mt-4 flex items-center justify-center gap-2 fade-in" style="transition-delay: 0.3s;">
+                <i class="ph-fill ph-check-circle text-gray-500"></i> Sin pago por adelantado
+            </p>
+        </div>
+    </section>
+
+    <!-- SOBRE MÍ (ESTILO TARJETA "PLAN MAX" DE CLAUDE) -->
+    <section class="py-12 px-6">
+        <div class="max-w-3xl mx-auto">
+            <!-- Esta tarjeta replica los colores y bordes de la captura "Max Plan" -->
+            <div class="card-anthro p-8 md:p-10 fade-in">
+                
+                <div class="flex flex-col md:flex-row gap-8 items-start">
+                    <div class="flex-1">
+                        <div class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center mb-6 border border-white/5">
+                            <i class="ph-light ph-user text-xl text-anthro-cream"></i>
+                        </div>
+                        
+                        <h2 class="text-2xl font-serif text-white mb-4">Trato directo. Sin intermediarios.</h2>
+                        <p class="text-anthro-muted leading-relaxed mb-6">
+                            Soy un desarrollador independiente. Al no ser una agencia gigante, tú eres mi prioridad. Te ofrezco comunicación directa por WhatsApp y precios justos.
+                        </p>
+
+                        <!-- Lista estilo Claude (Checkmarks finos) -->
+                        <ul class="space-y-3">
+                            <li class="flex items-start gap-3">
+                                <i class="ph-light ph-check text-anthro-cream mt-1"></i>
+                                <span class="text-sm text-gray-300">Diseño una Demo Gratis primero</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="ph-light ph-check text-anthro-cream mt-1"></i>
+                                <span class="text-sm text-gray-300">Si no te gusta, no pagas nada</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="ph-light ph-check text-anthro-cream mt-1"></i>
+                                <span class="text-sm text-gray-300">Soporte técnico incluido</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- CTA Secundaria -->
+                    <div class="w-full md:w-auto mt-4 md:mt-0">
+                        <a href="https://wa.me/5350172941" class="block w-full text-center border border-white/10 hover:border-white/30 hover:bg-white/5 text-anthro-text text-sm py-3 px-6 rounded-lg transition-all">
+                            Enviar WhatsApp
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- SOBRE MÍ (Trust Factor - Estilo Tarjeta Destacada "Max") -->
+    <!-- MINI WEBS / CAPACIDADES -->
     <section class="py-20 px-6">
         <div class="max-w-4xl mx-auto">
-            <!-- Esta tarjeta imita el estilo de la tarjeta "Max" de tu foto -->
-            <div class="bg-[#27272a] p-8 md:p-12 rounded-2xl border-glow relative overflow-hidden fade-up">
-                <!-- Icono de fondo sutil -->
-                <i class="ph-duotone ph-handshake absolute top-4 right-4 text-6xl text-white/5"></i>
+            <h3 class="text-xl font-medium text-white mb-10 text-center fade-in">Tecnología incluida</h3>
+
+            <div class="grid md:grid-cols-2 gap-6">
                 
-                <div class="relative z-10 text-center">
-                    <h2 class="text-3xl font-bold mb-6 text-white">Trato Directo. Sin Intermediarios.</h2>
-                    <p class="text-text-secondary text-lg leading-relaxed mb-8 max-w-2xl mx-auto">
-                        Hola, soy el desarrollador detrás de Render. Al ser independiente, <strong>tú eres mi prioridad.</strong> Te ofrezco comunicación directa por WhatsApp, precios justos y una dedicación que las grandes agencias no tienen.
-                    </p>
-                    
-                    <div class="grid md:grid-cols-3 gap-4 mb-8 text-left">
-                        <div class="bg-white/5 p-4 rounded-lg border border-white/5">
-                            <i class="ph-fill ph-paint-brush text-claude-glow mb-2 text-xl"></i>
-                            <p class="text-sm font-medium text-white">Demo Gratis</p>
-                            <p class="text-xs text-gray-500">Diseño antes de cobrar</p>
+                <!-- Card 1 -->
+                <div class="card-anthro p-6 fade-in">
+                    <div class="mini-browser h-48 mb-6 relative flex items-center justify-center p-6 bg-[#131313]">
+                        <div class="browser-header absolute top-0 w-full left-0">
+                            <div class="dot"></div><div class="dot"></div><div class="dot"></div>
                         </div>
-                        <div class="bg-white/5 p-4 rounded-lg border border-white/5">
-                            <i class="ph-fill ph-wallet text-claude-glow mb-2 text-xl"></i>
-                            <p class="text-sm font-medium text-white">Precio Justo</p>
-                            <p class="text-xs text-gray-500">Sin tarifas ocultas</p>
-                        </div>
-                        <div class="bg-white/5 p-4 rounded-lg border border-white/5">
-                            <i class="ph-fill ph-whatsapp-logo text-claude-glow mb-2 text-xl"></i>
-                            <p class="text-sm font-medium text-white">Soporte Directo</p>
-                            <p class="text-xs text-gray-500">Hablas conmigo</p>
+                        <!-- Animación sutil -->
+                        <div class="w-24 h-24 rounded-full border border-white/10 flex items-center justify-center relative">
+                            <div class="absolute inset-0 border border-white/20 rounded-full animate-[ping_3s_infinite] opacity-20"></div>
+                            <i class="ph-light ph-device-mobile text-3xl text-anthro-cream"></i>
                         </div>
                     </div>
-
-                    <a href="https://wa.me/5350172941" class="btn-claude inline-flex items-center px-8 py-3 gap-2">
-                        Hablar conmigo ahora <i class="ph-bold ph-whatsapp"></i>
-                    </a>
+                    <h4 class="font-medium text-white mb-2">Diseño Móvil Perfecto</h4>
+                    <p class="text-sm text-anthro-muted">El 80% de tus clientes usan el celular. Tu web se verá increíble en cualquier pantalla.</p>
                 </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- MINI WEBS (ESTILO DARK MODE) -->
-    <section class="py-24 px-6 bg-black/20">
-        <div class="max-w-6xl mx-auto">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl font-semibold mb-4 text-white">¿Qué tendrá tu página web?</h2>
-                <p class="text-text-secondary">Tecnología premium para que tu negocio destaque.</p>
-            </div>
-
-            <div class="grid md:grid-cols-3 gap-8">
-                
-                <!-- 1. Animaciones Suaves -->
-                <div class="card-claude p-6 fade-up">
-                    <div class="mini-browser h-56 mb-6 relative flex items-center justify-center p-6 group bg-[#18181b]">
+                <!-- Card 2 -->
+                <div class="card-anthro p-6 fade-in" style="transition-delay: 0.1s;">
+                    <div class="mini-browser h-48 mb-6 relative flex items-center justify-center p-6 bg-[#131313]">
                         <div class="browser-header absolute top-0 w-full left-0">
-                            <div class="dot bg-[#52525b]"></div><div class="dot"></div><div class="dot"></div>
+                            <div class="dot"></div><div class="dot"></div><div class="dot"></div>
                         </div>
-                        <!-- Contenido Animado -->
-                        <div class="w-full max-w-[150px] space-y-4">
-                            <div class="h-20 bg-gradient-to-tr from-blue-600 to-purple-600 rounded-lg shadow-lg animate-float mx-auto w-full opacity-80"></div>
-                            <div class="space-y-2">
-                                <div class="h-1.5 bg-white/10 rounded w-3/4 mx-auto animate-pulse"></div>
-                                <div class="h-1.5 bg-white/10 rounded w-1/2 mx-auto animate-pulse" style="animation-delay: 0.2s"></div>
+                        <div class="text-center w-full max-w-[180px]">
+                            <div class="text-[10px] text-green-400 mb-2 flex items-center justify-center gap-1">
+                                <div class="w-1 h-1 bg-green-400 rounded-full"></div> Abierto
+                            </div>
+                            <div class="bg-anthro-cream text-black text-xs py-2 rounded font-medium shadow-lg mb-2">
+                                Reservar Cita
                             </div>
                         </div>
                     </div>
-                    <div class="text-center">
-                        <h3 class="font-medium text-lg mb-2 text-white">Animaciones Suaves</h3>
-                        <p class="text-text-secondary text-sm">Elementos que flotan y aparecen con elegancia. Tu marca se sentirá moderna.</p>
-                    </div>
-                </div>
-
-                <!-- 2. Minimalismo -->
-                <div class="card-claude p-6 fade-up" style="transition-delay: 0.1s;">
-                    <div class="mini-browser h-56 mb-6 relative flex flex-col p-6 pt-12 border border-white/5 hover:border-white/20 transition-colors bg-[#18181b]">
-                        <div class="browser-header absolute top-0 w-full left-0">
-                            <div class="dot bg-[#52525b]"></div><div class="dot"></div><div class="dot"></div>
-                        </div>
-                        <div class="flex-1 flex flex-col justify-center items-center text-center">
-                            <h4 class="font-sans text-xl font-bold text-white mb-2">Simplicidad.</h4>
-                            <p class="text-[10px] text-gray-500 mb-4 max-w-[150px]">Diseño limpio para vender más.</p>
-                            <div class="h-6 w-20 bg-white rounded flex items-center justify-center text-[8px] font-bold text-black uppercase">Ver Más</div>
-                        </div>
-                    </div>
-                    <div class="text-center">
-                        <h3 class="font-medium text-lg mb-2 text-white">Diseño Minimalista</h3>
-                        <p class="text-text-secondary text-sm">Menos ruido, más ventas. Estructuras limpias que transmiten profesionalismo.</p>
-                    </div>
-                </div>
-
-                <!-- 3. Conversión -->
-                <div class="card-claude p-6 border-glow fade-up" style="transition-delay: 0.2s;">
-                    <div class="mini-browser h-56 mb-6 relative flex items-center justify-center p-6 bg-[#18181b]">
-                        <div class="browser-header absolute top-0 w-full left-0">
-                            <div class="dot bg-[#52525b]"></div><div class="dot"></div><div class="dot"></div>
-                        </div>
-                        <div class="text-center w-full relative">
-                            <div class="absolute -top-10 right-0 bg-green-500/10 text-green-400 border border-green-500/20 text-[9px] px-2 py-1 rounded-full flex items-center gap-1">
-                                <div class="w-1 h-1 bg-green-400 rounded-full animate-pulse"></div> Abierto
-                            </div>
-                            <h4 class="text-white font-semibold text-base mb-3">¿Necesitas Ayuda?</h4>
-                            <button class="w-full bg-blue-600 hover:bg-blue-500 text-white py-2.5 rounded-md font-medium shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 text-xs transition-transform hover:scale-105">
-                                <i class="ph-fill ph-phone-call"></i> Llamar Ahora
-                            </button>
-                        </div>
-                    </div>
-                    <div class="text-center">
-                        <h3 class="font-medium text-lg mb-2 text-white">Enfoque en Ventas</h3>
-                        <p class="text-text-secondary text-sm">Botones estratégicos y llamadas a la acción claras para capturar clientes.</p>
-                    </div>
+                    <h4 class="font-medium text-white mb-2">Enfoque en Ventas</h4>
+                    <p class="text-sm text-anthro-muted">Botones claros y ubicación visible para convertir visitas en clientes reales.</p>
                 </div>
 
             </div>
@@ -303,37 +221,20 @@
     </section>
 
     <!-- FOOTER -->
-    <footer class="bg-[#18181b] pt-16 pb-8 border-t border-white/5 text-center">
+    <footer class="pt-16 pb-12 text-center border-t border-white/5">
         <div class="max-w-4xl mx-auto px-6">
-            <h3 class="text-xl font-bold text-white mb-4 flex justify-center items-center gap-2">
-                <i class="ph-fill ph-rocket-launch text-claude-glow"></i> RENDER
-            </h3>
-            <p class="text-text-secondary mb-8 text-sm">Ayudando a pequeños negocios a crecer.</p>
-            
-            <div class="flex flex-col md:flex-row justify-center gap-4 md:gap-8 mb-8 text-sm">
-                <a href="mailto:onrenderservices@gmail.com" class="flex items-center justify-center gap-2 text-text-secondary hover:text-white transition-colors">
-                    <i class="ph-bold ph-envelope"></i> onrenderservices@gmail.com
-                </a>
-                <a href="https://wa.me/5350172941" class="flex items-center justify-center gap-2 text-text-secondary hover:text-white transition-colors">
-                    <i class="ph-bold ph-whatsapp"></i> +53 5017 2941
-                </a>
-            </div>
-            
-            <p class="text-xs text-gray-600">© 2026 Render Services. Código limpio.</p>
+            <i class="ph-light ph-sparkle text-2xl text-anthro-cream mb-6"></i>
+            <p class="text-anthro-muted text-sm mb-6">Render Services © 2026</p>
+            <a href="mailto:onrenderservices@gmail.com" class="text-sm text-gray-500 hover:text-white transition-colors">onrenderservices@gmail.com</a>
         </div>
     </footer>
 
     <!-- LÓGICA -->
     <script>
         gsap.registerPlugin(ScrollTrigger);
-
         window.addEventListener('load', () => {
-            gsap.to(".fade-up", {
-                y: 0,
-                opacity: 1,
-                duration: 0.8,
-                stagger: 0.15,
-                ease: "power2.out"
+            gsap.to(".fade-in", {
+                y: 0, opacity: 1, duration: 0.8, stagger: 0.1, ease: "power2.out"
             });
         });
     </script>
