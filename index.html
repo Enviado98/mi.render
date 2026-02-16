@@ -27,9 +27,24 @@
                         sans: ['Inter', 'sans-serif'],
                     },
                     colors: {
-                        'brand-blue': '#2563EB', // Azul confianza (como Facebook/LinkedIn)
+                        'brand-blue': '#2563EB',
                         'brand-dark': '#111827',
                         'brand-gray': '#F3F4F6',
+                    },
+                    animation: {
+                        'float': 'float 3s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'wiggle': 'wiggle 2s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        wiggle: {
+                            '0%, 100%': { transform: 'rotate(-3deg)' },
+                            '50%': { transform: 'rotate(3deg)' },
+                        }
                     }
                 }
             }
@@ -56,6 +71,16 @@
             transition: all 0.3s ease;
         }
         .feature-card:hover { border-color: #2563EB; transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+
+        /* Mini Browser Styles */
+        .mini-browser {
+            border: 1px solid #e5e7eb; border-radius: 0.75rem; overflow: hidden;
+            background: white; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .browser-header {
+            background: #f3f4f6; padding: 0.5rem 0.75rem; display: flex; gap: 0.35rem; border-bottom: 1px solid #e5e7eb;
+        }
+        .dot { width: 0.5rem; height: 0.5rem; border-radius: 9999px; }
     </style>
 </head>
 <body class="antialiased">
@@ -72,7 +97,7 @@
         </div>
     </nav>
 
-    <!-- HERO SECTION (Lo primero que ven) -->
+    <!-- HERO SECTION -->
     <section class="pt-32 pb-20 px-6">
         <div class="max-w-4xl mx-auto text-center">
             <span class="inline-block py-1 px-3 rounded-full bg-blue-50 text-blue-600 text-xs font-bold uppercase tracking-wide mb-6 fade-up">
@@ -98,7 +123,7 @@
         </div>
     </section>
 
-    <!-- EL PROBLEMA VS SOLUCIÓN (Conectando con el chat) -->
+    <!-- EL PROBLEMA VS SOLUCIÓN -->
     <section class="py-20 bg-gray-50 px-6">
         <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
             <div class="order-2 md:order-1">
@@ -142,42 +167,7 @@
                         <div class="bg-blue-100 p-2 rounded-full text-blue-600 mt-1"><i class="ph-bold ph-device-mobile"></i></div>
                         <p class="text-gray-600">Mis diseños se ven perfectos en celulares. Hoy en día, el 80% de las búsquedas son desde un teléfono.</p>
                     </li>
-                    <li class="flex items-start gap-3">
-                        <div class="bg-green-100 p-2 rounded-full text-green-600 mt-1"><i class="ph-bold ph-whatsapp-logo"></i></div>
-                        <p class="text-gray-600">Integro botones de "Llamada Directa" y "WhatsApp". Facilito que el cliente te contacte con un solo clic.</p>
-                    </li>
                 </ul>
-            </div>
-        </div>
-    </section>
-
-    <!-- QUÉ INCLUYE (Robustez explicada simple) -->
-    <section class="py-20 px-6">
-        <div class="max-w-6xl mx-auto">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl font-bold mb-4">No es solo una "página bonita"</h2>
-                <p class="text-gray-500">Es una herramienta de ventas completa para tu negocio.</p>
-            </div>
-
-            <div class="grid md:grid-cols-3 gap-6">
-                <!-- Card 1 -->
-                <div class="feature-card p-8 rounded-xl">
-                    <i class="ph-duotone ph-map-pin text-4xl text-brand-blue mb-4"></i>
-                    <h3 class="text-xl font-bold mb-2">Ubicación y Horarios</h3>
-                    <p class="text-sm text-gray-500 leading-relaxed">Muestra tu dirección con Google Maps integrado y tus horarios en tiempo real (Abierto/Cerrado).</p>
-                </div>
-                <!-- Card 2 -->
-                <div class="feature-card p-8 rounded-xl">
-                    <i class="ph-duotone ph-images text-4xl text-brand-blue mb-4"></i>
-                    <h3 class="text-xl font-bold mb-2">Galería de Servicios</h3>
-                    <p class="text-sm text-gray-500 leading-relaxed">Muestra tus mejores trabajos, platos o instalaciones. Las imágenes venden más que mil palabras.</p>
-                </div>
-                <!-- Card 3 -->
-                <div class="feature-card p-8 rounded-xl">
-                    <i class="ph-duotone ph-rocket text-4xl text-brand-blue mb-4"></i>
-                    <h3 class="text-xl font-bold mb-2">Velocidad Extrema</h3>
-                    <p class="text-sm text-gray-500 leading-relaxed">Uso tecnología moderna para que tu web cargue al instante. A nadie le gusta esperar.</p>
-                </div>
             </div>
         </div>
     </section>
@@ -212,38 +202,89 @@
         </div>
     </section>
 
-    <!-- EJEMPLOS (Placeholder) -->
-    <section class="py-20 px-6">
+    <!-- DEMOSTRACIÓN DE CAPACIDADES (Nuevo Sección "Mini Webs") -->
+    <section class="py-24 px-6 bg-white">
         <div class="max-w-6xl mx-auto">
-            <h2 class="text-3xl font-bold mb-10 text-center">Ejemplos de lo que puedo hacer</h2>
-            <div class="grid md:grid-cols-2 gap-8">
-                <a href="#" class="group block overflow-hidden rounded-xl border border-gray-200 shadow-sm hover:shadow-xl transition-all">
-                    <div class="bg-gray-100 h-64 flex items-center justify-center text-gray-400 group-hover:bg-gray-200 transition-colors relative overflow-hidden">
-                        <!-- IMAGEN REAL DE TUS DEMOS AQUI -->
-                        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1000&auto=format&fit=crop" class="w-full h-full object-cover" alt="Restaurante Demo">
-                        <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                            <span class="bg-white text-black px-4 py-2 rounded-full font-bold">Ver Demo</span>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="font-bold text-lg">Rancho Cruz / Restaurantes</h3>
-                        <p class="text-gray-500 text-sm">Menú digital, reservas y ubicación.</p>
-                    </div>
-                </a>
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold mb-4">¿Qué tendrá tu página web?</h2>
+                <p class="text-gray-500">Diseño tecnología premium para que tu negocio se vea superior a la competencia.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
                 
-                <a href="#" class="group block overflow-hidden rounded-xl border border-gray-200 shadow-sm hover:shadow-xl transition-all">
-                    <div class="bg-gray-100 h-64 flex items-center justify-center text-gray-400 group-hover:bg-gray-200 transition-colors relative overflow-hidden">
-                         <!-- IMAGEN REAL DE TUS DEMOS AQUI -->
-                         <img src="https://images.unsplash.com/photo-1621905251918-48416bd8575a?q=80&w=1000&auto=format&fit=crop" class="w-full h-full object-cover" alt="Servicios Demo">
-                         <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                            <span class="bg-white text-black px-4 py-2 rounded-full font-bold">Ver Demo</span>
+                <!-- 1. Animaciones Suaves -->
+                <div class="flex flex-col h-full">
+                    <div class="mini-browser h-64 mb-6 bg-slate-50 relative flex items-center justify-center p-6 group">
+                        <!-- Barra navegador -->
+                        <div class="browser-header absolute top-0 w-full left-0">
+                            <div class="dot bg-red-400"></div><div class="dot bg-yellow-400"></div><div class="dot bg-green-400"></div>
+                        </div>
+                        
+                        <!-- Contenido Animado -->
+                        <div class="w-full max-w-[180px] space-y-4">
+                            <!-- Imagen flotante -->
+                            <div class="h-24 bg-gradient-to-tr from-blue-400 to-purple-400 rounded-lg shadow-lg animate-float mx-auto w-full"></div>
+                            <!-- Texto -->
+                            <div class="space-y-2">
+                                <div class="h-2 bg-slate-200 rounded w-3/4 mx-auto animate-pulse"></div>
+                                <div class="h-2 bg-slate-200 rounded w-1/2 mx-auto animate-pulse" style="animation-delay: 0.2s"></div>
+                            </div>
                         </div>
                     </div>
-                    <div class="p-6">
-                        <h3 class="font-bold text-lg">Notaría / Servicios Profesionales</h3>
-                        <p class="text-gray-500 text-sm">Citas, servicios y contacto rápido.</p>
+                    <div class="text-center">
+                        <h3 class="font-bold text-xl mb-2">Animaciones Suaves</h3>
+                        <p class="text-gray-500 text-sm">Elementos que flotan y aparecen con elegancia. Hacen que tu marca se sienta moderna y cuidada.</p>
                     </div>
-                </a>
+                </div>
+
+                <!-- 2. Minimalismo y Limpieza -->
+                <div class="flex flex-col h-full">
+                    <div class="mini-browser h-64 mb-6 bg-white relative flex flex-col p-6 pt-12 border-2 border-transparent hover:border-gray-200 transition-colors">
+                        <div class="browser-header absolute top-0 w-full left-0">
+                            <div class="dot bg-red-400"></div><div class="dot bg-yellow-400"></div><div class="dot bg-green-400"></div>
+                        </div>
+
+                        <!-- Layout Minimalista -->
+                        <div class="flex-1 flex flex-col justify-center items-center text-center">
+                            <h4 class="font-serif text-2xl font-bold text-gray-900 mb-2">Less is More.</h4>
+                            <p class="text-[10px] text-gray-400 mb-6 max-w-[150px] leading-relaxed">Un diseño limpio permite que tus clientes se enfoquen en lo importante: comprar.</p>
+                            <button class="bg-black text-white text-[10px] px-4 py-2 uppercase tracking-widest hover:bg-gray-800 transition-colors">Ver Colección</button>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <h3 class="font-bold text-xl mb-2">Diseño Minimalista</h3>
+                        <p class="text-gray-500 text-sm">Menos ruido, más ventas. Estructuras limpias y legibles que transmiten profesionalismo instantáneo.</p>
+                    </div>
+                </div>
+
+                <!-- 3. Elementos de Venta (Conversión) -->
+                <div class="flex flex-col h-full">
+                    <div class="mini-browser h-64 mb-6 bg-slate-900 relative flex items-center justify-center p-6">
+                        <div class="browser-header absolute top-0 w-full left-0 bg-slate-800 border-slate-700">
+                            <div class="dot bg-red-400"></div><div class="dot bg-yellow-400"></div><div class="dot bg-green-400"></div>
+                        </div>
+
+                        <!-- Elementos de Conversión -->
+                        <div class="text-center w-full relative">
+                            <!-- Badge de estado -->
+                            <div class="absolute -top-12 right-0 bg-green-500/20 text-green-400 border border-green-500/50 text-[10px] px-2 py-1 rounded-full flex items-center gap-1 animate-pulse-slow">
+                                <div class="w-1.5 h-1.5 bg-green-400 rounded-full"></div> Abierto Ahora
+                            </div>
+
+                            <h4 class="text-white font-bold text-lg mb-4">¿Necesitas Ayuda?</h4>
+                            
+                            <!-- Botón que llama la atención -->
+                            <button class="w-full bg-blue-600 hover:bg-blue-500 text-white py-3 rounded-lg font-bold shadow-lg shadow-blue-500/30 animate-wiggle flex items-center justify-center gap-2 text-xs">
+                                <i class="ph-fill ph-phone-call"></i> Llamar Ahora
+                            </button>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <h3 class="font-bold text-xl mb-2">Enfoque en Ventas</h3>
+                        <p class="text-gray-500 text-sm">Botones estratégicos y llamadas a la acción claras para convertir visitantes en clientes reales.</p>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
@@ -267,12 +308,10 @@
         </div>
     </footer>
 
-    <!-- LÓGICA SENCILLA -->
+    <!-- LÓGICA -->
     <script>
-        // Registrar Plugin
         gsap.registerPlugin(ScrollTrigger);
 
-        // Animación de entrada al cargar
         window.addEventListener('load', () => {
             gsap.to(".fade-up", {
                 y: 0,
@@ -283,17 +322,17 @@
             });
         });
 
-        // Animación al hacer scroll (para que se sienta "viva")
-        gsap.utils.toArray('.feature-card').forEach(card => {
-            gsap.from(card, {
+        // Animación simple al hacer scroll
+        gsap.utils.toArray('.mini-browser').forEach(el => {
+            gsap.from(el, {
                 scrollTrigger: {
-                    trigger: card,
+                    trigger: el,
                     start: "top 85%",
-                    toggleActions: "play none none reverse"
                 },
                 y: 30,
                 opacity: 0,
-                duration: 0.6
+                duration: 0.8,
+                ease: "power2.out"
             });
         });
     </script>
