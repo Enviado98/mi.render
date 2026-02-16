@@ -35,9 +35,6 @@
                         'paper': '#F5F5F0',
                         'graphite': '#2D2D2D',
                         'accent': '#0044FF', 
-                    },
-                    animation: {
-                        'spin-slow': 'spin 12s linear infinite',
                     }
                 }
             }
@@ -55,14 +52,15 @@
             background-color: #F5F5F0;
             color: #0A0A0A;
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
             overflow-x: hidden;
+            opacity: 0; /* Evita flash of unstyled content */
+            transition: opacity 0.5s ease;
         }
-
-        /* Bloqueo de scroll inicial */
+        
+        body.loaded { opacity: 1; }
         body.loading { overflow: hidden; height: 100vh; }
 
-        /* TEXTURA (Optimizada: solo visible en desktop para ahorrar batería) */
+        /* TEXTURA */
         @media (min-width: 1024px) {
             .noise {
                 position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -71,38 +69,40 @@
             }
         }
 
-        /* CURSOR CUSTOM */
+        /* CURSOR */
         @media (min-width: 1024px) {
             body { cursor: none; }
             a, button, .hover-trigger { cursor: none; }
             #cursor {
                 position: fixed; top: 0; left: 0; width: 12px; height: 12px;
                 background: #eb5939; border-radius: 50%; pointer-events: none; z-index: 9999;
-                transform: translate(-50%, -50%); transition: transform 0.15s ease-out, width 0.3s, height 0.3s;
+                transform: translate(-50%, -50%); transition: transform 0.1s ease-out, width 0.3s, height 0.3s;
                 mix-blend-mode: exclusion;
+                display: none; /* Se activa con JS */
             }
+            #cursor.active { display: block; }
             #cursor.hovered { width: 40px; height: 40px; background: white; mix-blend-mode: difference; }
         }
-        @media (max-width: 1023px) { #cursor { display: none; } }
 
         /* PRELOADER */
         #preloader {
             position: fixed; inset: 0; background: #0A0A0A; z-index: 10000;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: transform 0.8s cubic-bezier(0.76, 0, 0.24, 1);
         }
         
-        /* MARQUEE ANIMATION */
+        /* MARQUEE */
         .marquee-container { display: flex; overflow: hidden; user-select: none; mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); }
         .marquee-content { flex-shrink: 0; display: flex; gap: 0; min-width: 100%; animation: scroll 30s linear infinite; }
         @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-100%); } }
 
-        /* TEXT REVEAL UTILS */
+        /* REVEAL UTILS */
         .reveal-wrap { overflow: hidden; }
-        .reveal-text { transform: translateY(100%); transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1); }
-        .is-visible .reveal-text { transform: translateY(0); }
+        .reveal-text { transform: translateY(110%); opacity: 0; transition: transform 1s ease, opacity 1s ease; }
+        .is-visible .reveal-text { transform: translateY(0); opacity: 1; }
     </style>
 </head>
-<body class="loading antialiased selection:bg-black selection:text-white">
+<body class="loading">
 
     <div class="noise"></div>
     <div id="cursor"></div>
@@ -112,15 +112,14 @@
         <div class="flex flex-col items-center">
             <h1 class="font-display text-4xl md:text-6xl text-white tracking-tighter uppercase mb-6">Render<span class="text-xs align-top">®</span></h1>
             <div class="w-64 h-[2px] bg-white/10 rounded-full overflow-hidden">
-                <div id="loader-bar" class="w-0 h-full bg-white transition-all duration-[1500ms] ease-in-out"></div>
+                <div id="loader-bar" class="w-0 h-full bg-white transition-all duration-[2000ms] ease-out"></div>
             </div>
-            <p class="mt-4 text-white/40 text-xs font-mono uppercase tracking-widest">Loading System</p>
+            <p class="mt-4 text-white/40 text-xs font-mono uppercase tracking-widest">System Loading...</p>
         </div>
     </div>
 
     <!-- NAVBAR -->
     <nav class="fixed top-0 w-full px-6 py-5 md:px-12 md:py-6 flex justify-between items-center z-50">
-        <!-- Logo con mix-blend para asegurar visibilidad -->
         <a href="#" class="hover-trigger font-display font-bold text-2xl tracking-tight relative z-50 text-black mix-blend-difference invert filter">
             RENDER
         </a>
@@ -152,14 +151,14 @@
 
             <div class="flex flex-col md:flex-row justify-between items-start md:items-end mt-12 md:mt-20 gap-8 border-t border-black/10 pt-8">
                 <div class="max-w-md reveal-wrap">
-                    <p class="reveal-text text-graphite text-lg md:text-xl font-medium leading-relaxed">
+                    <p class="reveal-text text-graphite text-lg md:text-xl font-medium leading-relaxed" style="transition-delay: 0.1s;">
                         Estudio de ingeniería web. Convertimos tu negocio en un <span class="underline decoration-2 underline-offset-4">sistema de ventas</span> rápido, seguro y escalable.
                     </p>
                 </div>
                 
                 <div class="flex flex-col gap-1 reveal-wrap text-right">
-                    <span class="reveal-text text-xs font-bold uppercase tracking-widest text-gray-400">Status</span>
-                    <span class="reveal-text font-display text-lg flex items-center justify-end gap-2">
+                    <span class="reveal-text text-xs font-bold uppercase tracking-widest text-gray-400" style="transition-delay: 0.2s;">Status</span>
+                    <span class="reveal-text font-display text-lg flex items-center justify-end gap-2" style="transition-delay: 0.2s;">
                         Aceptando Proyectos <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
                     </span>
                 </div>
@@ -170,7 +169,6 @@
     <!-- MARQUEE -->
     <div class="bg-void text-paper py-8 border-y border-white/10 relative z-10">
         <div class="marquee-container">
-            <!-- Duplicado 4 veces para asegurar loop infinito suave -->
             <div class="marquee-content font-display text-5xl md:text-7xl uppercase font-bold whitespace-nowrap">
                 <span class="mx-8">Development</span> <span class="text-white/20">///</span>
                 <span class="mx-8">UI Design</span> <span class="text-white/20">///</span>
@@ -188,11 +186,10 @@
 
     <!-- PHILOSOPHY / PARALLAX -->
     <section id="filosofia" class="py-24 md:py-40 px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center max-w-[90rem] mx-auto">
-        <!-- Imagen Parallax -->
         <div class="relative w-full aspect-[3/4] lg:aspect-square bg-gray-200 overflow-hidden shadow-2xl group">
             <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop" 
                  class="parallax-img absolute top-[-15%] left-0 w-full h-[130%] object-cover filter grayscale contrast-125 group-hover:grayscale-0 transition-all duration-700"
-                 alt="Arquitectura Digital Minimalista">
+                 alt="Arquitectura Digital Minimalista" loading="lazy">
         </div>
 
         <div class="flex flex-col justify-center">
@@ -226,7 +223,6 @@
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Card 1 -->
                 <article class="group hover-trigger p-8 border border-black/10 bg-paper hover:bg-void hover:text-white transition-all duration-300 relative overflow-hidden">
                     <div class="absolute top-0 right-0 p-4 opacity-10 font-display text-8xl font-bold group-hover:opacity-20">01</div>
                     <i class="ph-bold ph-code text-3xl mb-32 block text-accent group-hover:text-white"></i>
@@ -236,7 +232,6 @@
                     </p>
                 </article>
 
-                <!-- Card 2 -->
                 <article class="group hover-trigger p-8 border border-black/10 bg-void text-white relative overflow-hidden transform md:-translate-y-4 shadow-xl">
                     <div class="absolute top-0 right-0 p-4 opacity-20 font-display text-8xl font-bold">02</div>
                     <i class="ph-bold ph-paint-brush text-3xl mb-32 block text-white"></i>
@@ -246,7 +241,6 @@
                     </p>
                 </article>
 
-                <!-- Card 3 -->
                 <article class="group hover-trigger p-8 border border-black/10 bg-paper hover:bg-void hover:text-white transition-all duration-300 relative overflow-hidden">
                     <div class="absolute top-0 right-0 p-4 opacity-10 font-display text-8xl font-bold group-hover:opacity-20">03</div>
                     <i class="ph-bold ph-strategy text-3xl mb-32 block text-accent group-hover:text-white"></i>
@@ -259,9 +253,8 @@
         </div>
     </section>
 
-    <!-- CTA / FOOTER -->
+    <!-- FOOTER -->
     <footer class="bg-void text-paper pt-24 pb-8 px-6 md:px-12 relative overflow-hidden">
-        <!-- Elemento decorativo de fondo -->
         <div class="absolute top-[-20%] right-[-10%] w-[50vw] h-[50vw] bg-blue-600/10 rounded-full blur-[100px] pointer-events-none"></div>
 
         <div class="max-w-[90rem] mx-auto relative z-10">
@@ -281,11 +274,6 @@
                         <a href="mailto:onrenderservices@gmail.com" class="hover-trigger block text-lg hover:text-white/70 transition-colors">onrenderservices@gmail.com</a>
                         <a href="https://wa.me/5350172941" class="hover-trigger block text-lg hover:text-white/70 transition-colors">+53 5017 2941</a>
                     </div>
-                    
-                    <div class="flex md:justify-end gap-6 pt-4">
-                        <a href="#" class="hover-trigger text-sm font-bold uppercase tracking-widest hover:text-accent transition-colors">Instagram</a>
-                        <a href="#" class="hover-trigger text-sm font-bold uppercase tracking-widest hover:text-accent transition-colors">LinkedIn</a>
-                    </div>
                 </div>
             </div>
 
@@ -304,106 +292,149 @@
 
     <!-- LOGIC -->
     <script>
-        // 1. SETUP LENIS (SMOOTH SCROLL)
-        const lenis = new Lenis({
-            duration: 1.2,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Easing exponencial suave
-            direction: 'vertical',
-            gestureDirection: 'vertical',
-            smooth: true,
-            mouseMultiplier: 1,
-            smoothTouch: false,
-            touchMultiplier: 2,
-        });
-
-        function raf(time) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-        }
-        requestAnimationFrame(raf);
-
-        // Integrar Lenis con ScrollTrigger
-        gsap.registerPlugin(ScrollTrigger);
+        // --- 1. CONFIGURACIÓN DEL SISTEMA ---
+        let isSiteLoaded = false;
         
-        // 2. PRELOADER & ENTRANCE ANIMATIONS
-        window.addEventListener('load', () => {
-            const bar = document.getElementById('loader-bar');
+        function initSite() {
+            if (isSiteLoaded) return;
+            isSiteLoaded = true;
+
             const preloader = document.getElementById('preloader');
-            
-            // Simular carga
-            bar.style.width = '100%';
+            const loaderBar = document.getElementById('loader-bar');
 
-            // Timeline de entrada
-            const tl = gsap.timeline({
-                defaults: { ease: "power3.out" },
-                onComplete: () => {
-                    document.body.classList.remove('loading');
-                    // Iniciar animaciones de scroll después de la carga
-                    initScrollAnimations();
-                }
-            });
+            // Aseguramos que la barra se llene
+            loaderBar.style.width = '100%';
 
-            tl.to(preloader, {
-                yPercent: -100,
-                duration: 1,
-                delay: 0.8,
-                ease: "power4.inOut"
-            })
-            .to(".reveal-text", {
-                y: 0,
-                duration: 1.2,
-                stagger: 0.1,
-                clearProps: "all" // Limpiar transformaciones para no afectar el layout
-            }, "-=0.5");
-        });
-
-        // 3. SCROLL ANIMATIONS
-        function initScrollAnimations() {
-            // Parallax Imagen
-            gsap.to(".parallax-img", {
-                y: "20%", 
-                ease: "none",
-                scrollTrigger: {
-                    trigger: ".parallax-img",
-                    start: "top bottom",
-                    end: "bottom top",
-                    scrub: 1 // Suavizado para evitar jitter
-                }
-            });
-
-            // Reveal en scroll para secciones
-            const sections = document.querySelectorAll('section');
-            sections.forEach(section => {
-                gsap.fromTo(section.children, 
-                    { y: 50, opacity: 0 },
-                    {
-                        y: 0, opacity: 1,
+            // Esperamos un momento breve para que la barra se vea llena
+            setTimeout(() => {
+                // Animación de salida del preloader
+                if (typeof gsap !== 'undefined') {
+                    // Usando GSAP si cargó
+                    gsap.to(preloader, {
+                        yPercent: -100,
                         duration: 1,
-                        stagger: 0.2,
-                        scrollTrigger: {
-                            trigger: section,
-                            start: "top 80%",
-                            toggleActions: "play none none reverse"
+                        ease: "power4.inOut",
+                        onComplete: () => {
+                            document.body.classList.remove('loading');
+                            document.body.classList.add('loaded');
+                            revealContent(); // Disparar animaciones de texto
                         }
-                    }
-                );
-            });
+                    });
+                } else {
+                    // Fallback CSS si GSAP falló
+                    preloader.style.transform = 'translateY(-100%)';
+                    document.body.classList.remove('loading');
+                    document.body.classList.add('loaded');
+                    document.querySelectorAll('.reveal-text').forEach(el => {
+                        el.style.transform = 'translateY(0)';
+                        el.style.opacity = '1';
+                    });
+                }
+            }, 500);
+
+            initScrollLogic();
         }
 
-        // 4. CUSTOM CURSOR
-        const cursor = document.getElementById('cursor');
-        const triggers = document.querySelectorAll('.hover-trigger');
+        function revealContent() {
+            if (typeof gsap !== 'undefined') {
+                gsap.to(".reveal-text", {
+                    y: 0,
+                    opacity: 1,
+                    duration: 1.2,
+                    stagger: 0.1,
+                    ease: "power3.out"
+                });
+            }
+        }
 
+        // --- 2. INICIALIZADORES ---
+        
+        // A) Intento normal: Cuando la web carga todo
+        window.addEventListener('load', initSite);
+
+        // B) Iniciar barra de carga inmediatamente (Visual)
+        document.addEventListener('DOMContentLoaded', () => {
+            const bar = document.getElementById('loader-bar');
+            if(bar) bar.style.width = '85%'; // Truco visual: cargar hasta el 85% rápido
+            
+            // C) FAILSAFE: Si en 3.5 segundos no ha cargado (por internet lento), abrir igual
+            setTimeout(() => {
+                if (!isSiteLoaded) {
+                    console.warn("Forzando inicio del sitio por tiempo de espera...");
+                    initSite();
+                }
+            }, 3500);
+        });
+
+
+        // --- 3. LÓGICA DE SCROLL (LENIS + GSAP) ---
+        function initScrollLogic() {
+            if (typeof Lenis !== 'undefined') {
+                const lenis = new Lenis({
+                    duration: 1.2,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                    smooth: true,
+                    mouseMultiplier: 1,
+                    touchMultiplier: 2,
+                });
+
+                function raf(time) {
+                    lenis.raf(time);
+                    requestAnimationFrame(raf);
+                }
+                requestAnimationFrame(raf);
+            }
+
+            if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+                gsap.registerPlugin(ScrollTrigger);
+
+                // Parallax
+                gsap.to(".parallax-img", {
+                    y: "20%",
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: ".parallax-img",
+                        start: "top bottom",
+                        end: "bottom top",
+                        scrub: 1
+                    }
+                });
+
+                // Reveal de secciones
+                document.querySelectorAll('section').forEach(section => {
+                    gsap.fromTo(section.children, 
+                        { y: 30, opacity: 0 },
+                        {
+                            y: 0, opacity: 1,
+                            duration: 0.8,
+                            stagger: 0.1,
+                            scrollTrigger: {
+                                trigger: section,
+                                start: "top 85%",
+                                toggleActions: "play none none reverse"
+                            }
+                        }
+                    );
+                });
+            }
+        }
+
+        // --- 4. CURSOR ---
         if (window.matchMedia("(min-width: 1024px)").matches) {
-            document.addEventListener('mousemove', (e) => {
-                // Usar transform directo es más performante que top/left
-                cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
-            });
+            const cursor = document.getElementById('cursor');
+            const triggers = document.querySelectorAll('.hover-trigger');
+            
+            if(cursor) {
+                document.addEventListener('mousemove', (e) => {
+                    cursor.classList.add('active');
+                    cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
+                });
 
-            triggers.forEach(trigger => {
-                trigger.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
-                trigger.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
-            });
+                triggers.forEach(trigger => {
+                    trigger.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+                    trigger.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+                });
+            }
         }
     </script>
 </body>
