@@ -1,35 +1,35 @@
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <meta name="description" content="Ingeniería Web de Alto Rendimiento. No hacemos sitios web, construimos infraestructura digital.">
-    <title>RENDER | Digital Engineering Systems</title>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RENDER | Diseño Web para Negocios</title>
+    <meta name="description" content="Diseño de páginas web para pequeños negocios en USA. Atraiga más clientes con una web profesional.">
+
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&f[]=general-sans@300,400,500,600,700&display=swap" rel="stylesheet">
     
-    <!-- GSAP & Lenis -->
+    <!-- Fuentes: Inter (Limpia y Estándar para USA) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Iconos -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <!-- Animaciones -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://unpkg.com/@studio-freight/lenis@1.0.29/dist/lenis.min.js"></script>
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['General Sans', 'sans-serif'],
-                        display: ['Clash Display', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif'],
                     },
                     colors: {
-                        'void': '#050505',
-                        'off-white': '#EAEAEA',
-                        'accent': '#3B82F6', 
-                    },
-                    backgroundImage: {
-                        'grid-pattern': "linear-gradient(to right, #ffffff05 1px, transparent 1px), linear-gradient(to bottom, #ffffff05 1px, transparent 1px)",
+                        'brand-blue': '#2563EB', // Azul confianza (como Facebook/LinkedIn)
+                        'brand-dark': '#111827',
+                        'brand-gray': '#F3F4F6',
                     }
                 }
             }
@@ -37,280 +37,265 @@
     </script>
 
     <style>
-        /* BASE & RESET */
-        body { background-color: #050505; color: #EAEAEA; overflow-x: hidden; cursor: none; }
+        body { background-color: #ffffff; color: #111827; overflow-x: hidden; }
         
-        /* VIDEO BACKGROUND */
-        .video-bg {
-            position: fixed; right: 0; bottom: 0; min-width: 100%; min-height: 100%;
-            width: auto; height: auto; z-index: -2; object-fit: cover; opacity: 0.4;
-            filter: grayscale(100%) contrast(1.2);
-        }
-        .overlay-grid {
-            position: fixed; inset: 0; z-index: -1;
-            background-size: 40px 40px; background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
-            mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
-        }
-
-        /* CURSOR SYSTEM */
-        #cursor-dot, #cursor-outline { position: fixed; top: 0; left: 0; transform: translate(-50%, -50%); pointer-events: none; z-index: 9999; border-radius: 50%; }
-        #cursor-dot { width: 8px; height: 8px; background: white; }
-        #cursor-outline { width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.5); transition: width 0.2s, height 0.2s, background-color 0.2s; }
+        /* Animaciones suaves */
+        .fade-up { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .is-visible { opacity: 1; transform: translateY(0); }
         
-        /* States del Cursor */
-        body.hovering #cursor-outline { width: 80px; height: 80px; background: rgba(255,255,255,0.1); border-color: transparent; backdrop-filter: blur(2px); }
-        body.hovering-project #cursor-dot { opacity: 0; } /* Ocultar punto en proyectos */
-
-        /* PRELOADER */
-        #preloader { position: fixed; inset: 0; background: #050505; z-index: 10000; display: flex; justify-content: center; align-items: center; }
-        .counter { font-family: 'Clash Display'; font-size: 12vw; font-weight: 700; color: #333; }
-
-        /* PROJECT HOVER IMAGE */
-        .project-preview {
-            position: fixed; top: 0; left: 0; width: 300px; height: 200px; z-index: 50;
-            pointer-events: none; opacity: 0; transform: translate(-50%, -50%) scale(0.8);
-            transition: opacity 0.3s ease, transform 0.3s ease; overflow: hidden;
+        /* Botón vibrante */
+        .btn-primary {
+            background: #2563EB; color: white;
+            transition: all 0.3s; box-shadow: 0 4px 14px 0 rgba(37, 99, 235, 0.39);
         }
-        .project-preview img { width: 100%; height: 100%; object-fit: cover; }
-        .project-item:hover ~ .project-preview { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37, 99, 235, 0.23); }
 
-        /* UTILITIES */
-        .line-clamp-1 { display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
-        .mix-diff { mix-blend-mode: difference; }
+        /* Tarjetas de Servicio */
+        .feature-card {
+            background: white; border: 1px solid #E5E7EB;
+            transition: all 0.3s ease;
+        }
+        .feature-card:hover { border-color: #2563EB; transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
     </style>
 </head>
 <body class="antialiased">
 
-    <!-- ASSETS -->
-    <div class="overlay-grid"></div>
-    <video autoplay muted loop playsinline class="video-bg">
-        <source src="https://cdn.coverr.co/videos/coverr-typing-on-computer-keyboard-4663/1080p.mp4" type="video/mp4">
-    </video>
-
-    <!-- CURSOR -->
-    <div id="cursor-dot" class="hidden lg:block"></div>
-    <div id="cursor-outline" class="hidden lg:block"></div>
-    
-    <!-- PROJECT IMAGE FLOATER (Se mueve con JS) -->
-    <div id="preview-container" class="project-preview hidden lg:block rounded-lg shadow-2xl border border-white/20">
-        <img id="preview-image" src="" alt="Project Preview">
-    </div>
-
-    <!-- PRELOADER -->
-    <div id="preloader">
-        <div class="counter" id="counter">0%</div>
-    </div>
-
-    <!-- NAV -->
-    <nav class="fixed w-full z-50 px-6 py-6 flex justify-between items-center mix-diff text-white">
-        <a href="#" class="font-display font-bold text-xl tracking-tight uppercase hover-trigger">RENDER<span class="text-accent">.SYS</span></a>
-        <a href="https://wa.me/5350172941" class="font-mono text-xs border border-white/30 px-4 py-2 rounded-full hover:bg-white hover:text-black transition-all hover-trigger">
-            [ INICIAR PROYECTO ]
-        </a>
+    <!-- NAVBAR SIMPLE -->
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
+        <div class="max-w-6xl mx-auto px-6 h-16 flex justify-between items-center">
+            <a href="#" class="text-xl font-bold tracking-tight text-brand-blue flex items-center gap-2">
+                <i class="ph-fill ph-rocket-launch"></i> RENDER
+            </a>
+            <a href="https://wa.me/5350172941" target="_blank" class="text-sm font-medium bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-full transition-colors flex items-center gap-2">
+                <i class="ph-bold ph-whatsapp text-green-600"></i> Contactar
+            </a>
+        </div>
     </nav>
 
-    <!-- HERO -->
-    <header class="relative h-screen flex flex-col justify-center px-6 md:px-20">
-        <div class="max-w-7xl">
-            <p class="font-mono text-accent text-sm mb-4 tracking-widest fade-in">/// SYSTEM ONLINE</p>
-            <h1 class="font-display text-[12vw] leading-[0.85] font-semibold uppercase mix-blend-overlay opacity-90 fade-in">
-                Digital <br> <span class="text-white opacity-100">Engineering</span>
+    <!-- HERO SECTION (Lo primero que ven) -->
+    <section class="pt-32 pb-20 px-6">
+        <div class="max-w-4xl mx-auto text-center">
+            <span class="inline-block py-1 px-3 rounded-full bg-blue-50 text-blue-600 text-xs font-bold uppercase tracking-wide mb-6 fade-up">
+                Servicio Exclusivo para Negocios Hispanos en USA
+            </span>
+            
+            <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-6 text-brand-dark fade-up" style="transition-delay: 0.1s;">
+                Si tus clientes no te encuentran en Google, <span class="text-brand-blue">te están perdiendo.</span>
             </h1>
             
-            <div class="mt-12 flex flex-col md:flex-row gap-8 md:items-end justify-between border-t border-white/10 pt-8 fade-in">
-                <p class="text-gray-400 max-w-md text-lg leading-relaxed">
-                    Dejamos de "hacer webs" hace años. Construimos <span class="text-white">infraestructura digital</span> diseñada para capturar mercado y escalar negocios sin fricción técnica.
+            <p class="text-lg md:text-xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed fade-up" style="transition-delay: 0.2s;">
+                Ayudo a negocios locales (Restaurantes, Servicios, Contratistas) a tener una web profesional que inspira confianza y genera llamadas. Sin complicaciones técnicas.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center fade-up" style="transition-delay: 0.3s;">
+                <a href="https://wa.me/5350172941?text=Hola,%20me%20interesa%20una%20demo%20para%20mi%20negocio" target="_blank" class="btn-primary px-8 py-4 rounded-lg font-semibold text-lg flex items-center justify-center gap-2">
+                    Solicitar Demo Gratis <i class="ph-bold ph-arrow-right"></i>
+                </a>
+                <p class="text-xs text-gray-400 mt-2 sm:mt-0 flex items-center justify-center gap-1">
+                    <i class="ph-fill ph-check-circle text-green-500"></i> Sin pago por adelantado
                 </p>
-                <div class="flex gap-12 font-mono text-xs text-gray-500">
-                    <div>
-                        <span class="block text-white mb-1">LATENCY</span>
-                        <span class="text-green-500">12ms (ULTRA FAST)</span>
-                    </div>
-                    <div>
-                        <span class="block text-white mb-1">LOCATION</span>
-                        <span>HAV / WORLDWIDE</span>
-                    </div>
-                </div>
             </div>
-        </div>
-    </header>
-
-    <!-- SELECTED WORK (INTERACTIVE LIST) -->
-    <section class="py-32 px-6 md:px-20 bg-void/90 backdrop-blur-sm relative z-10">
-        <div class="flex items-end justify-between mb-20 border-b border-white/10 pb-6">
-            <h2 class="font-display text-4xl md:text-6xl text-white">Casos de Estudio</h2>
-            <span class="font-mono text-xs text-gray-500">[ 2023 — 2025 ]</span>
-        </div>
-
-        <div class="flex flex-col">
-            <!-- Project 1 -->
-            <a href="#" class="project-item group py-12 border-b border-white/10 flex justify-between items-center hover:opacity-100 opacity-60 transition-opacity hover-trigger" 
-               data-img="https://images.unsplash.com/photo-1600607686527-6fb886090705?q=80&w=2000&auto=format&fit=crop">
-                <h3 class="font-display text-4xl md:text-7xl text-white group-hover:translate-x-4 transition-transform duration-500">Arquitectura Vex</h3>
-                <span class="hidden md:block font-mono text-sm text-gray-400">Desarrollo / 3D / Branding</span>
-            </a>
-
-            <!-- Project 2 -->
-            <a href="#" class="project-item group py-12 border-b border-white/10 flex justify-between items-center hover:opacity-100 opacity-60 transition-opacity hover-trigger" 
-               data-img="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1964&auto=format&fit=crop">
-                <h3 class="font-display text-4xl md:text-7xl text-white group-hover:translate-x-4 transition-transform duration-500">Fintech Nova</h3>
-                <span class="hidden md:block font-mono text-sm text-gray-400">App Web / Seguridad / UX</span>
-            </a>
-
-            <!-- Project 3 -->
-            <a href="#" class="project-item group py-12 border-b border-white/10 flex justify-between items-center hover:opacity-100 opacity-60 transition-opacity hover-trigger" 
-               data-img="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2070&auto=format&fit=crop">
-                <h3 class="font-display text-4xl md:text-7xl text-white group-hover:translate-x-4 transition-transform duration-500">Luxury Estate</h3>
-                <span class="hidden md:block font-mono text-sm text-gray-400">E-Commerce / Real Estate</span>
-            </a>
-            
-            <!-- Project 4 -->
-            <a href="#" class="project-item group py-12 border-b border-white/10 flex justify-between items-center hover:opacity-100 opacity-60 transition-opacity hover-trigger" 
-               data-img="https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=2064&auto=format&fit=crop">
-                <h3 class="font-display text-4xl md:text-7xl text-white group-hover:translate-x-4 transition-transform duration-500">Neon Data</h3>
-                <span class="hidden md:block font-mono text-sm text-gray-400">Dashboard / Analytics</span>
-            </a>
         </div>
     </section>
 
-    <!-- SERVICES (ACCORDION) -->
-    <section class="py-32 px-6 md:px-20 bg-off-white text-void rounded-t-[3rem] relative z-20">
-        <div class="max-w-7xl mx-auto">
-            <h2 class="font-display text-4xl mb-16">Capacidades Técnicas</h2>
+    <!-- EL PROBLEMA VS SOLUCIÓN (Conectando con el chat) -->
+    <section class="py-20 bg-gray-50 px-6">
+        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+            <div class="order-2 md:order-1">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 relative">
+                    <!-- Simulación de Google Maps -->
+                    <div class="flex items-center gap-3 mb-4 border-b border-gray-100 pb-4">
+                        <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                        <span class="text-xs text-gray-400 ml-auto">Google Search</span>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex gap-4 items-start">
+                            <div class="bg-gray-200 w-12 h-12 rounded-lg shrink-0"></div>
+                            <div class="w-full">
+                                <div class="h-4 bg-gray-200 w-3/4 rounded mb-2"></div>
+                                <div class="h-3 bg-gray-100 w-1/2 rounded"></div>
+                                <div class="mt-2 flex gap-2">
+                                    <div class="h-6 bg-blue-100 w-20 rounded"></div>
+                                    <div class="h-6 bg-green-100 w-20 rounded border border-green-200"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-3 bg-blue-50 rounded-lg border border-blue-100">
+                            <p class="text-sm text-blue-800 font-medium flex items-center gap-2">
+                                <i class="ph-fill ph-check-circle"></i> Tu negocio aparecerá aquí
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+            <div class="order-1 md:order-2">
+                <h2 class="text-3xl font-bold mb-6">¿Por qué necesitas esto hoy mismo?</h2>
+                <ul class="space-y-4">
+                    <li class="flex items-start gap-3">
+                        <div class="bg-red-100 p-2 rounded-full text-red-600 mt-1"><i class="ph-bold ph-x"></i></div>
+                        <p class="text-gray-600">La mayoría de tus competidores ya tienen web. Si alguien busca en Google y tú no estás, <strong>ellos se quedan con el cliente.</strong></p>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <div class="bg-blue-100 p-2 rounded-full text-blue-600 mt-1"><i class="ph-bold ph-device-mobile"></i></div>
+                        <p class="text-gray-600">Mis diseños se ven perfectos en celulares. Hoy en día, el 80% de las búsquedas son desde un teléfono.</p>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <div class="bg-green-100 p-2 rounded-full text-green-600 mt-1"><i class="ph-bold ph-whatsapp-logo"></i></div>
+                        <p class="text-gray-600">Integro botones de "Llamada Directa" y "WhatsApp". Facilito que el cliente te contacte con un solo clic.</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- QUÉ INCLUYE (Robustez explicada simple) -->
+    <section class="py-20 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold mb-4">No es solo una "página bonita"</h2>
+                <p class="text-gray-500">Es una herramienta de ventas completa para tu negocio.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Card 1 -->
+                <div class="feature-card p-8 rounded-xl">
+                    <i class="ph-duotone ph-map-pin text-4xl text-brand-blue mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Ubicación y Horarios</h3>
+                    <p class="text-sm text-gray-500 leading-relaxed">Muestra tu dirección con Google Maps integrado y tus horarios en tiempo real (Abierto/Cerrado).</p>
+                </div>
+                <!-- Card 2 -->
+                <div class="feature-card p-8 rounded-xl">
+                    <i class="ph-duotone ph-images text-4xl text-brand-blue mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Galería de Servicios</h3>
+                    <p class="text-sm text-gray-500 leading-relaxed">Muestra tus mejores trabajos, platos o instalaciones. Las imágenes venden más que mil palabras.</p>
+                </div>
+                <!-- Card 3 -->
+                <div class="feature-card p-8 rounded-xl">
+                    <i class="ph-duotone ph-rocket text-4xl text-brand-blue mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Velocidad Extrema</h3>
+                    <p class="text-sm text-gray-500 leading-relaxed">Uso tecnología moderna para que tu web cargue al instante. A nadie le gusta esperar.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOBRE MÍ (Trust Factor) -->
+    <section class="py-20 bg-brand-dark text-white px-6 rounded-3xl mx-4 md:mx-10 shadow-2xl">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-8">Trato Directo. Sin Intermediarios.</h2>
+            <div class="grid md:grid-cols-2 gap-10 text-left items-center">
                 <div>
-                    <p class="text-xl leading-relaxed font-medium mb-8">
-                        La mayoría de agencias venden "diseño bonito". Nosotros vendemos <span class="underline">código limpio</span>. Una web mal programada es un pasivo; una web bien hecha es un activo que imprime dinero.
+                    <p class="text-gray-300 text-lg leading-relaxed mb-6">
+                        Hola, soy el desarrollador detrás de Render. Soy un profesional independiente enfocado en la calidad.
                     </p>
-                    <a href="https://wa.me/5350172941" class="inline-block bg-void text-white px-8 py-4 rounded-full font-bold uppercase tracking-wide hover:bg-accent transition-colors hover-trigger">
-                        Auditoría Gratuita
+                    <p class="text-gray-300 text-lg leading-relaxed">
+                        Al no ser una agencia gigante, <strong>tú eres mi prioridad.</strong> Te ofrezco comunicación directa por WhatsApp, precios justos y una dedicación que las grandes empresas no pueden igualar.
+                    </p>
+                </div>
+                <div class="bg-white/10 p-6 rounded-xl border border-white/10">
+                    <h4 class="text-xl font-bold mb-4 flex items-center gap-2">
+                        <i class="ph-fill ph-handshake text-yellow-400"></i> Mi Promesa
+                    </h4>
+                    <ul class="space-y-3 text-sm text-gray-300">
+                        <li class="flex gap-2"><i class="ph-bold ph-check text-green-400"></i> Diseño una Demo Gratis primero.</li>
+                        <li class="flex gap-2"><i class="ph-bold ph-check text-green-400"></i> Si no te gusta, no pagas nada.</li>
+                        <li class="flex gap-2"><i class="ph-bold ph-check text-green-400"></i> Soporte técnico incluido.</li>
+                    </ul>
+                    <a href="https://wa.me/5350172941" class="mt-6 block w-full bg-white text-brand-dark text-center py-3 rounded-lg font-bold hover:bg-gray-100 transition-colors">
+                        Hablar conmigo ahora
                     </a>
                 </div>
-
-                <div class="space-y-8">
-                    <!-- Service 1 -->
-                    <div class="border-b border-black/10 pb-8 hover-trigger">
-                        <h3 class="font-display text-3xl mb-4">01. High-Performance Dev</h3>
-                        <p class="text-gray-600">React, Next.js, WebGL. Carga instantánea, SEO técnico perfecto y cero dependencia de constructores visuales lentos.</p>
-                    </div>
-                     <!-- Service 2 -->
-                     <div class="border-b border-black/10 pb-8 hover-trigger">
-                        <h3 class="font-display text-3xl mb-4">02. Experiencia de Usuario</h3>
-                        <p class="text-gray-600">Diseño centrado en la conversión. Eliminamos fricción para que tus visitantes se conviertan en clientes.</p>
-                    </div>
-                     <!-- Service 3 -->
-                     <div class="border-b border-black/10 pb-8 hover-trigger">
-                        <h3 class="font-display text-3xl mb-4">03. Infraestructura</h3>
-                        <p class="text-gray-600">Configuración de servidores, seguridad anti-hackeo y escalabilidad para manejar tráfico masivo.</p>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
 
-    <!-- FOOTER -->
-    <footer class="bg-void pt-32 pb-12 px-6 md:px-20 text-center relative z-10">
-        <h2 class="font-display text-[10vw] leading-none text-white mb-8 hover:text-accent transition-colors cursor-pointer hover-trigger">
-            LET'S TALK
-        </h2>
-        <div class="flex flex-col md:flex-row justify-center gap-8 md:gap-16 font-mono text-gray-500 text-sm uppercase tracking-widest mb-20">
-            <a href="mailto:onrender@gmail.com" class="hover:text-white transition-colors hover-trigger">Email</a>
-            <a href="https://wa.me/5350172941" class="hover:text-white transition-colors hover-trigger">WhatsApp</a>
-            <a href="#" class="hover:text-white transition-colors hover-trigger">Instagram</a>
+    <!-- EJEMPLOS (Placeholder) -->
+    <section class="py-20 px-6">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold mb-10 text-center">Ejemplos de lo que puedo hacer</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <a href="#" class="group block overflow-hidden rounded-xl border border-gray-200 shadow-sm hover:shadow-xl transition-all">
+                    <div class="bg-gray-100 h-64 flex items-center justify-center text-gray-400 group-hover:bg-gray-200 transition-colors relative overflow-hidden">
+                        <!-- IMAGEN REAL DE TUS DEMOS AQUI -->
+                        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1000&auto=format&fit=crop" class="w-full h-full object-cover" alt="Restaurante Demo">
+                        <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <span class="bg-white text-black px-4 py-2 rounded-full font-bold">Ver Demo</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-lg">Rancho Cruz / Restaurantes</h3>
+                        <p class="text-gray-500 text-sm">Menú digital, reservas y ubicación.</p>
+                    </div>
+                </a>
+                
+                <a href="#" class="group block overflow-hidden rounded-xl border border-gray-200 shadow-sm hover:shadow-xl transition-all">
+                    <div class="bg-gray-100 h-64 flex items-center justify-center text-gray-400 group-hover:bg-gray-200 transition-colors relative overflow-hidden">
+                         <!-- IMAGEN REAL DE TUS DEMOS AQUI -->
+                         <img src="https://images.unsplash.com/photo-1621905251918-48416bd8575a?q=80&w=1000&auto=format&fit=crop" class="w-full h-full object-cover" alt="Servicios Demo">
+                         <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <span class="bg-white text-black px-4 py-2 rounded-full font-bold">Ver Demo</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-lg">Notaría / Servicios Profesionales</h3>
+                        <p class="text-gray-500 text-sm">Citas, servicios y contacto rápido.</p>
+                    </div>
+                </a>
+            </div>
         </div>
-        
-        <p class="text-white/20 text-xs font-mono">RENDER ENGINEERING SYSTEM © 2026</p>
+    </section>
+
+    <!-- FOOTER SIMPLE -->
+    <footer class="bg-gray-50 pt-16 pb-8 border-t border-gray-200 text-center">
+        <div class="max-w-4xl mx-auto px-6">
+            <h3 class="text-2xl font-bold text-brand-blue mb-4">RENDER SERVICES</h3>
+            <p class="text-gray-600 mb-8">Ayudando a pequeños negocios a crecer en el mundo digital.</p>
+            
+            <div class="flex flex-col md:flex-row justify-center gap-4 md:gap-8 mb-8 text-sm">
+                <a href="mailto:onrenderservices@gmail.com" class="flex items-center justify-center gap-2 text-gray-700 hover:text-brand-blue">
+                    <i class="ph-bold ph-envelope"></i> onrenderservices@gmail.com
+                </a>
+                <a href="https://wa.me/5350172941" class="flex items-center justify-center gap-2 text-gray-700 hover:text-brand-blue">
+                    <i class="ph-bold ph-whatsapp"></i> +53 5017 2941
+                </a>
+            </div>
+            
+            <p class="text-xs text-gray-400">© 2026 Render Services. Desarrollado con ❤️ y código limpio.</p>
+        </div>
     </footer>
 
+    <!-- LÓGICA SENCILLA -->
     <script>
-        // --- 1. PRELOADER NUMÉRICO ---
-        const counter = document.getElementById('counter');
-        const preloader = document.getElementById('preloader');
-        let count = 0;
-        
-        const interval = setInterval(() => {
-            count += Math.floor(Math.random() * 5) + 1;
-            if (count > 100) count = 100;
-            counter.innerText = count + '%';
-            
-            if (count === 100) {
-                clearInterval(interval);
-                gsap.to(preloader, { yPercent: -100, duration: 1, ease: "power4.inOut", delay: 0.2 });
-                animateEntrance();
-            }
-        }, 30); // Velocidad del contador
+        // Registrar Plugin
+        gsap.registerPlugin(ScrollTrigger);
 
-        // --- 2. ENTRADA DE ELEMENTOS ---
-        function animateEntrance() {
-            gsap.from(".fade-in", {
-                y: 100,
+        // Animación de entrada al cargar
+        window.addEventListener('load', () => {
+            gsap.to(".fade-up", {
+                y: 0,
+                opacity: 1,
+                duration: 0.8,
+                stagger: 0.15,
+                ease: "power2.out"
+            });
+        });
+
+        // Animación al hacer scroll (para que se sienta "viva")
+        gsap.utils.toArray('.feature-card').forEach(card => {
+            gsap.from(card, {
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 85%",
+                    toggleActions: "play none none reverse"
+                },
+                y: 30,
                 opacity: 0,
-                duration: 1.5,
-                stagger: 0.2,
-                ease: "power3.out",
-                delay: 0.5
+                duration: 0.6
             });
-        }
-
-        // --- 3. CURSOR & PROJECT PREVIEW ---
-        if (window.matchMedia("(min-width: 1024px)").matches) {
-            const cursorDot = document.getElementById('cursor-dot');
-            const cursorOutline = document.getElementById('cursor-outline');
-            const previewContainer = document.getElementById('preview-container');
-            const previewImage = document.getElementById('preview-image');
-
-            // Movimiento suave del cursor
-            const mouseX = gsap.quickTo(cursorDot, "x", {duration: 0.1, ease: "power3"});
-            const mouseY = gsap.quickTo(cursorDot, "y", {duration: 0.1, ease: "power3"});
-            const outlineX = gsap.quickTo(cursorOutline, "x", {duration: 0.3, ease: "power3"});
-            const outlineY = gsap.quickTo(cursorOutline, "y", {duration: 0.3, ease: "power3"});
-            const previewX = gsap.quickTo(previewContainer, "x", {duration: 0.4, ease: "power3"});
-            const previewY = gsap.quickTo(previewContainer, "y", {duration: 0.4, ease: "power3"});
-
-            window.addEventListener("mousemove", (e) => {
-                mouseX(e.clientX);
-                mouseY(e.clientY);
-                outlineX(e.clientX);
-                outlineY(e.clientY);
-                
-                // Mover la imagen preview también
-                previewX(e.clientX);
-                previewY(e.clientY);
-            });
-
-            // Hover Effects Genéricos
-            document.querySelectorAll('.hover-trigger').forEach(link => {
-                link.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
-                link.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
-            });
-
-            // Hover en Proyectos (Cambio de Imagen)
-            document.querySelectorAll('.project-item').forEach(item => {
-                item.addEventListener('mouseenter', () => {
-                    const imgUrl = item.getAttribute('data-img');
-                    previewImage.src = imgUrl;
-                    gsap.to(previewContainer, { autoAlpha: 1, scale: 1, duration: 0.3 });
-                    document.body.classList.add('hovering-project');
-                    cursorOutline.style.opacity = 0; // Ocultar circulo normal
-                });
-                
-                item.addEventListener('mouseleave', () => {
-                    gsap.to(previewContainer, { autoAlpha: 0, scale: 0.8, duration: 0.3 });
-                    document.body.classList.remove('hovering-project');
-                    cursorOutline.style.opacity = 1;
-                });
-            });
-        }
-
-        // --- 4. SMOOTH SCROLL ---
-        const lenis = new Lenis({ duration: 1.2, smooth: true });
-        function raf(time) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-        }
-        requestAnimationFrame(raf);
-
+        });
     </script>
 </body>
 </html>
