@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RENDER | Web Design</title>
-    <meta name="description" content="Diseño web profesional. Estrategia y desarrollo sin intermediarios.">
+    <title>RENDER | Desarrollo Web Premium</title>
+    <meta name="description" content="Diseño web estratégico para negocios. Sin agencias, trato directo.">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Fuentes: Usamos una Serif para el Logo (como Claude) y Sans para el resto -->
-    <link href="https://api.fontshare.com/v2/css?f[]=general-sans@300,400,500,600&f[]=sentient@400,500,700&display=swap" rel="stylesheet">
+    <!-- Fuentes: Fraunces (Serif elegante tipo Claude) y General Sans -->
+    <link href="https://api.fontshare.com/v2/css?f[]=fraunces@300,400,500,600&f[]=general-sans@300,400,500,600&display=swap" rel="stylesheet">
     
     <!-- Iconos -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
@@ -25,20 +25,29 @@
                 extend: {
                     fontFamily: {
                         sans: ['General Sans', 'sans-serif'],
-                        serif: ['Sentient', 'serif'], // Para ese toque "Claude" en el logo
+                        serif: ['Fraunces', 'serif'], 
                     },
                     colors: {
-                        // COLORES EXACTOS EXTRAÍDOS DE LA CAPTURA
-                        'anthro-bg': '#131313',       /* Fondo Principal (No es negro puro) */
-                        'anthro-card': '#1f1f1f',     /* Fondo de las tarjetas */
-                        'anthro-border': '#2e2e2e',   /* Borde gris sutil */
-                        'anthro-cream': '#f0efe9',    /* El color exacto del botón "Get Max plan" */
-                        'anthro-text': '#ededed',     /* Texto principal */
-                        'anthro-muted': '#909090',    /* Texto secundario */
+                        // PALETA EXACTA BASADA EN TU CÓDIGO HEX #30302e
+                        'claude-main': '#191918',    /* Fondo de la página (un poco más oscuro para contraste) */
+                        'claude-card': '#30302e',    /* EL COLOR EXACTO QUE ME DISTE */
+                        'claude-border': '#424240',  /* Borde sutil para separar */
+                        'claude-cream': '#F0EFE9',   /* Botón blanco hueso/crema */
+                        'claude-text': '#F1F0E8',    /* Texto principal (Blanco cálido) */
+                        'claude-muted': '#A1A19A',   /* Texto secundario (Gris cálido) */
+                        'claude-accent': '#D97757',  /* Terracota sutil (el color del logo de Claude) */
                     },
                     boxShadow: {
-                        'subtle': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
-                        'glow': '0 0 0 1px #333, 0 0 20px rgba(255, 255, 255, 0.05)',
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.2)',
+                    },
+                    animation: {
+                        'float': 'float 4s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
                     }
                 }
             }
@@ -46,127 +55,149 @@
     </script>
 
     <style>
-        body { background-color: #131313; color: #ededed; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+        body { 
+            background-color: #191918; 
+            color: #F1F0E8; 
+            overflow-x: hidden; 
+            -webkit-font-smoothing: antialiased; 
+        }
         
-        /* Animaciones */
-        .fade-in { opacity: 0; transform: translateY(15px); transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        /* Animaciones de entrada */
+        .fade-in { opacity: 0; transform: translateY(20px); transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
         .is-visible { opacity: 1; transform: translateY(0); }
 
-        /* EL BOTÓN CLAUDE EXACTO */
-        .btn-anthro {
-            background-color: #f0efe9; 
-            color: #1a1a1a;
+        /* EL BOTÓN EXACTO (Crema con texto negro) */
+        .btn-claude {
+            background-color: #F0EFE9; 
+            color: #191918;
+            font-family: 'General Sans', sans-serif;
             font-weight: 500;
-            border-radius: 0.5rem; /* 8px */
+            border-radius: 0.5rem; /* 8px - Borde suave */
             transition: all 0.2s ease;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
-        .btn-anthro:hover { 
+        .btn-claude:hover { 
             background-color: #ffffff; 
             transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
 
-        /* TARJETAS EXACTAS */
-        .card-anthro {
-            background-color: #1f1f1f;
-            border: 1px solid #2e2e2e;
-            border-radius: 0.75rem; /* 12px */
-            transition: all 0.3s ease;
+        /* LA TARJETA EXACTA (#30302e) */
+        .card-claude {
+            background-color: #30302e; /* TU CÓDIGO HEX */
+            border: 1px solid #424240;
+            border-radius: 0.85rem; /* 14px */
+            transition: border-color 0.3s ease;
         }
-        .card-anthro:hover {
-            border-color: #404040;
-            background-color: #232323;
+        .card-claude:hover {
+            border-color: #5c5c58;
         }
 
-        /* Mini Navegador Estilo Anthropic */
+        /* Mini Navegador (Adaptado a los colores cálidos) */
         .mini-browser {
-            background: #131313; border: 1px solid #2e2e2e; border-radius: 6px; overflow: hidden;
+            background: #252524; /* Un tono entre el fondo y la tarjeta */
+            border: 1px solid #424240; 
+            border-radius: 8px; 
+            overflow: hidden;
         }
         .browser-header {
-            background: #1a1a1a; padding: 8px; display: flex; gap: 6px; border-bottom: 1px solid #2e2e2e;
+            background: #30302e; 
+            padding: 8px 12px; 
+            display: flex; 
+            gap: 6px; 
+            border-bottom: 1px solid #424240;
         }
-        .dot { width: 8px; height: 8px; border-radius: 50%; background: #333; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: #555; }
     </style>
 </head>
 <body class="antialiased">
 
     <!-- NAVBAR -->
-    <nav class="fixed w-full z-50 bg-[#131313]/90 backdrop-blur-xl border-b border-white/5">
-        <div class="max-w-4xl mx-auto px-6 h-16 flex justify-between items-center">
-            <!-- Logo con la fuente Serif de Claude (Sentient) -->
-            <a href="#" class="font-serif text-2xl tracking-tight text-anthro-cream flex items-center gap-2">
-                <i class="ph-light ph-sparkle text-anthro-cream"></i> Render
+    <nav class="fixed w-full z-50 bg-[#191918]/90 backdrop-blur-xl border-b border-white/5">
+        <div class="max-w-5xl mx-auto px-6 h-16 flex justify-between items-center">
+            <!-- Logo: Serif (Elegante) -->
+            <a href="#" class="font-serif text-2xl text-claude-cream tracking-tight flex items-center gap-2">
+                <i class="ph-light ph-sparkle text-claude-accent"></i> Render
             </a>
-            <a href="https://wa.me/5350172941" class="text-xs font-medium text-anthro-muted hover:text-white transition-colors border border-white/10 px-4 py-2 rounded-full hover:border-white/30">
+            
+            <a href="https://wa.me/5350172941" class="text-xs font-medium tracking-wide text-claude-muted hover:text-white transition-colors border border-white/10 px-4 py-2 rounded-full hover:bg-white/5">
                 Contactar
             </a>
         </div>
     </nav>
 
     <!-- HERO SECTION -->
-    <section class="pt-36 pb-20 px-6">
-        <div class="max-w-2xl mx-auto text-center">
+    <section class="pt-36 pb-24 px-6">
+        <div class="max-w-3xl mx-auto text-center">
             
-            <!-- TÍTULO: Sin colores azules, solo blanco puro y tipografía limpia -->
-            <h1 class="text-4xl md:text-6xl font-medium leading-[1.1] mb-6 text-anthro-text fade-in">
-                Si no te encuentran en Google, <br>
-                <span class="text-white font-serif italic">te están perdiendo.</span>
+            <!-- Badge Discreto -->
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#30302e] border border-white/10 text-claude-muted text-xs font-medium mb-8 fade-in">
+                <div class="w-1.5 h-1.5 rounded-full bg-claude-accent"></div>
+                Disponible para nuevos proyectos
+            </div>
+
+            <!-- Título Serif (Editorial) -->
+            <h1 class="font-serif text-4xl md:text-6xl md:leading-[1.1] mb-6 text-claude-cream fade-in" style="transition-delay: 0.1s;">
+                Si tus clientes no te encuentran en Google, <span class="text-claude-accent italic">te están perdiendo.</span>
             </h1>
             
-            <p class="text-lg text-anthro-muted mb-10 leading-relaxed fade-in" style="transition-delay: 0.1s;">
-                Diseño web para negocios hispanos en USA. Sin agencias, sin precios inflados, trato directo.
+            <p class="font-sans text-lg text-claude-muted mb-10 leading-relaxed max-w-xl mx-auto fade-in" style="transition-delay: 0.2s;">
+                Diseño web profesional para negocios locales. Sin agencias, sin precios inflados y con trato 100% directo.
             </p>
 
-            <div class="flex flex-col sm:flex-row gap-4 justify-center fade-in" style="transition-delay: 0.2s;">
-                <!-- EL BOTÓN EXACTO DE LA FOTO -->
-                <a href="https://wa.me/5350172941" target="_blank" class="btn-anthro px-10 py-3.5 text-base flex items-center justify-center gap-2">
+            <div class="flex flex-col sm:flex-row gap-4 justify-center fade-in" style="transition-delay: 0.3s;">
+                <!-- Botón Principal -->
+                <a href="https://wa.me/5350172941" target="_blank" class="btn-claude px-8 py-3.5 text-base flex items-center justify-center gap-2">
                     Solicitar Demo Gratis
                 </a>
             </div>
             
-            <p class="text-xs text-anthro-muted mt-4 flex items-center justify-center gap-2 fade-in" style="transition-delay: 0.3s;">
-                <i class="ph-fill ph-check-circle text-gray-500"></i> Sin pago por adelantado
+            <p class="text-xs text-claude-muted mt-4 flex items-center justify-center gap-2 fade-in" style="transition-delay: 0.4s;">
+                <i class="ph-fill ph-check-circle text-gray-500"></i> No pagas hasta ver el diseño
             </p>
         </div>
     </section>
 
-    <!-- SOBRE MÍ (ESTILO TARJETA "PLAN MAX" DE CLAUDE) -->
+    <!-- SECCIÓN DE CONFIANZA (Usando tu color #30302e) -->
     <section class="py-12 px-6">
-        <div class="max-w-3xl mx-auto">
-            <!-- Esta tarjeta replica los colores y bordes de la captura "Max Plan" -->
-            <div class="card-anthro p-8 md:p-10 fade-in">
+        <div class="max-w-4xl mx-auto">
+            <!-- Esta es la tarjeta principal con el color exacto -->
+            <div class="card-claude p-8 md:p-12 fade-in relative overflow-hidden">
                 
-                <div class="flex flex-col md:flex-row gap-8 items-start">
+                <!-- Decoración de fondo sutil -->
+                <div class="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+
+                <div class="relative z-10 flex flex-col md:flex-row gap-10 items-start">
                     <div class="flex-1">
-                        <div class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center mb-6 border border-white/5">
-                            <i class="ph-light ph-user text-xl text-anthro-cream"></i>
+                        <div class="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center mb-6 border border-white/5">
+                            <i class="ph-light ph-handshake text-2xl text-claude-cream"></i>
                         </div>
                         
-                        <h2 class="text-2xl font-serif text-white mb-4">Trato directo. Sin intermediarios.</h2>
-                        <p class="text-anthro-muted leading-relaxed mb-6">
-                            Soy un desarrollador independiente. Al no ser una agencia gigante, tú eres mi prioridad. Te ofrezco comunicación directa por WhatsApp y precios justos.
+                        <h2 class="text-2xl md:text-3xl font-serif text-claude-cream mb-4">Trato directo. Sin intermediarios.</h2>
+                        <p class="text-claude-muted leading-relaxed mb-6 text-base">
+                            Soy desarrollador independiente, no una agencia masiva. Eso significa que hablas conmigo, no con un vendedor. Te ofrezco calidad de agencia a un precio justo para pequeños negocios.
                         </p>
 
-                        <!-- Lista estilo Claude (Checkmarks finos) -->
-                        <ul class="space-y-3">
-                            <li class="flex items-start gap-3">
-                                <i class="ph-light ph-check text-anthro-cream mt-1"></i>
-                                <span class="text-sm text-gray-300">Diseño una Demo Gratis primero</span>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <i class="ph-light ph-check text-anthro-cream mt-1"></i>
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-5 h-5 rounded-full bg-green-900/30 flex items-center justify-center border border-green-800/50">
+                                    <i class="ph-bold ph-check text-[10px] text-green-400"></i>
+                                </div>
+                                <span class="text-sm text-gray-300">Diseño tu Demo Gratis primero</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-5 h-5 rounded-full bg-green-900/30 flex items-center justify-center border border-green-800/50">
+                                    <i class="ph-bold ph-check text-[10px] text-green-400"></i>
+                                </div>
                                 <span class="text-sm text-gray-300">Si no te gusta, no pagas nada</span>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <i class="ph-light ph-check text-anthro-cream mt-1"></i>
-                                <span class="text-sm text-gray-300">Soporte técnico incluido</span>
-                            </li>
-                        </ul>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- CTA Secundaria -->
-                    <div class="w-full md:w-auto mt-4 md:mt-0">
-                        <a href="https://wa.me/5350172941" class="block w-full text-center border border-white/10 hover:border-white/30 hover:bg-white/5 text-anthro-text text-sm py-3 px-6 rounded-lg transition-all">
-                            Enviar WhatsApp
+                    <!-- Botón secundario -->
+                    <div class="w-full md:w-auto self-center">
+                        <a href="https://wa.me/5350172941" class="group flex items-center justify-center gap-2 w-full md:w-auto border border-white/10 hover:border-white/30 bg-white/5 hover:bg-white/10 text-claude-cream py-3 px-6 rounded-lg transition-all">
+                            Hablar por WhatsApp <i class="ph-bold ph-arrow-right group-hover:translate-x-1 transition-transform"></i>
                         </a>
                     </div>
                 </div>
@@ -174,46 +205,64 @@
         </div>
     </section>
 
-    <!-- MINI WEBS / CAPACIDADES -->
-    <section class="py-20 px-6">
-        <div class="max-w-4xl mx-auto">
-            <h3 class="text-xl font-medium text-white mb-10 text-center fade-in">Tecnología incluida</h3>
+    <!-- CAPACIDADES TÉCNICAS (MINI WEBS) -->
+    <section class="py-24 px-6">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-16 fade-in">
+                <h3 class="font-serif text-3xl text-claude-cream mb-4">Tecnología incluida</h3>
+                <p class="text-claude-muted">Todo lo que tu negocio necesita para vender online.</p>
+            </div>
 
-            <div class="grid md:grid-cols-2 gap-6">
+            <div class="grid md:grid-cols-3 gap-6">
                 
-                <!-- Card 1 -->
-                <div class="card-anthro p-6 fade-in">
-                    <div class="mini-browser h-48 mb-6 relative flex items-center justify-center p-6 bg-[#131313]">
+                <!-- 1. Animaciones -->
+                <div class="card-claude p-6 fade-in group hover:-translate-y-1 transition-transform duration-300">
+                    <div class="mini-browser h-48 mb-6 relative flex items-center justify-center p-6 bg-[#1e1e1d]">
                         <div class="browser-header absolute top-0 w-full left-0">
                             <div class="dot"></div><div class="dot"></div><div class="dot"></div>
                         </div>
-                        <!-- Animación sutil -->
-                        <div class="w-24 h-24 rounded-full border border-white/10 flex items-center justify-center relative">
-                            <div class="absolute inset-0 border border-white/20 rounded-full animate-[ping_3s_infinite] opacity-20"></div>
-                            <i class="ph-light ph-device-mobile text-3xl text-anthro-cream"></i>
+                        <!-- Objeto Flotante -->
+                        <div class="w-20 h-20 bg-gradient-to-tr from-[#D97757] to-[#b35636] rounded-xl shadow-lg animate-float flex items-center justify-center opacity-90">
+                            <i class="ph-light ph-star text-white text-3xl"></i>
                         </div>
                     </div>
-                    <h4 class="font-medium text-white mb-2">Diseño Móvil Perfecto</h4>
-                    <p class="text-sm text-anthro-muted">El 80% de tus clientes usan el celular. Tu web se verá increíble en cualquier pantalla.</p>
+                    <h4 class="font-serif text-lg text-white mb-2">Fluidez Visual</h4>
+                    <p class="text-sm text-claude-muted leading-relaxed">Animaciones suaves que dan una sensación premium sin distraer al cliente.</p>
                 </div>
 
-                <!-- Card 2 -->
-                <div class="card-anthro p-6 fade-in" style="transition-delay: 0.1s;">
-                    <div class="mini-browser h-48 mb-6 relative flex items-center justify-center p-6 bg-[#131313]">
+                <!-- 2. Minimalismo -->
+                <div class="card-claude p-6 fade-in group hover:-translate-y-1 transition-transform duration-300" style="transition-delay: 0.1s;">
+                    <div class="mini-browser h-48 mb-6 relative flex flex-col p-6 pt-10 bg-[#1e1e1d]">
                         <div class="browser-header absolute top-0 w-full left-0">
                             <div class="dot"></div><div class="dot"></div><div class="dot"></div>
                         </div>
-                        <div class="text-center w-full max-w-[180px]">
-                            <div class="text-[10px] text-green-400 mb-2 flex items-center justify-center gap-1">
-                                <div class="w-1 h-1 bg-green-400 rounded-full"></div> Abierto
+                        <div class="flex-1 flex flex-col justify-center items-center text-center">
+                            <div class="h-px w-6 bg-claude-accent mb-3"></div>
+                            <h4 class="font-serif text-xl text-white mb-2">Simple.</h4>
+                            <p class="text-[10px] text-gray-500 uppercase tracking-widest">Estética Limpia</p>
+                        </div>
+                    </div>
+                    <h4 class="font-serif text-lg text-white mb-2">Diseño Limpio</h4>
+                    <p class="text-sm text-claude-muted leading-relaxed">Estructuras claras que transmiten profesionalismo y autoridad.</p>
+                </div>
+
+                <!-- 3. Ventas -->
+                <div class="card-claude p-6 fade-in group hover:-translate-y-1 transition-transform duration-300" style="transition-delay: 0.2s;">
+                    <div class="mini-browser h-48 mb-6 relative flex items-center justify-center p-6 bg-[#1e1e1d]">
+                        <div class="browser-header absolute top-0 w-full left-0">
+                            <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                        </div>
+                        <div class="text-center w-full max-w-[150px]">
+                            <div class="text-[9px] text-green-400 mb-2 flex items-center justify-center gap-1 uppercase tracking-wider">
+                                <span class="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span> Disponible
                             </div>
-                            <div class="bg-anthro-cream text-black text-xs py-2 rounded font-medium shadow-lg mb-2">
-                                Reservar Cita
+                            <div class="bg-claude-cream text-[#191918] text-xs py-2.5 rounded font-medium shadow-lg mb-2 cursor-pointer hover:scale-105 transition-transform">
+                                Reservar Ahora
                             </div>
                         </div>
                     </div>
-                    <h4 class="font-medium text-white mb-2">Enfoque en Ventas</h4>
-                    <p class="text-sm text-anthro-muted">Botones claros y ubicación visible para convertir visitas en clientes reales.</p>
+                    <h4 class="font-serif text-lg text-white mb-2">Enfoque en Ventas</h4>
+                    <p class="text-sm text-claude-muted leading-relaxed">Botones estratégicos (WhatsApp, Mapa) diseñados para capturar clientes.</p>
                 </div>
 
             </div>
@@ -221,20 +270,29 @@
     </section>
 
     <!-- FOOTER -->
-    <footer class="pt-16 pb-12 text-center border-t border-white/5">
+    <footer class="pt-16 pb-12 text-center border-t border-white/5 bg-[#191918]">
         <div class="max-w-4xl mx-auto px-6">
-            <i class="ph-light ph-sparkle text-2xl text-anthro-cream mb-6"></i>
-            <p class="text-anthro-muted text-sm mb-6">Render Services © 2026</p>
-            <a href="mailto:onrenderservices@gmail.com" class="text-sm text-gray-500 hover:text-white transition-colors">onrenderservices@gmail.com</a>
+            <i class="ph-light ph-sparkle text-2xl text-claude-accent mb-6"></i>
+            <p class="text-claude-muted text-sm mb-6 font-serif">Render Services © 2026</p>
+            <div class="flex justify-center gap-6 text-sm">
+                <a href="mailto:onrenderservices@gmail.com" class="text-gray-500 hover:text-white transition-colors">Email</a>
+                <a href="https://wa.me/5350172941" class="text-gray-500 hover:text-white transition-colors">WhatsApp</a>
+            </div>
         </div>
     </footer>
 
     <!-- LÓGICA -->
     <script>
         gsap.registerPlugin(ScrollTrigger);
+        
+        // Animación de entrada suave
         window.addEventListener('load', () => {
             gsap.to(".fade-in", {
-                y: 0, opacity: 1, duration: 0.8, stagger: 0.1, ease: "power2.out"
+                y: 0, 
+                opacity: 1, 
+                duration: 1, 
+                stagger: 0.15, 
+                ease: "power3.out"
             });
         });
     </script>
