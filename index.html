@@ -3,16 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RENDER | Desarrollo Web Inteligente</title>
-    <meta name="description" content="Diseño web premium para negocios. Estrategia digital y desarrollo a medida.">
+    <title>RENDER | Desarrollo Web Profesional</title>
+    <meta name="description" content="Diseño web para negocios en USA. Atraiga más clientes con una web moderna y efectiva.">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Fuentes: Fraunces (Serif elegante) y Inter (Moderno) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <!-- Fuente: Inter (Idéntica a la de Claude) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     
     <!-- Iconos -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
@@ -27,16 +25,18 @@
                 extend: {
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
-                        serif: ['Fraunces', 'serif'],
                     },
                     colors: {
-                        'claude-bg': '#131316',      /* Fondo principal muy oscuro */
-                        'claude-card': '#1C1C1F',    /* Fondo de tarjetas */
-                        'claude-border': '#2E2E32',  /* Bordes sutiles */
-                        'claude-text': '#E1E1E3',    /* Texto principal (casi blanco) */
-                        'claude-muted': '#9CA3AF',   /* Texto secundario */
-                        'claude-accent': '#D97757',  /* Terracota (Estilo AI) */
-                        'claude-cream': '#F0EFEA',   /* Crema para botones */
+                        // Paleta extraída de la captura de pantalla
+                        'claude-bg': '#18181b',       /* Fondo Principal */
+                        'claude-card': '#27272a',     /* Fondo Tarjetas */
+                        'claude-border': '#3f3f46',   /* Borde sutil */
+                        'claude-glow': '#3b82f6',     /* El azul del borde "Max" */
+                        'text-primary': '#f4f4f5',    /* Blanco hueso */
+                        'text-secondary': '#a1a1aa',  /* Gris texto secundario */
+                    },
+                    boxShadow: {
+                        'blue-glow': '0 0 0 1px rgba(59, 130, 246, 0.5), 0 0 40px -10px rgba(59, 130, 246, 0.3)',
                     },
                     animation: {
                         'float': 'float 4s ease-in-out infinite',
@@ -53,215 +53,286 @@
     </script>
 
     <style>
-        body { background-color: #131316; color: #E1E1E3; overflow-x: hidden; }
+        body { background-color: #18181b; color: #f4f4f5; overflow-x: hidden; }
         
-        /* Utilidades de animación */
-        .fade-in { opacity: 0; transform: translateY(20px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        /* Animaciones */
+        .fade-up { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
         .is-visible { opacity: 1; transform: translateY(0); }
 
-        /* Botón estilo Claude (Crema suave) */
+        /* Estilo Botón Claude (Blanco con texto negro) */
         .btn-claude {
-            background-color: #F0EFEA; color: #131316;
+            background-color: #ffffff; color: #000000;
+            font-weight: 500; border-radius: 0.5rem; /* rounded-lg */
             transition: all 0.2s ease;
         }
-        .btn-claude:hover { background-color: #ffffff; transform: scale(1.02); }
+        .btn-claude:hover { background-color: #e4e4e7; transform: translateY(-1px); }
 
-        /* Tarjetas con borde fino */
+        /* Estilo Tarjeta Claude */
         .card-claude {
-            background-color: #1C1C1F;
-            border: 1px solid #2E2E32;
-            border-radius: 12px; /* Bordes redondeados suaves */
-            transition: border-color 0.3s ease;
+            background-color: #27272a;
+            border: 1px solid #3f3f46;
+            border-radius: 0.75rem; /* rounded-xl */
+            transition: all 0.3s ease;
         }
-        .card-claude:hover { border-color: #52525b; }
+        /* Efecto Hover: Borde azulado suave como en la foto */
+        .card-claude:hover {
+            border-color: rgba(59, 130, 246, 0.5);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
+        }
 
-        /* Mini Web Styles (Dark Mode) */
+        /* Clase especial para destacar elementos (como el plan Max) */
+        .border-glow {
+            border-color: rgba(59, 130, 246, 0.4);
+            box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.1), 0 10px 30px -10px rgba(59, 130, 246, 0.15);
+        }
+
+        /* Mini Navegador en Dark Mode */
         .mini-browser {
-            background: #000000; border: 1px solid #333; border-radius: 8px; overflow: hidden;
-            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+            background: #18181b; border: 1px solid #3f3f46; border-radius: 0.5rem; overflow: hidden;
         }
         .browser-header {
-            background: #1a1a1a; padding: 8px 12px; display: flex; gap: 6px; border-bottom: 1px solid #333;
+            background: #27272a; padding: 0.5rem; display: flex; gap: 6px; border-bottom: 1px solid #3f3f46;
         }
-        .dot { width: 8px; height: 8px; border-radius: 50%; background: #333; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: #52525b; }
     </style>
 </head>
-<body class="antialiased selection:bg-claude-accent selection:text-white">
+<body class="antialiased">
 
-    <!-- NAVBAR DISCRETO -->
-    <nav class="fixed w-full z-50 bg-[#131316]/80 backdrop-blur-md border-b border-white/5">
-        <div class="max-w-5xl mx-auto px-6 h-20 flex justify-between items-center">
-            <span class="font-serif text-2xl font-medium tracking-tight">Render</span>
-            
-            <a href="https://wa.me/5350172941" class="text-xs font-sans tracking-widest uppercase text-claude-muted hover:text-white transition-colors border border-white/10 px-4 py-2 rounded-full hover:border-white/30">
-                Contactar
+    <!-- NAVBAR (Estilo Dark Minimal) -->
+    <nav class="fixed w-full z-50 bg-[#18181b]/90 backdrop-blur-md border-b border-white/5">
+        <div class="max-w-6xl mx-auto px-6 h-16 flex justify-between items-center">
+            <a href="#" class="text-xl font-semibold tracking-tight text-white flex items-center gap-2">
+                <i class="ph-fill ph-rocket-launch text-claude-glow"></i> RENDER
+            </a>
+            <a href="https://wa.me/5350172941" target="_blank" class="text-sm font-medium text-text-secondary hover:text-white transition-colors border border-white/10 px-4 py-2 rounded-full hover:border-white/30 hover:bg-white/5 flex items-center gap-2">
+                <i class="ph-bold ph-whatsapp"></i> Contactar
             </a>
         </div>
     </nav>
 
-    <!-- HERO SECTION (Estilo Editorial) -->
-    <section class="pt-40 pb-24 px-6">
-        <div class="max-w-3xl mx-auto text-center">
-            <!-- Etiqueta pequeña -->
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-claude-accent text-xs font-medium mb-8 fade-in">
-                <div class="w-1.5 h-1.5 rounded-full bg-claude-accent"></div>
-                Desarrollo Web Independiente
-            </div>
+    <!-- HERO SECTION -->
+    <section class="pt-32 pb-20 px-6">
+        <div class="max-w-4xl mx-auto text-center">
+            <!-- Badge estilo Claude (Texto gris sobre fondo oscuro) -->
+            <span class="inline-block py-1 px-3 rounded-full bg-white/5 border border-white/10 text-text-secondary text-xs font-medium uppercase tracking-wide mb-8 fade-up">
+                Servicio Exclusivo para Negocios Hispanos
+            </span>
             
-            <h1 class="font-serif text-5xl md:text-7xl leading-[1.1] mb-8 text-claude-cream fade-in" style="transition-delay: 0.1s;">
-                Diseño inteligente para negocios locales.
+            <h1 class="text-4xl md:text-6xl font-semibold leading-tight mb-6 text-white fade-up" style="transition-delay: 0.1s;">
+                Si tus clientes no te encuentran en Google, <span class="text-claude-glow">te están perdiendo.</span>
             </h1>
             
-            <p class="font-sans text-lg md:text-xl text-claude-muted mb-12 leading-relaxed max-w-xl mx-auto fade-in" style="transition-delay: 0.2s;">
-                Una web no tiene por qué ser complicada. Ayudo a dueños de negocio a tener presencia online profesional, con un trato directo y honesto.
+            <p class="text-lg md:text-xl text-text-secondary mb-10 max-w-2xl mx-auto leading-relaxed fade-up" style="transition-delay: 0.2s;">
+                Diseño webs profesionales para negocios locales (Restaurantes, Servicios, Contratistas). Sin agencias, sin precios inflados, trato directo.
             </p>
 
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 fade-in" style="transition-delay: 0.3s;">
-                <a href="https://wa.me/5350172941" class="btn-claude px-8 py-4 rounded-lg font-medium text-lg w-full sm:w-auto text-center">
-                    Solicitar Demo Gratis
+            <div class="flex flex-col sm:flex-row gap-4 justify-center fade-up" style="transition-delay: 0.3s;">
+                <!-- Botón Blanco Estilo Claude -->
+                <a href="https://wa.me/5350172941?text=Hola,%20me%20interesa%20una%20demo%20para%20mi%20negocio" target="_blank" class="btn-claude px-8 py-4 text-lg flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.1)]">
+                    Solicitar Demo Gratis <i class="ph-bold ph-arrow-right"></i>
                 </a>
-                <span class="text-sm text-claude-muted">Sin compromiso de pago</span>
+                <p class="text-xs text-text-secondary mt-2 sm:mt-0 flex items-center justify-center gap-1">
+                    <i class="ph-fill ph-check-circle text-green-500"></i> Sin pago por adelantado
+                </p>
             </div>
         </div>
     </section>
 
-    <!-- MINI WEBS (ESTILO DARK MODE / AI) -->
-    <section class="py-24 px-6 border-t border-white/5">
+    <!-- EL PROBLEMA VS SOLUCIÓN (Adaptado a Dark Mode) -->
+    <section class="py-20 bg-black/20 border-y border-white/5 px-6">
+        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+            <!-- Google Maps Simulación (DARK) -->
+            <div class="order-2 md:order-1 fade-up">
+                <div class="bg-[#27272a] p-6 rounded-2xl shadow-2xl border border-white/5 relative">
+                    <div class="flex items-center gap-3 mb-4 border-b border-white/5 pb-4">
+                        <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+                        <span class="text-xs text-text-secondary ml-auto">Google Search</span>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex gap-4 items-start">
+                            <div class="bg-white/10 w-12 h-12 rounded-lg shrink-0"></div>
+                            <div class="w-full">
+                                <div class="h-4 bg-white/10 w-3/4 rounded mb-2"></div>
+                                <div class="h-3 bg-white/5 w-1/2 rounded"></div>
+                                <div class="mt-2 flex gap-2">
+                                    <div class="h-6 bg-blue-500/20 w-20 rounded border border-blue-500/30"></div>
+                                    <div class="h-6 bg-green-500/20 w-20 rounded border border-green-500/30"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-3 bg-blue-500/10 rounded-lg border border-blue-500/20">
+                            <p class="text-sm text-blue-200 font-medium flex items-center gap-2">
+                                <i class="ph-fill ph-check-circle"></i> Tu negocio aparecerá aquí
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="order-1 md:order-2 fade-up">
+                <h2 class="text-3xl font-semibold mb-6 text-white">¿Por qué necesitas esto hoy?</h2>
+                <ul class="space-y-6">
+                    <li class="flex items-start gap-4">
+                        <div class="bg-red-500/10 p-2 rounded-lg text-red-400 mt-1 border border-red-500/20"><i class="ph-bold ph-x"></i></div>
+                        <p class="text-text-secondary">La mayoría de tus competidores ya tienen web. Si alguien busca en Google y tú no estás, <strong>pierdes dinero.</strong></p>
+                    </li>
+                    <li class="flex items-start gap-4">
+                        <div class="bg-blue-500/10 p-2 rounded-lg text-blue-400 mt-1 border border-blue-500/20"><i class="ph-bold ph-device-mobile"></i></div>
+                        <p class="text-text-secondary">Mis diseños funcionan perfecto en celulares. El 80% de tus clientes te buscarán desde un teléfono.</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOBRE MÍ (Trust Factor - Estilo Tarjeta Destacada "Max") -->
+    <section class="py-20 px-6">
+        <div class="max-w-4xl mx-auto">
+            <!-- Esta tarjeta imita el estilo de la tarjeta "Max" de tu foto -->
+            <div class="bg-[#27272a] p-8 md:p-12 rounded-2xl border-glow relative overflow-hidden fade-up">
+                <!-- Icono de fondo sutil -->
+                <i class="ph-duotone ph-handshake absolute top-4 right-4 text-6xl text-white/5"></i>
+                
+                <div class="relative z-10 text-center">
+                    <h2 class="text-3xl font-bold mb-6 text-white">Trato Directo. Sin Intermediarios.</h2>
+                    <p class="text-text-secondary text-lg leading-relaxed mb-8 max-w-2xl mx-auto">
+                        Hola, soy el desarrollador detrás de Render. Al ser independiente, <strong>tú eres mi prioridad.</strong> Te ofrezco comunicación directa por WhatsApp, precios justos y una dedicación que las grandes agencias no tienen.
+                    </p>
+                    
+                    <div class="grid md:grid-cols-3 gap-4 mb-8 text-left">
+                        <div class="bg-white/5 p-4 rounded-lg border border-white/5">
+                            <i class="ph-fill ph-paint-brush text-claude-glow mb-2 text-xl"></i>
+                            <p class="text-sm font-medium text-white">Demo Gratis</p>
+                            <p class="text-xs text-gray-500">Diseño antes de cobrar</p>
+                        </div>
+                        <div class="bg-white/5 p-4 rounded-lg border border-white/5">
+                            <i class="ph-fill ph-wallet text-claude-glow mb-2 text-xl"></i>
+                            <p class="text-sm font-medium text-white">Precio Justo</p>
+                            <p class="text-xs text-gray-500">Sin tarifas ocultas</p>
+                        </div>
+                        <div class="bg-white/5 p-4 rounded-lg border border-white/5">
+                            <i class="ph-fill ph-whatsapp-logo text-claude-glow mb-2 text-xl"></i>
+                            <p class="text-sm font-medium text-white">Soporte Directo</p>
+                            <p class="text-xs text-gray-500">Hablas conmigo</p>
+                        </div>
+                    </div>
+
+                    <a href="https://wa.me/5350172941" class="btn-claude inline-flex items-center px-8 py-3 gap-2">
+                        Hablar conmigo ahora <i class="ph-bold ph-whatsapp"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MINI WEBS (ESTILO DARK MODE) -->
+    <section class="py-24 px-6 bg-black/20">
         <div class="max-w-6xl mx-auto">
-            <div class="mb-16 md:text-center">
-                <h2 class="font-serif text-3xl md:text-4xl mb-4">Lo que incluye tu web</h2>
-                <p class="text-claude-muted">Tecnología robusta presentada de forma simple.</p>
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-semibold mb-4 text-white">¿Qué tendrá tu página web?</h2>
+                <p class="text-text-secondary">Tecnología premium para que tu negocio destaque.</p>
             </div>
 
             <div class="grid md:grid-cols-3 gap-8">
                 
-                <!-- 1. Animaciones (Estilo Fluido) -->
-                <div class="group">
-                    <div class="mini-browser h-64 mb-6 relative flex items-center justify-center p-6 bg-[#0f0f0f]">
+                <!-- 1. Animaciones Suaves -->
+                <div class="card-claude p-6 fade-up">
+                    <div class="mini-browser h-56 mb-6 relative flex items-center justify-center p-6 group bg-[#18181b]">
                         <div class="browser-header absolute top-0 w-full left-0">
-                            <div class="dot bg-[#444]"></div><div class="dot"></div><div class="dot"></div>
+                            <div class="dot bg-[#52525b]"></div><div class="dot"></div><div class="dot"></div>
                         </div>
-                        
-                        <!-- Elemento Animado Abstracto -->
-                        <div class="relative w-24 h-24">
-                            <div class="absolute inset-0 bg-gradient-to-r from-claude-accent to-purple-900 rounded-full blur-xl opacity-40 animate-pulse"></div>
-                            <div class="absolute inset-2 bg-[#1a1a1a] border border-white/10 rounded-xl shadow-2xl animate-float flex items-center justify-center">
-                                <i class="ph-light ph-asterisk text-3xl text-claude-accent"></i>
+                        <!-- Contenido Animado -->
+                        <div class="w-full max-w-[150px] space-y-4">
+                            <div class="h-20 bg-gradient-to-tr from-blue-600 to-purple-600 rounded-lg shadow-lg animate-float mx-auto w-full opacity-80"></div>
+                            <div class="space-y-2">
+                                <div class="h-1.5 bg-white/10 rounded w-3/4 mx-auto animate-pulse"></div>
+                                <div class="h-1.5 bg-white/10 rounded w-1/2 mx-auto animate-pulse" style="animation-delay: 0.2s"></div>
                             </div>
                         </div>
                     </div>
-                    <h3 class="font-serif text-xl mb-2">Fluidez Visual</h3>
-                    <p class="text-sm text-claude-muted leading-relaxed">
-                        Animaciones suaves que dan una sensación "premium" sin distraer. Tu web se sentirá como una app moderna.
-                    </p>
+                    <div class="text-center">
+                        <h3 class="font-medium text-lg mb-2 text-white">Animaciones Suaves</h3>
+                        <p class="text-text-secondary text-sm">Elementos que flotan y aparecen con elegancia. Tu marca se sentirá moderna.</p>
+                    </div>
                 </div>
 
-                <!-- 2. Diseño Moderno (Estilo Editorial) -->
-                <div class="group">
-                    <div class="mini-browser h-64 mb-6 relative flex flex-col bg-[#0f0f0f] border-transparent transition-all group-hover:border-white/10">
+                <!-- 2. Minimalismo -->
+                <div class="card-claude p-6 fade-up" style="transition-delay: 0.1s;">
+                    <div class="mini-browser h-56 mb-6 relative flex flex-col p-6 pt-12 border border-white/5 hover:border-white/20 transition-colors bg-[#18181b]">
                         <div class="browser-header absolute top-0 w-full left-0">
-                            <div class="dot bg-[#444]"></div><div class="dot"></div><div class="dot"></div>
+                            <div class="dot bg-[#52525b]"></div><div class="dot"></div><div class="dot"></div>
                         </div>
-                        
-                        <!-- Layout Minimalista -->
-                        <div class="flex-1 flex flex-col p-8 justify-center">
-                            <div class="h-px w-8 bg-claude-accent mb-4"></div>
-                            <h4 class="font-serif text-2xl text-white mb-2">Simplicidad.</h4>
-                            <p class="text-[10px] text-gray-500 mb-6 font-mono">EST. 2026 // RENDER</p>
-                            <div class="flex gap-2">
-                                <div class="h-2 w-16 bg-[#333] rounded-full"></div>
-                                <div class="h-2 w-8 bg-[#222] rounded-full"></div>
-                            </div>
+                        <div class="flex-1 flex flex-col justify-center items-center text-center">
+                            <h4 class="font-sans text-xl font-bold text-white mb-2">Simplicidad.</h4>
+                            <p class="text-[10px] text-gray-500 mb-4 max-w-[150px]">Diseño limpio para vender más.</p>
+                            <div class="h-6 w-20 bg-white rounded flex items-center justify-center text-[8px] font-bold text-black uppercase">Ver Más</div>
                         </div>
                     </div>
-                    <h3 class="font-serif text-xl mb-2">Diseño Minimalista</h3>
-                    <p class="text-sm text-claude-muted leading-relaxed">
-                        Estructuras limpias y tipografías legibles. Transmite confianza y autoridad a tus clientes desde el primer segundo.
-                    </p>
+                    <div class="text-center">
+                        <h3 class="font-medium text-lg mb-2 text-white">Diseño Minimalista</h3>
+                        <p class="text-text-secondary text-sm">Menos ruido, más ventas. Estructuras limpias que transmiten profesionalismo.</p>
+                    </div>
                 </div>
 
-                <!-- 3. Conversión (Botón Elegante) -->
-                <div class="group">
-                    <div class="mini-browser h-64 mb-6 relative flex items-center justify-center p-6 bg-[#0f0f0f]">
+                <!-- 3. Conversión -->
+                <div class="card-claude p-6 border-glow fade-up" style="transition-delay: 0.2s;">
+                    <div class="mini-browser h-56 mb-6 relative flex items-center justify-center p-6 bg-[#18181b]">
                         <div class="browser-header absolute top-0 w-full left-0">
-                            <div class="dot bg-[#444]"></div><div class="dot"></div><div class="dot"></div>
+                            <div class="dot bg-[#52525b]"></div><div class="dot"></div><div class="dot"></div>
                         </div>
-                        
-                        <!-- Interfaz de Venta -->
-                        <div class="w-full max-w-[200px] text-center">
-                            <div class="text-[10px] uppercase tracking-widest text-green-500 mb-3 flex items-center justify-center gap-2">
-                                <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span> Abierto Ahora
+                        <div class="text-center w-full relative">
+                            <div class="absolute -top-10 right-0 bg-green-500/10 text-green-400 border border-green-500/20 text-[9px] px-2 py-1 rounded-full flex items-center gap-1">
+                                <div class="w-1 h-1 bg-green-400 rounded-full animate-pulse"></div> Abierto
                             </div>
-                            <button class="w-full bg-white text-black py-3 rounded text-sm font-medium hover:bg-gray-200 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.1)]">
-                                Reservar Cita
+                            <h4 class="text-white font-semibold text-base mb-3">¿Necesitas Ayuda?</h4>
+                            <button class="w-full bg-blue-600 hover:bg-blue-500 text-white py-2.5 rounded-md font-medium shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 text-xs transition-transform hover:scale-105">
+                                <i class="ph-fill ph-phone-call"></i> Llamar Ahora
                             </button>
-                            <div class="mt-3 flex justify-center gap-1">
-                                <div class="w-1 h-1 bg-[#333] rounded-full"></div>
-                                <div class="w-1 h-1 bg-[#333] rounded-full"></div>
-                                <div class="w-1 h-1 bg-[#333] rounded-full"></div>
-                            </div>
                         </div>
                     </div>
-                    <h3 class="font-serif text-xl mb-2">Enfoque en Ventas</h3>
-                    <p class="text-sm text-claude-muted leading-relaxed">
-                        Botones estratégicos y llamadas a la acción claras (WhatsApp, Llamadas, Mapas) para capturar clientes reales.
-                    </p>
+                    <div class="text-center">
+                        <h3 class="font-medium text-lg mb-2 text-white">Enfoque en Ventas</h3>
+                        <p class="text-text-secondary text-sm">Botones estratégicos y llamadas a la acción claras para capturar clientes.</p>
+                    </div>
                 </div>
 
-            </div>
-        </div>
-    </section>
-
-    <!-- CARTA DE PRESENTACIÓN (EL TOQUE HUMANO) -->
-    <section class="py-24 px-6 bg-[#18181b]">
-        <div class="max-w-4xl mx-auto">
-            <div class="card-claude p-8 md:p-12 md:flex gap-12 items-center">
-                <div class="flex-1 space-y-6">
-                    <h3 class="font-serif text-3xl text-white">Trato directo, sin agencias.</h3>
-                    <p class="text-claude-muted text-lg leading-relaxed">
-                        Hola, soy el desarrollador detrás de Render. Trabajo de forma independiente desde Cuba.
-                    </p>
-                    <p class="text-claude-muted leading-relaxed">
-                        Al contratarme, no pagas oficinas lujosas ni intermediarios. Pagas por <strong>dedicación total y código de calidad</strong>. Te ofrezco una demostración gratuita antes de que gastes un centavo.
-                    </p>
-                    
-                    <ul class="space-y-3 pt-4 border-t border-white/5">
-                        <li class="flex items-center gap-3 text-sm text-gray-300">
-                            <i class="ph-fill ph-check-circle text-claude-accent"></i> Diseño Demo Gratis
-                        </li>
-                        <li class="flex items-center gap-3 text-sm text-gray-300">
-                            <i class="ph-fill ph-check-circle text-claude-accent"></i> Precios Justos
-                        </li>
-                    </ul>
-                </div>
-                
-                <div class="mt-8 md:mt-0 md:w-1/3 flex flex-col gap-4">
-                    <a href="https://wa.me/5350172941" class="btn-claude w-full py-3 rounded text-center font-medium">
-                        Enviar WhatsApp
-                    </a>
-                    <a href="mailto:onrenderservices@gmail.com" class="text-center text-sm text-claude-muted hover:text-white transition-colors">
-                        onrenderservices@gmail.com
-                    </a>
-                </div>
             </div>
         </div>
     </section>
 
     <!-- FOOTER -->
-    <footer class="py-12 px-6 text-center border-t border-white/5">
-        <p class="font-serif text-xl mb-2">Render</p>
-        <p class="text-xs text-claude-muted uppercase tracking-widest">Desarrollo Web Artesanal</p>
+    <footer class="bg-[#18181b] pt-16 pb-8 border-t border-white/5 text-center">
+        <div class="max-w-4xl mx-auto px-6">
+            <h3 class="text-xl font-bold text-white mb-4 flex justify-center items-center gap-2">
+                <i class="ph-fill ph-rocket-launch text-claude-glow"></i> RENDER
+            </h3>
+            <p class="text-text-secondary mb-8 text-sm">Ayudando a pequeños negocios a crecer.</p>
+            
+            <div class="flex flex-col md:flex-row justify-center gap-4 md:gap-8 mb-8 text-sm">
+                <a href="mailto:onrenderservices@gmail.com" class="flex items-center justify-center gap-2 text-text-secondary hover:text-white transition-colors">
+                    <i class="ph-bold ph-envelope"></i> onrenderservices@gmail.com
+                </a>
+                <a href="https://wa.me/5350172941" class="flex items-center justify-center gap-2 text-text-secondary hover:text-white transition-colors">
+                    <i class="ph-bold ph-whatsapp"></i> +53 5017 2941
+                </a>
+            </div>
+            
+            <p class="text-xs text-gray-600">© 2026 Render Services. Código limpio.</p>
+        </div>
     </footer>
 
     <!-- LÓGICA -->
     <script>
-        // Cargar animaciones simples
+        gsap.registerPlugin(ScrollTrigger);
+
         window.addEventListener('load', () => {
-            gsap.to(".fade-in", {
+            gsap.to(".fade-up", {
                 y: 0,
                 opacity: 1,
-                duration: 1,
-                stagger: 0.1,
+                duration: 0.8,
+                stagger: 0.15,
                 ease: "power2.out"
             });
         });
